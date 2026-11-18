@@ -3,8 +3,9 @@
 Frames are drawn with Pillow and piped to ffmpeg; each scene lasts as long as
 its ElevenLabs narration clip (audio/s1.mp3 ... audio/s7.mp3) plus padding.
 
-    python3 render.py            # -> number_of_islands.mp4
-    python3 render.py --preview  # one PNG per scene in preview/
+    python3 render.py                                   # English  -> number_of_islands.mp4
+    python3 render.py audio_hinglish number_of_islands_hinglish.mp4   # Hinglish
+    python3 render.py --preview                         # one PNG per scene in preview/
 """
 import math
 import os
@@ -440,7 +441,10 @@ def render_frame(scene, t, T):
 
 
 def main():
-    audio = [os.path.join(HERE, "audio", f"s{i}.mp3") for i in range(1, 8)]
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    audio_dir = args[0] if args else "audio"
+    out_name = args[1] if len(args) > 1 else "number_of_islands.mp4"
+    audio = [os.path.join(HERE, audio_dir, f"s{i}.mp3") for i in range(1, 8)]
     durs = [duration(a) + PAD for a in audio]
     if "--preview" in sys.argv:
         os.makedirs(os.path.join(HERE, "preview"), exist_ok=True)
@@ -457,7 +461,7 @@ def main():
         cmd += ["-i", a]
     subprocess.check_call(cmd + ["-filter_complex", filt, "-map", "[out]", "-c:a", "aac", "-b:a", "192k", narration])
 
-    out = os.path.join(HERE, "number_of_islands.mp4")
+    out = os.path.join(HERE, out_name)
     ff = subprocess.Popen(["ffmpeg", "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
                            "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-i", narration,
                            "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p",

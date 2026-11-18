@@ -7,3 +7,9 @@
 - `render.py` – draws every frame with Pillow, times each scene to its clip, muxes with ffmpeg
 
 Re-render: `python3 render.py` (needs Pillow + ffmpeg). `python3 render.py --preview` writes still frames to `preview/`.
+
+## Hinglish version
+
+`number_of_islands_hinglish.mp4` uses the same animation with Hinglish narration
+(voice: "Prashant – Warm, Clear Hindi Explainer", model `eleven_v4`; clips in `audio_hinglish/`).
+Re-render: `python3 render.py audio_hinglish number_of_islands_hinglish.mp4`.
