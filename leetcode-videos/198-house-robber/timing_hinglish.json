@@ -1,0 +1,47 @@
+{
+ "scenes": [
+  {
+   "id": "s1-intro",
+   "start": 0,
+   "length": 23.284,
+   "speech": 22.584
+  },
+  {
+   "id": "s2-idea",
+   "start": 23.284,
+   "length": 18.868,
+   "speech": 18.168
+  },
+  {
+   "id": "s3-walk1",
+   "start": 42.152,
+   "length": 20.956,
+   "speech": 20.256
+  },
+  {
+   "id": "s4-walk2",
+   "start": 63.108,
+   "length": 20.956,
+   "speech": 20.256
+  },
+  {
+   "id": "s5-walk3",
+   "start": 84.064,
+   "length": 17.764,
+   "speech": 17.064
+  },
+  {
+   "id": "s6-code",
+   "start": 101.828,
+   "length": 29.428,
+   "speech": 28.728
+  },
+  {
+   "id": "s7-complexity",
+   "start": 131.256,
+   "length": 16.276,
+   "speech": 15.576
+  }
+ ],
+ "total": 147.532
+}
