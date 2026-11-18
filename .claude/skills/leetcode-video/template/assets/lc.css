@@ -65,7 +65,7 @@
 .lc-hl { position: absolute; left: -40px; right: -40px; border: 2px solid var(--yellow); border-radius: 12px;
   background: rgba(250, 204, 21, 0.13); opacity: 0; }
 .k { color: #f472b6; font-weight: 700; } .f { color: var(--accent); } .s { color: #86efac; }
-.n { color: #fbbf24; } .c { color: #6e7896; }
+.n { color: #fbbf24; } .c { color: #8a94b8; }
 
 /* complexity cards ------------------------------------------------------------ */
 .lc-cards { position: absolute; left: 160px; right: 160px; top: 230px; display: flex; gap: 40px; }
