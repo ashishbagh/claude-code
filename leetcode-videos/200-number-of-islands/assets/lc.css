@@ -1,0 +1,84 @@
+/* Shared look for LeetCode explainer videos (linked from index.html; applies inside every scene).
+   Scene files style their own root as #root inline; everything here is a class. */
+:root {
+  --bg: #0d1121;
+  --panel: #181e34;
+  --panel-edge: #2c3658;
+  --ink: #ebf0ff;
+  --muted: #8c98be;
+  --yellow: #facc15;
+  --green: #22c55e;
+  --blue: #1e3a78;
+  --accent: #38bdf8;
+  --red: #ef4444;
+  --orange: #fb923c;
+  --pink: #ec4899;
+  --violet: #a78bfa;
+  --font: Inter, sans-serif;
+  --mono: "JetBrains Mono", monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.lc-fill { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+
+/* header ---------------------------------------------------------------- */
+.lc-header { position: absolute; left: 96px; right: 96px; top: 54px; height: 56px;
+  display: flex; align-items: center; gap: 28px; font-family: var(--font); z-index: 5; }
+.lc-badge { padding: 10px 22px; border: 2px solid var(--yellow); border-radius: 30px;
+  color: var(--yellow); font-weight: 700; font-size: 28px; background: #281e0a; }
+.lc-title { color: var(--ink); font-weight: 700; font-size: 40px; flex: 1; }
+.lc-diff { padding: 10px 26px; border-radius: 26px; font-weight: 700; font-size: 28px; }
+.lc-easy { background: #0a321e; color: #4ade80; }
+.lc-medium { background: #3c2d0a; color: #fbbf24; }
+.lc-hard { background: #3c0f0f; color: #f87171; }
+
+/* caption pill (bottom, inside title-safe) -------------------------------- */
+.lc-caption { position: absolute; left: 0; right: 0; bottom: 96px; display: flex; justify-content: center;
+  z-index: 6; opacity: 0; }
+.lc-caption span { display: inline-block; padding: 16px 36px; border-radius: 40px; background: var(--panel);
+  border: 2px solid var(--panel-edge); color: var(--ink); font: 500 36px var(--font); }
+
+/* panels -------------------------------------------------------------------- */
+.lc-panel { position: absolute; background: var(--panel); border: 2px solid var(--panel-edge);
+  border-radius: 24px; font-family: var(--font); }
+.lc-label { color: var(--muted); font: 500 30px var(--font); text-align: center; margin-top: 26px; }
+.lc-value { position: relative; height: 120px; color: var(--yellow); font: 900 96px var(--font); text-align: center; line-height: 120px; }
+.lc-value span { display: inline-block; position: absolute; left: 0; right: 0; opacity: 0; }
+.lc-list { position: absolute; left: 28px; right: 28px; bottom: 26px; display: flex;
+  flex-direction: column-reverse; gap: 12px; }
+.lc-item { height: 52px; border-radius: 14px; border: 2px solid var(--accent); background: #28345a;
+  color: var(--ink); font: 400 28px var(--mono); display: flex; align-items: center; justify-content: center; opacity: 0; }
+
+/* numbered idea cards -------------------------------------------------------- */
+.lc-steps { position: absolute; left: 160px; right: 160px; top: 190px; display: flex; flex-direction: column; gap: 36px; }
+.lc-step { height: 128px; display: flex; align-items: center; gap: 40px; padding: 0 32px;
+  background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 24px; opacity: 0; }
+.lc-step b { width: 80px; height: 80px; border-radius: 40px; background: var(--yellow); color: var(--bg);
+  font: 900 44px var(--font); display: flex; align-items: center; justify-content: center; flex: none; }
+.lc-step span { color: var(--ink); font: 700 46px var(--font); }
+
+/* code ---------------------------------------------------------------------- */
+.lc-code { position: absolute; left: 140px; right: 140px; top: 140px; bottom: 60px; padding: 36px 70px;
+  background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 24px; }
+.lc-code pre { position: relative; font-variant-ligatures: none; font: 400 31px/42px var(--mono); color: var(--ink); white-space: pre; }
+.lc-hl { position: absolute; left: -40px; right: -40px; border: 2px solid var(--yellow); border-radius: 12px;
+  background: rgba(250, 204, 21, 0.13); opacity: 0; }
+.k { color: #f472b6; font-weight: 700; } .f { color: var(--accent); } .s { color: #86efac; }
+.n { color: #fbbf24; } .c { color: #6e7896; }
+
+/* complexity cards ------------------------------------------------------------ */
+.lc-cards { position: absolute; left: 160px; right: 160px; top: 230px; display: flex; gap: 40px; }
+.lc-card { flex: 1; height: 420px; background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 24px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; opacity: 0; }
+.lc-card h3 { color: var(--muted); font: 700 44px var(--font); }
+.lc-card strong { color: var(--yellow); font: 900 104px var(--font); }
+.lc-card p { color: var(--ink); font: 500 30px var(--font); }
+.lc-outro { position: absolute; left: 0; right: 0; top: 760px; text-align: center; color: var(--ink);
+  font: 700 64px var(--font); opacity: 0; }
+
+/* big title card ---------------------------------------------------------------- */
+.lc-titlecard { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 28px; font-family: var(--font); }
+.lc-titlecard h1 { color: var(--ink); font-size: 120px; font-weight: 900; letter-spacing: -0.02em; opacity: 0; }
+.lc-titlecard p { color: var(--muted); font-size: 44px; font-weight: 500; opacity: 0; }
