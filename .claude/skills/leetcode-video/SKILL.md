@@ -114,7 +114,10 @@ python3 $T/insta.py <proj> en          # Reel + cover
 python3 $T/build.py <proj> hinglish && $HF render -o out/<slug>_hinglish.mp4   # if asked
 python3 $T/build.py <proj> en          # leave index.html on English
 ```
-Check the render with `ffprobe` (1920×1080 h264 + aac, duration ≈ timing total) and `$HF audio out/<slug>.mp4 --json`.
+Check the render with `ffprobe` (1920×1080 h264 + aac, duration ≈ timing total) and loudness
+(`ffmpeg -i out/<slug>.mp4 -af ebur128=peak=true -f null - 2>&1 | tail`). ElevenLabs voices can land
+near −18 LUFS: if integrated loudness is outside −16…−14, normalise without re-encoding video:
+`ffmpeg -i in.mp4 -c:v copy -af loudnorm=I=-15:TP=-1.5:LRA=11 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out.mp4`.
 
 ## 7. Deliver
 
