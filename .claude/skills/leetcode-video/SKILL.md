@@ -79,8 +79,9 @@ Hinglish "देखने के लिए धन्यवाद! ऐसी औ�
 Each `compositions/<id>.html` is a HyperFrames scene: everything inside `<template>`, root
 `<div id="root" data-composition-id="<id>">` styled as `#root`, one paused GSAP timeline registered as
 `window.__timelines["<id>"]`, prefixed element ids (`#s3-…`). The scene reads its length with
-`const { T } = window.__hyperframes.getVariables()` and times every event as a **fraction of T** (so
-English and Hinglish share the code). Shared pieces (loaded by `index.html`):
+`const { T, S = T } = window.__hyperframes.getVariables()` (T = scene length, S = narration length; declare
+both) and times every event as a **fraction of S** – where the words are said – so English and Hinglish
+share the code. Shared pieces (loaded by `index.html`):
 
 - `assets/lc.css`: `.lc-header/.lc-badge/.lc-title/.lc-diff`, `.lc-caption`, `.lc-panel/.lc-label/.lc-value/.lc-list/.lc-item`,
   `.lc-steps/.lc-step`, `.lc-code/.lc-hl` + token classes, `.lc-cards/.lc-card/.lc-outro`, `.lc-titlecard`, `.lc-fill`.
@@ -111,7 +112,7 @@ narration so the call-out stays readable. Keep the Time/Space cards (top 170, 37
 
 ## 5. Sound
 
-Add cues to `video.json` `"sfx"`: `{"scene", "at": frac | "sec": s, "sound", "volume"}` – few and exact:
+Add cues to `video.json` `"sfx"`: `{"scene", "at": fraction of the narration (S) | "sec": s, "sound", "volume"}` – few and exact:
 whoosh on a big entrance/cut, pop/click-soft on cards and list items, ping on a counter change, one
 impact on the answer, sparkle on the outro; rotate takes. `sfx_queries` maps a sound name to a
 Freesound search. `python3 $T/sfx.py <proj>` fetches CC0/CC BY previews from Freesound (key saved on the

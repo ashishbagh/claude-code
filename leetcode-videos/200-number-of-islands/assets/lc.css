@@ -61,7 +61,7 @@
 /* code ---------------------------------------------------------------------- */
 .lc-code { position: absolute; left: 140px; right: 140px; top: 140px; bottom: 60px; padding: 36px 70px;
   background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 24px; }
-.lc-code pre { position: relative; font-variant-ligatures: none; font: 400 31px/42px var(--mono); color: var(--ink); white-space: pre; }
+.lc-code pre { position: relative; font: 400 31px/42px var(--mono); font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; color: var(--ink); white-space: pre; }
 .lc-hl { position: absolute; left: -40px; right: -40px; border: 2px solid var(--yellow); border-radius: 12px;
   background: rgba(250, 204, 21, 0.13); opacity: 0; }
 .k { color: #f472b6; font-weight: 700; } .f { color: var(--accent); } .s { color: #86efac; }

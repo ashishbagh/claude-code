@@ -9,7 +9,7 @@ HyperFrames allows one root composition, so index.html always holds exactly one 
 Scene i lasts len(clip i) + pad (the last scene also + "outro_hold", default 3 s, for the subscribe
 call-out). Each scene host gets data-variable-values {"T": <scene length>, "S": <narration length>} so
 the scene file can time its tweens as fractions of T or S (same code for every language).
-SFX cues: {"scene": id, "at": fraction of T  |  "sec": seconds into the scene, "sound": name,
+SFX cues: {"scene": id, "at": fraction of the scene's narration  |  "sec": seconds into the scene, "sound": name,
 "volume": 0.35}; each sound is shifted so its loudest point lands one frame after the cue.
 Also writes timing_<track>.json (scene starts/lengths) for insta.py.
 """
@@ -104,7 +104,8 @@ def build_track(project, cfg, track):
         if cue["scene"] not in pos:
             continue
         s, T = pos[cue["scene"]]
-        at = s + (cue["sec"] if "sec" in cue else cue.get("at", 0) * T)
+        sp = speech[scenes.index(cue["scene"])]
+        at = s + (cue["sec"] if "sec" in cue else cue.get("at", 0) * sp)   # "at" = fraction of the narration
         f = os.path.join(project, "assets", "sfx", f"{cue['sound']}.mp3")
         if not os.path.exists(f):
             print(f"[{track}] sfx {cue['sound']} missing – run sfx.py")

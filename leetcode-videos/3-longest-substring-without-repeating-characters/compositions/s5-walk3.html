@@ -1,0 +1,38 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .lc-title { font-size: 36px; }
+    #s5-walk3-best { left: 1250px; top: 200px; width: 470px; height: 210px; }
+    #s5-walk3-last { left: 1250px; top: 440px; width: 470px; height: 450px; }
+    #s5-walk3-last .lc-list { gap: 8px; }
+  </style>
+  <div id="root" data-composition-id="s5-walk3" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":19},{"id":"S","type":"number","label":"Narration length (s)","default":18.3}]'>
+    <canvas id="s5-walk3-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">LeetCode 3</span><span class="lc-title">Longest Substring Without Repeating Characters</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="lc-panel" id="s5-walk3-best"><div class="lc-label">Best length</div><div class="lc-value"><span id="s5-walk3-v0">2</span><span id="s5-walk3-v1">3</span></div></div>
+    <div class="lc-panel" id="s5-walk3-last"><div class="lc-label">last[ch] = index</div><div class="lc-list"><div class="lc-item" id="s5-walk3-i0">p → 0</div><div class="lc-item" id="s5-walk3-i1">w → 1</div><div class="lc-item" id="s5-walk3-i2">w → 2</div><div class="lc-item" id="s5-walk3-i3">k → 3</div><div class="lc-item" id="s5-walk3-i4">e → 4</div><div class="lc-item" id="s5-walk3-i5">w → 5</div></div></div>
+    <div class="lc-caption" id="s5-walk3-cap1"><span>right = 4:  'e' is new  →  window "wke", best = 3</span></div>
+    <div class="lc-caption" id="s5-walk3-cap2"><span>right = 5:  'w' repeats (index 2)  →  left = 3, window "kew"</span></div>
+    <div class="lc-caption" id="s5-walk3-cap3"><span>Answer: 3  ("wke")</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const win = Win(document.getElementById("s5-walk3-canvas"));
+      LC.values(tl, [["#s5-walk3-v0", 0 * S], ["#s5-walk3-v1", 0.26 * S]]);
+      LC.listItems(tl, [["#s5-walk3-i0", 0], ["#s5-walk3-i1", 0], ["#s5-walk3-i2", 0], ["#s5-walk3-i3", 0], ["#s5-walk3-i4", 0.05 * S], ["#s5-walk3-i5", 0.63 * S]]);
+      LC.captions(tl, T, [["#s5-walk3-cap1", 0.03 * S / T], ["#s5-walk3-cap2", 0.36 * S / T], ["#s5-walk3-cap3", 0.91 * S / T]]);
+      LC.drive(tl, T, (t) => {
+        let R = Win.track(t, [[0, 3], [0.02 * S, 4], [0.36 * S, 5]]);
+        const L = Win.track(t, [[0, 2], [0.63 * S, 3]]);
+        const dupK = LC.prog(t, 0.4 * S, 0.3) * (1 - LC.prog(t, 0.66 * S, 0.4));
+        const goldK = LC.prog(t, 0.91 * S, 0.6);
+        if (goldK > 0.02) R = -1;
+        win.draw({ L, R, dup: [2, 5], dupK, gold: [2, 4], goldK, orbit: 0.08 * Math.sin((t / T) * Math.PI) });
+      });
+      window.__timelines["s5-walk3"] = tl;
+    })();
+  </script>
+</template>
