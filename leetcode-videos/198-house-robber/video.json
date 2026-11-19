@@ -30,7 +30,9 @@
     },
     "hinglish": {
       "engine": "elevenlabs",
-      "voice": "j7yQHuKNC1hdt1LBPAks"
+      "voice": "j7yQHuKNC1hdt1LBPAks",
+      "name": "Prashant - Warm, Clear Hindi Explainer",
+      "flow": "JZ38x3lDXIp3i9AyQPE3"
     }
   },
   "sfx_queries": {
