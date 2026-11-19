@@ -70,6 +70,20 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
             f.write(f"Dialogue: 0,{ass_time(a)},{ass_time(b)},Cap,,0,0,0,,{s}\n")
 
 
+def fit_title(title, max_w=1000, size=74, min_size=54):
+    """Title lines + font size that fit the Reel width (Inter ExtraBold ≈ 0.58 em per char)."""
+    fits = lambda text, sz: len(text) * 0.58 * sz <= max_w
+    if fits(title, size):
+        return [title], size
+    words = title.split()
+    best = min(range(1, len(words)), key=lambda i: abs(len(" ".join(words[:i])) - len(" ".join(words[i:]))))
+    lines = [" ".join(words[:best]), " ".join(words[best:])]
+    sz = size
+    while sz > min_size and not all(fits(l, sz) for l in lines):
+        sz -= 2
+    return lines, sz
+
+
 def esc(s):
     return s.replace("\\", "\\\\").replace(":", "\\:").replace("'", "’")
 
@@ -99,6 +113,7 @@ def main():
     captions(texts, timing, ass, font)
 
     badge = esc(f"LeetCode {cfg['number']} · {cfg['difficulty']}")
+    tlines, tsize = fit_title(cfg["title"])
     title = esc(cfg["title"])
     ff = f":fontfile={bold}" if bold else ""
     vf = (
@@ -106,9 +121,10 @@ def main():
         f"[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=40:2,eq=brightness=-0.22[bg];"
         f"[b]scale={W}:{VID_H}[fg];"
         f"[bg][fg]overlay=0:{VID_Y},"
-        f"drawtext=text='{badge}'{ff}:fontsize=40:fontcolor=0xfacc15:x=(w-tw)/2:y={VID_Y - 250},"
-        f"drawtext=text='{title}'{ff}:fontsize=74:fontcolor=white:x=(w-tw)/2:y={VID_Y - 180}:"
-        f"shadowcolor=black@0.6:shadowx=3:shadowy=3,"
+        f"drawtext=text='{badge}'{ff}:fontsize=40:fontcolor=0xfacc15:x=(w-tw)/2:y={VID_Y - 250 - (60 if len(tlines) > 1 else 0)},"
+        + "".join(f"drawtext=text='{esc(line)}'{ff}:fontsize={tsize}:fontcolor=white:x=(w-tw)/2:"
+                  f"y={VID_Y - 180 - (len(tlines) - 1 - k) * int(tsize * 1.15)}:shadowcolor=black@0.6:shadowx=3:shadowy=3,"
+                  for k, line in enumerate(tlines)) +
         f"subtitles={ass}:fontsdir={font_dir},format=yuv420p[v]"
     )
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", src, "-t", f"{limit:.3f}",
