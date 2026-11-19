@@ -31,6 +31,37 @@ SCENE_STUB = """<template>
 """
 
 
+LAST_STUB = """<template>
+  <style>
+    #root {{ position: absolute; inset: 0; }}
+  </style>
+  <div id="root" data-composition-id="{id}" data-width="1920" data-height="1080"
+       data-composition-variables='[{{"id":"T","type":"number","label":"Scene length (s)","default":14}},{{"id":"S","type":"number","label":"Narration length (s)","default":11}}]'>
+    <div class="lc-header"><span class="lc-badge">LeetCode {number}</span><span class="lc-title">{title}</span><span class="lc-diff lc-{dl}">{difficulty}</span></div>
+    <div class="lc-cards" data-hold>
+      <div class="lc-card" id="{p}-time"><h3>Time</h3><strong>O(n)</strong><p>why</p></div>
+      <div class="lc-card" id="{p}-space"><h3>Space</h3><strong>O(1)</strong><p>why</p></div>
+    </div>
+    <div class="lc-outro">
+      <div class="lc-thanks" id="{p}-thanks">Thanks for watching!</div>
+      <div class="lc-sub" id="{p}-sub">Subscribe to <b>@dsalgo_ai</b> for more such videos</div>
+      <div class="lc-social" id="{p}-social"><span class="lc-yt"><i></i>YouTube</span><span class="lc-ig"><i></i>Instagram</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {{
+      const {{ T, S = T }} = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({{ paused: true }});
+      tl.fromTo("#{p}-time", {{ opacity: 0, y: 50 }}, {{ opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }}, 0.05 * T);
+      tl.fromTo("#{p}-space", {{ opacity: 0, y: 50 }}, {{ opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }}, 0.33 * T);
+      LC.outro(tl, "{p}", 0.85 * S);   // channel outro – required on every video
+      window.__timelines["{id}"] = tl;
+    }})();
+  </script>
+</template>
+"""
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("dir")
@@ -60,6 +91,7 @@ def main():
                         "ping": "bright ping notification", "impact-bass-1": "cinematic impact"},
         "sfx": [{"scene": scenes[0], "at": 0.0, "sound": "whoosh"}],
         "music": None,
+        "outro_hold": 3.0,
         "scripts": [],
     }
     with open(os.path.join(d, "video.json"), "w") as f:
@@ -69,9 +101,10 @@ def main():
     for sid in scenes:
         p = os.path.join(d, "compositions", f"{sid}.html")
         if not os.path.exists(p):
+            stub = LAST_STUB if sid == scenes[-1] else SCENE_STUB
             with open(p, "w") as f:
-                f.write(SCENE_STUB.format(id=sid, number=a.number, title=a.title,
-                                          difficulty=a.difficulty, dl=a.difficulty.lower()))
+                f.write(stub.format(id=sid, p=sid.split("-")[0], number=a.number, title=a.title,
+                                    difficulty=a.difficulty, dl=a.difficulty.lower()))
     with open(os.path.join(d, ".gitignore"), "w") as f:
         f.write(".hyperframes/\nnode_modules/\nsnapshots/\nout/work-*/\nout/.*hf-transaction*/\n")
     print("scaffolded", d, "scenes:", ", ".join(scenes))

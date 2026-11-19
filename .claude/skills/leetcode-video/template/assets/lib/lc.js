@@ -37,6 +37,13 @@
     });
   };
 
+  /** Channel outro (last slide, always): the markup is LC_OUTRO_HTML in SKILL.md, ids <prefix>-thanks/-sub/-social. */
+  LC.outro = function (tl, prefix, at) {
+    tl.fromTo(`#${prefix}-thanks`, { opacity: 0, y: 30, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, at);
+    tl.fromTo(`#${prefix}-sub`, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, at + 0.45);
+    tl.fromTo(`#${prefix}-social`, { opacity: 0, y: 20, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "back.out(2)" }, at + 0.85);
+  };
+
   /** Drive a draw(t) function (Three.js / canvas) from the scene timeline: deterministic per frame. */
   LC.drive = function (tl, T, draw) {
     const p = { t: 0 };

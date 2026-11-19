@@ -45,7 +45,7 @@ code produces (visiting order, stack/queue contents). The animation must match t
 | `s2-idea` | 3–4 numbered `.lc-step` cards, one per narrated step |
 | `s3…s5` | walkthrough: the structure animating step by step; right panels `Answer/counter` (`.lc-value` spans) + `.lc-list` (stack / queue / calls); bottom `.lc-caption`s |
 | `s6-code` | `.lc-code` with `tools/codehl.py` output, `LC.codeHighlight` over line ranges as they are narrated |
-| `s7-complexity` | `.lc-cards` Time / Space + outro |
+| `s7-complexity` | `.lc-cards` Time / Space + the **channel outro** (required, see below) |
 
 Use 3D where it explains: grids as tiles (Number of Islands), trees as spheres + edges, arrays as a row
 of blocks, graphs as nodes in space, DP tables as rising bars. Keep text, panels, code in DOM.
@@ -59,6 +59,9 @@ Fill `narration.json` `{"en": [scene texts], "hinglish": [...]}` – about 35–
 style, sentences in the order the visuals appear. Say "LeetCode one ninety nine", "O of n", "D F S".
 Hinglish: Hindi in Devanagari, technical words in English, same sentence order as English
 ("चलो solve करते हैं LeetCode two hundred, Number of Islands…").
+**Every video ends the last scene's narration with the channel call-out:**
+English "Thanks for watching! Subscribe to D S Algo A I on YouTube and Instagram for more such videos."
+Hinglish "देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
 
 ## 3. Voice
 
@@ -91,6 +94,20 @@ English and Hinglish share the code). Shared pieces (loaded by `index.html`):
 HyperFrames rules that bite: no `Math.random`/`Date.now`/timers (everything from `t`); `fromTo` not
 `from`; don't animate an element that has a CSS `transform`; text ≥ 28 px; nothing in the caption band
 except captions; holds over 3 s get `data-hold`.
+
+### Channel outro – always on the last slide
+
+```html
+<div class="lc-outro">
+  <div class="lc-thanks" id="s7-thanks">Thanks for watching!</div>
+  <div class="lc-sub" id="s7-sub">Subscribe to <b>@dsalgo_ai</b> for more such videos</div>
+  <div class="lc-social" id="s7-social"><span class="lc-yt"><i></i>YouTube</span><span class="lc-ig"><i></i>Instagram</span></div>
+</div>
+```
+Animate it with `LC.outro(tl, "s7", 0.85 * S)` (or at the call-out sentence), reading
+`const { T, S = T } = window.__hyperframes.getVariables()` and declaring both `T` and `S` in the scene's
+`data-composition-variables`. `build.py` holds the last slide `outro_hold` (default 3 s) after the
+narration so the call-out stays readable. Keep the Time/Space cards (top 170, 370 tall) above it.
 
 ## 5. Sound
 

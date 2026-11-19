@@ -6,8 +6,9 @@
 
 HyperFrames allows one root composition, so index.html always holds exactly one track.
 
-Scene i lasts len(clip i) + pad. Each scene host gets data-variable-values {"T": <length>} so the
-scene file can time its tweens as fractions of T (same code for every language).
+Scene i lasts len(clip i) + pad (the last scene also + "outro_hold", default 3 s, for the subscribe
+call-out). Each scene host gets data-variable-values {"T": <scene length>, "S": <narration length>} so
+the scene file can time its tweens as fractions of T or S (same code for every language).
 SFX cues: {"scene": id, "at": fraction of T  |  "sec": seconds into the scene, "sound": name,
 "volume": 0.35}; each sound is shifted so its loudest point lands one frame after the cue.
 Also writes timing_<track>.json (scene starts/lengths) for insta.py.
@@ -76,9 +77,12 @@ def build_track(project, cfg, track):
         print(f"[{track}] skipped – missing clips {missing} in {t['audio']}")
         return None
     lens = [round(duration(c) + pad, 3) for c in clips]
+    hold = cfg.get("outro_hold", 3.0)          # extra seconds on the last slide for the subscribe call-out
+    lens[-1] = round(lens[-1] + hold, 3)
     starts = [round(sum(lens[:i]), 3) for i in range(len(lens))]
     total = round(sum(lens), 3)
     pos = {sid: (starts[i], lens[i]) for i, sid in enumerate(scenes)}
+    speech = [round(duration(c), 3) for c in clips]  # narration length per scene (variable "S")
 
     scripts = "".join(f'<script src="{s}"></script>\n' for s in cfg.get("scripts", []))
     html = [HEAD.format(number=cfg["number"], title=cfg["title"], total=total, scripts=scripts)]
@@ -87,11 +91,11 @@ def build_track(project, cfg, track):
         html.append(
             f'  <div id="{sid}" data-composition-id="{sid}" data-composition-src="compositions/{sid}.html"'
             f' data-start="{s}" data-duration="{T}" data-track-index="0" data-track-kind="graphics"'
-            f' data-width="1920" data-height="1080" data-variable-values=\'{{"T":{T}}}\'></div>\n')
+            f' data-width="1920" data-height="1080" data-variable-values=\'{{"T":{T},"S":{speech[i]}}}\'></div>\n')
     for i, c in enumerate(clips):
         rel = os.path.relpath(c, project)
         html.append(f'  <audio id="vo-{track}-{i + 1}" class="clip" src="{rel}" data-start="{starts[i]}"'
-                    f' data-duration="{math.floor((lens[i] - pad - 0.06) * 100) / 100}" data-track-index="1" data-volume="1"></audio>\n')
+                    f' data-duration="{math.floor((speech[i] - 0.06) * 100) / 100}" data-track-index="1" data-volume="1"></audio>\n')
 
     # sound effects, peak-aligned, greedy lanes from 2 upwards
     lanes_end = []
@@ -129,7 +133,7 @@ def build_track(project, cfg, track):
         f.write("".join(html))
     with open(os.path.join(project, f"timing_{track}.json"), "w") as f:
         json.dump({"scenes": [{"id": sid, "start": starts[i], "length": lens[i],
-                               "speech": round(lens[i] - pad, 3)} for i, sid in enumerate(scenes)],
+                               "speech": speech[i]} for i, sid in enumerate(scenes)],
                    "total": total}, f, indent=1)
     print(f"[{track}] index.html: {len(scenes)} scenes, {total:.1f}s -> render to {t['out']}")
     return total

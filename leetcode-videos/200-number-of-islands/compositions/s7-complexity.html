@@ -3,21 +3,25 @@
     #root { position: absolute; inset: 0; }
   </style>
   <div id="root" data-composition-id="s7-complexity" data-width="1920" data-height="1080"
-       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":19.6}]'>
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":19.6},{"id":"S","type":"number","label":"Narration length (s)","default":16.6}]'>
     <div class="lc-header"><span class="lc-badge">LeetCode 200</span><span class="lc-title">Number of Islands</span><span class="lc-diff lc-medium">Medium</span></div>
     <div class="lc-cards" data-hold>
       <div class="lc-card" id="s7-time"><h3>Time</h3><strong>O(m · n)</strong><p>each cell visited a constant number of times</p></div>
       <div class="lc-card" id="s7-space"><h3>Space</h3><strong>O(m · n)</strong><p>recursion stack in the worst case</p></div>
     </div>
-    <div class="lc-outro" id="s7-outro">Thanks for watching!</div>
+    <div class="lc-outro">
+      <div class="lc-thanks" id="s7-thanks">Thanks for watching!</div>
+      <div class="lc-sub" id="s7-sub">Subscribe to <b>@dsalgo_ai</b> for more such videos</div>
+      <div class="lc-social" id="s7-social"><span class="lc-yt"><i></i>YouTube</span><span class="lc-ig"><i></i>Instagram</span></div>
+    </div>
   </div>
   <script>
     (function () {
-      const { T } = window.__hyperframes.getVariables();
+      const { T, S = T } = window.__hyperframes.getVariables();
       const tl = gsap.timeline({ paused: true });
       tl.fromTo("#s7-time", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.05 * T);
       tl.fromTo("#s7-space", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.42 * T);
-      tl.fromTo("#s7-outro", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.7, ease: "back.out(1.8)" }, 0.8 * T);
+      LC.outro(tl, "s7", 0.85 * S);   // channel outro, held for outro_hold s after the narration
       window.__timelines["s7-complexity"] = tl;
     })();
   </script>
