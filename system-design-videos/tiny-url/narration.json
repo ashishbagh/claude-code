@@ -10,13 +10,13 @@
     "To recap: unique IDs from a key service, base sixty-two codes, a cache for read-heavy traffic, and a sharded key-value store. That's TinyURL. Thanks for watching! Subscribe to D S Algo A I on YouTube and Instagram for more such videos."
   ],
   "hinglish": [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    ""
+    "चलो design करते हैं TinyURL, एक URL shortener. User एक लंबा link paste करता है, और उसे एक छोटा link मिलता है: tiny U R L dot com, slash, सात characters. जो भी उस short link को खोलेगा, वो original page पर redirect हो जाएगा. Redirects fast होने चाहिए, हमेशा available, और हर short code unique.",
+    "पहले, कुछ quick numbers. मान लो रोज़ सौ million नए links बनते हैं. यानी लगभग बारह सौ writes per second. Reads सौ गुना ज़्यादा हैं, तो करीब एक लाख बीस हज़ार redirects per second. पाँच साल में, लगभग एक सौ अस्सी billion links, यानी करीब नब्बे terabytes. और base sixty-two के सात characters से साढ़े तीन trillion codes बनते हैं. काफ़ी हैं.",
+    "API बहुत simple है. POST shorten, long URL लेता है, साथ में optional custom alias और expiry, और short URL return करता है. GET slash code, long URL ढूँढता है, और redirect भेजता है. Data के लिए बस एक table: code key है, फिर long URL, और दो timestamps. कोई joins नहीं, इसलिए key-value store अच्छे से scale करता है.",
+    "अब architecture देखते हैं. Clients एक load balancer से बात करते हैं, जो traffic को stateless app servers में बाँटता है. Key generation service unique IDs देती है. Redis cache, hot links को memory में रखता है. और एक distributed key-value database, हर mapping store करता है.",
+    "चलो एक link short करते हैं. Request एक app server तक पहुँचती है. URL को hash करने से collisions हो सकते हैं, इसलिए server, key service की दी हुई ID range से अगला number लेता है. Base sixty-two में encode करने पर, वो number सात character का code बन जाता है. Server, code और long URL को database में save करता है, और short link return करता है.",
+    "अब कोई short link पर click करता है. App server पहले cache check करता है. Hit हुआ, तो तुरंत redirect, लगभग एक millisecond में. Miss हुआ, तो database से पढ़ता है, result cache में डालता है, और फिर redirect करता है. हम three-oh-two भेजते हैं, यानी temporary redirect, ताकि हर click analytics के लिए हम तक पहुँचे.",
+    "Scale करने के लिए, database को code के hash से shard करते हैं, ताकि data और traffic बराबर बँटे, और हर shard के replicas रखते हैं, availability के लिए. Click events, Kafka जैसी queue में जाते हैं, और workers उन्हें बाद में process करते हैं, ताकि redirects fast रहें. साथ में rate limiting, और expired links के लिए cleanup job.",
+    "Recap करें तो: key service से unique IDs, base sixty-two codes, read-heavy traffic के लिए cache, और एक sharded key-value store. यही है TinyURL. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
   ]
 }
