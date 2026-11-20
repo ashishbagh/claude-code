@@ -112,7 +112,7 @@ def main():
                  if os.path.exists(os.path.join(font_dir, f))), None)
     captions(texts, timing, ass, font)
 
-    badge = esc(f"LeetCode {cfg['number']} · {cfg['difficulty']}")
+    badge = esc(cfg.get("reel_badge") or f"LeetCode {cfg['number']} · {cfg['difficulty']}")
     tlines, tsize = fit_title(cfg["title"])
     title = esc(cfg["title"])
     ff = f":fontfile={bold}" if bold else ""

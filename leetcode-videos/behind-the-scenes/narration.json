@@ -1,0 +1,20 @@
+{
+  "en": [
+    "Ever wondered how these animated LeetCode videos are made? I don't open a video editor at all. Claude builds every one of them, from the script, to the voice, to the final reel. Here's the whole process, step by step.",
+    "Step one: I type a single line to Claude. Slash leetcode video, the problem, and the language. That's the whole prompt. A custom Claude skill knows every step that follows.",
+    "Step two: Claude plans the video. It picks one small example, solves it by hand to get the exact trace, and writes a short script for every scene, in English or Hinglish.",
+    "Step three: the voice. Claude sends each scene's script to ElevenLabs for a natural narrator, or to Kokoro, a free voice model that runs locally. The length of every clip sets the timing of its scene.",
+    "Step four: the visuals. Each scene is a HyperFrames composition, written in HTML and GSAP. The 3D parts, like these houses and letter blocks, are built with Three.js. Claude checks snapshots of every scene before it renders.",
+    "Step five: sound and export. Claude adds sound effects, renders the full video to MP4, and uses FFmpeg to make a vertical Instagram reel with captions. Then it commits everything to GitHub.",
+    "Want the complete skill for yourself? Follow D S Algo A I, and send me a DM. I'll send you the skill link. Thanks for watching! Subscribe to D S Algo A I on YouTube and Instagram for more such videos."
+  ],
+  "hinglish": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ]
+}
