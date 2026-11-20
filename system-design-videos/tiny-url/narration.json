@@ -1,0 +1,22 @@
+{
+  "en": [
+    "Let's design TinyURL, a URL shortener. A user pastes a long link, and gets back a short one: tiny U R L dot com, slash, seven characters. Anyone who opens that short link is redirected to the original page. Redirects must be fast and always available, and every short code must be unique.",
+    "First, some quick numbers. Say one hundred million new links a day. That's about twelve hundred writes per second. Reads are a hundred times more common, so around a hundred and twenty thousand redirects per second. Over five years, that's about a hundred and eighty billion links, roughly ninety terabytes. And seven base sixty-two characters give three and a half trillion codes. Plenty.",
+    "The API is tiny. POST shorten takes the long URL, with an optional custom alias and expiry, and returns the short URL. GET slash code looks up the long URL, and answers with a redirect. The data is one simple table: the code as the key, the long URL, and two timestamps. No joins, so a key-value store scales nicely.",
+    "Here's the architecture. Clients talk to a load balancer, which spreads traffic across stateless app servers. A key generation service hands out unique IDs. A Redis cache keeps hot links in memory. And a distributed key-value database stores every mapping.",
+    "Let's shorten a link. The request reaches an app server. Hashing the URL could cause collisions, so instead, the server takes the next number from a range of IDs the key service reserved for it. Encoded in base sixty-two, that number becomes a seven character code. The server saves the code and the long URL in the database, and returns the short link.",
+    "Now someone clicks the short link. The app server checks the cache first. On a hit, it redirects straight away, in about a millisecond. On a miss, it reads the database, puts the result in the cache, and then redirects. We answer with three-oh-two, a temporary redirect, so every click still reaches us for analytics.",
+    "To scale, we shard the database by a hash of the code, so data and traffic spread evenly, and each shard keeps replicas for availability. Click events go into a queue like Kafka, and workers process them later, so redirects stay fast. Add rate limiting, and a cleanup job for expired links.",
+    "To recap: unique IDs from a key service, base sixty-two codes, a cache for read-heavy traffic, and a sharded key-value store. That's TinyURL. Thanks for watching! Subscribe to D S Algo A I on YouTube and Instagram for more such videos."
+  ],
+  "hinglish": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ]
+}

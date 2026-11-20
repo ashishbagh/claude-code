@@ -1,0 +1,61 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s2-ratio { left: 120px; right: 120px; top: 560px; height: 150px; padding: 26px 40px; opacity: 0; }
+    .s2-bar { position: relative; height: 40px; margin: 10px 0; display: flex; align-items: center; gap: 24px; }
+    .s2-bar em { width: 150px; flex: none; font: 700 30px var(--font); color: var(--muted); font-style: normal; }
+    .s2-fill { height: 34px; border-radius: 17px; transform-origin: left center; }
+    #s2-rfill { width: 1400px; background: linear-gradient(90deg, #0ea5e9, #38bdf8); }
+    #s2-wfill { width: 14px; background: var(--green); }
+    .s2-bar b { font: 800 30px var(--font); color: var(--ink); }
+    #s2-alpha { left: 120px; right: 120px; top: 740px; height: 130px; padding: 0 40px; display: flex;
+      align-items: center; justify-content: space-between; opacity: 0; }
+    #s2-alpha .sd-token { font-size: 44px; }
+    #s2-alpha span { color: var(--ink); font: 700 36px var(--font); }
+  </style>
+  <div id="root" data-composition-id="s2-estimates" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":22.8},{"id":"S","type":"number","label":"Narration length (s)","default":22.2}]'>
+    <div class="lc-header"><span class="lc-badge">System Design</span><span class="lc-title">Design TinyURL</span><span class="lc-diff lc-easy">Beginner</span></div>
+    <div class="sd-stats" data-hold>
+      <div class="sd-stat green" id="s2-c1"><h3>Writes</h3><strong><span id="s2-n1">0</span>/s</strong><p>100M new links a day</p></div>
+      <div class="sd-stat blue" id="s2-c2"><h3>Reads</h3><strong><span id="s2-n2">0</span>/s</strong><p>100× more redirects</p></div>
+      <div class="sd-stat pink" id="s2-c3"><h3>Storage</h3><strong><span id="s2-n3">0</span> TB</strong><p>180B links × 500 B<br>over 5 years</p></div>
+      <div class="sd-stat" id="s2-c4"><h3>Code length</h3><strong><span id="s2-n4">0</span> chars</strong><p>base62 → 3.5 trillion</p></div>
+    </div>
+    <div class="lc-panel" id="s2-ratio">
+      <div class="s2-bar"><em>Reads</em><div class="s2-fill" id="s2-rfill"></div><b>100</b></div>
+      <div class="s2-bar"><em>Writes</em><div class="s2-fill" id="s2-wfill"></div><b>1</b></div>
+    </div>
+    <div class="lc-panel" id="s2-alpha"><span class="sd-token">0-9 a-z A-Z</span><span>= 62 symbols</span><span class="sd-token">62⁷ = 3,521,614,606,208</span></div>
+    <div class="lc-caption" id="s2-cap1"><span>100M links / 86,400 s ≈ 1,200 writes per second</span></div>
+    <div class="lc-caption" id="s2-cap2"><span>Read-heavy: ~120,000 redirects per second</span></div>
+    <div class="lc-caption" id="s2-cap3"><span>5 years ≈ 180 billion links ≈ 90 TB</span></div>
+    <div class="lc-caption" id="s2-cap4"><span>7 base-62 characters are plenty</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const count = (sel, to, at, dur, fmt) => {
+        const o = { v: 0 };
+        tl.fromTo(o, { v: 0 }, { v: to, duration: dur, ease: "power2.out",
+          onUpdate: () => { document.querySelector(sel).textContent = fmt(o.v); } }, at);
+      };
+      const k = (v) => (v >= 1000 ? (v / 1000).toFixed(v >= 10000 ? 0 : 1) + "K" : Math.round(v).toString());
+      tl.fromTo("#s2-c1", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.07 * S);
+      count("#s2-n1", 1200, 0.18 * S, 1.2, (v) => "~" + k(v));
+      tl.fromTo("#s2-c2", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.29 * S);
+      count("#s2-n2", 120000, 0.39 * S, 1.4, (v) => "~" + k(v));
+      tl.fromTo("#s2-ratio", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5 }, 0.31 * S);
+      tl.fromTo("#s2-rfill", { scaleX: 0 }, { scaleX: 1, duration: 1.6, ease: "power2.out" }, 0.36 * S);
+      tl.fromTo("#s2-wfill", { scaleX: 0 }, { scaleX: 1, duration: 0.4 }, 0.36 * S);
+      tl.fromTo("#s2-c3", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.54 * S);
+      count("#s2-n3", 90, 0.62 * S, 1.3, (v) => "~" + Math.round(v));
+      tl.fromTo("#s2-c4", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.78 * S);
+      count("#s2-n4", 7, 0.80 * S, 0.8, (v) => Math.round(v).toString());
+      tl.fromTo("#s2-alpha", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5 }, 0.82 * S);
+      LC.captions(tl, T, [["#s2-cap1", (0.07 * S) / T], ["#s2-cap2", (0.29 * S) / T], ["#s2-cap3", (0.54 * S) / T], ["#s2-cap4", (0.78 * S) / T]]);
+      window.__timelines["s2-estimates"] = tl;
+    })();
+  </script>
+</template>

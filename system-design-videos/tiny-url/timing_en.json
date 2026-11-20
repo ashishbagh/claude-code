@@ -1,0 +1,53 @@
+{
+ "scenes": [
+  {
+   "id": "s1-requirements",
+   "start": 0,
+   "length": 21.216,
+   "speech": 20.616
+  },
+  {
+   "id": "s2-estimates",
+   "start": 21.216,
+   "length": 22.752,
+   "speech": 22.152
+  },
+  {
+   "id": "s3-api",
+   "start": 43.968,
+   "length": 22.944,
+   "speech": 22.344
+  },
+  {
+   "id": "s4-architecture",
+   "start": 66.912,
+   "length": 16.728,
+   "speech": 16.128
+  },
+  {
+   "id": "s5-shorten",
+   "start": 83.64,
+   "length": 22.656,
+   "speech": 22.056
+  },
+  {
+   "id": "s6-redirect",
+   "start": 106.296,
+   "length": 19.44,
+   "speech": 18.84
+  },
+  {
+   "id": "s7-scale",
+   "start": 125.736,
+   "length": 19.512,
+   "speech": 18.912
+  },
+  {
+   "id": "s8-recap",
+   "start": 145.248,
+   "length": 19.992,
+   "speech": 16.392
+  }
+ ],
+ "total": 165.24
+}

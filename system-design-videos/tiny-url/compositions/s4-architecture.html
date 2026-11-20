@@ -1,0 +1,47 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s4-architecture" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":16.7},{"id":"S","type":"number","label":"Narration length (s)","default":16.1}]'>
+    <canvas id="s4-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">System Design</span><span class="lc-title">Design TinyURL</span><span class="lc-diff lc-easy">Beginner</span></div>
+    <div class="lc-caption" id="s4-cap1"><span>Load balancer → stateless app servers</span></div>
+    <div class="lc-caption" id="s4-cap2"><span>Key Generation Service: unique IDs</span></div>
+    <div class="lc-caption" id="s4-cap3"><span>Redis: hot links in memory</span></div>
+    <div class="lc-caption" id="s4-cap4"><span>Distributed key-value DB: every mapping</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const A = TinyArch(document.getElementById("s4-canvas"));
+      const at = (f) => f * S;
+      LC.captions(tl, T, [["#s4-cap1", at(0.09) / T], ["#s4-cap2", at(0.41) / T], ["#s4-cap3", at(0.62) / T], ["#s4-cap4", at(0.80) / T]]);
+      // a gentle stream of requests once everything is up
+      const hops = [];
+      for (let i = 0; i < 3; i++) {
+        const s = at(0.86) + i * 0.7;
+        hops.push(["client", "lb", s, 0.5, null, "#38bdf8"], ["lb", ["app1", "app2", "app3"][i], s + 0.5, 0.45, null, "#38bdf8"]);
+      }
+      LC.drive(tl, T, (t) => {
+        A.draw({
+          appear: A.base({
+            client: LC.prog(t, at(0.08), 0.8), lb: LC.prog(t, at(0.12), 0.8),
+            app1: LC.prog(t, at(0.22), 0.8), app2: LC.prog(t, at(0.25), 0.8), app3: LC.prog(t, at(0.28), 0.8),
+            kgs: LC.prog(t, at(0.41), 0.9), cache: LC.prog(t, at(0.62), 0.9), db: LC.prog(t, at(0.80), 0.9),
+          }),
+          glow: {
+            lb: LC.prog(t, at(0.12), 0.4) * (1 - LC.prog(t, at(0.36), 0.5)),
+            kgs: LC.prog(t, at(0.42), 0.4) * (1 - LC.prog(t, at(0.6), 0.5)),
+            cache: LC.prog(t, at(0.63), 0.4) * (1 - LC.prog(t, at(0.78), 0.5)),
+            db: LC.prog(t, at(0.81), 0.4) * (1 - LC.prog(t, at(1.0), 0.5)),
+          },
+          packets: SD.hop(t, hops), hot: SD.lit(t, hops),
+          orbit: -0.18 + 0.3 * (t / T), dist: 19.5 - 1.5 * LC.smooth(t / T),
+        });
+      });
+      window.__timelines["s4-architecture"] = tl;
+    })();
+  </script>
+</template>

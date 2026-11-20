@@ -1,0 +1,70 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s5-steps { left: 1340px; top: 160px; width: 500px; height: 410px; }
+    #s5-enc { position: absolute; left: 1340px; top: 595px; width: 500px; height: 290px; padding: 24px 30px; }
+    .s5-line { color: var(--ink); font: 600 29px/1.3 var(--font); opacity: 0; }
+    .s5-line code { font: 600 30px var(--mono); color: var(--yellow); }
+    #s5-hash { color: #fca5a5; }
+    #s5-code { display: flex; gap: 8px; margin-top: 14px; }
+    #s5-code span { width: 54px; height: 70px; border-radius: 12px; background: #28345a; border: 2px solid var(--yellow);
+      display: flex; align-items: center; justify-content: center; font: 800 42px var(--mono); color: var(--yellow); opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="s5-shorten" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":22.7},{"id":"S","type":"number","label":"Narration length (s)","default":22.1}]'>
+    <canvas id="s5-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">System Design</span><span class="lc-title">Design TinyURL</span><span class="lc-diff lc-easy">Beginner</span></div>
+    <div class="sd-steps" id="s5-steps">
+      <h4>Shorten</h4>
+      <div class="sd-step" id="s5-st1"><b>1</b><code>POST /api/shorten</code></div>
+      <div class="sd-step" id="s5-st2"><b>2</b>Next ID from KGS range</div>
+      <div class="sd-step" id="s5-st3"><b>3</b>Base62-encode → code</div>
+      <div class="sd-step" id="s5-st4"><b>4</b>Save code → long URL</div>
+      <div class="sd-step" id="s5-st5"><b>5</b>Return the short link</div>
+    </div>
+    <div class="lc-panel" id="s5-enc">
+      <div class="s5-line" id="s5-hash">✗ hash(long URL) can collide</div>
+      <div class="s5-line" id="s5-id">id = <code>916,004,622,907</code></div>
+      <div class="s5-line" id="s5-b62">base62 (0-9 a-z A-Z) ↓</div>
+      <div id="s5-code"><span>g</span><span>7</span><span>R</span><span>k</span><span>2</span><span>X</span><span>p</span></div>
+    </div>
+    <div class="lc-caption" id="s5-cap1"><span>Hashing can collide → hand out unique IDs instead</span></div>
+    <div class="lc-caption" id="s5-cap2"><span>Each server gets its own ID range: no coordination</span></div>
+    <div class="lc-caption" id="s5-cap3"><span>916,004,622,907 → g7Rk2Xp</span></div>
+    <div class="lc-caption" id="s5-cap4"><span>tinyurl.com/g7Rk2Xp</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const A = TinyArch(document.getElementById("s5-canvas"), { shiftX: 330 });
+      const at = (f) => f * S;
+      const hops = [
+        ["client", "lb", at(0.03), 0.6, "POST /shorten", "#38bdf8"],
+        ["lb", "app2", at(0.03) + 0.6, 0.6, "POST /shorten", "#38bdf8"],
+        ["kgs", "app2", at(0.31), 1.3, "ID range", "#facc15"],
+        ["app2", "db", at(0.76), 1.1, "g7Rk2Xp → URL", "#22c55e"],
+        ["app2", "lb", at(0.93), 0.6, "tinyurl.com/g7Rk2Xp", "#facc15"],
+        ["lb", "client", at(0.93) + 0.6, 0.6, "tinyurl.com/g7Rk2Xp", "#facc15"],
+      ];
+      [["#s5-st1", 0.04], ["#s5-st2", 0.31], ["#s5-st3", 0.53], ["#s5-st4", 0.76], ["#s5-st5", 0.93]].forEach(([s, a]) =>
+        tl.fromTo(s, { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, at(a)));
+      tl.fromTo("#s5-hash", { opacity: 0 }, { opacity: 1, duration: 0.4 }, at(0.16));
+      tl.to("#s5-hash", { opacity: 0.35, textDecoration: "line-through", duration: 0.3 }, at(0.28));
+      tl.fromTo("#s5-id", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.4 }, at(0.36));
+      tl.fromTo("#s5-b62", { opacity: 0 }, { opacity: 1, duration: 0.4 }, at(0.53));
+      document.querySelectorAll("#s5-code span").forEach((el, i) =>
+        tl.fromTo(el, { opacity: 0, y: -20, scale: 0.6 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(2.4)" }, at(0.56) + i * 0.3));
+      LC.captions(tl, T, [["#s5-cap1", at(0.16) / T], ["#s5-cap2", at(0.31) / T], ["#s5-cap3", at(0.55) / T], ["#s5-cap4", at(0.93) / T]]);
+      LC.drive(tl, T, (t) => {
+        const g = SD.glowFrom(t, hops);
+        g.kgs = Math.max(g.kgs || 0, LC.prog(t, at(0.29), 0.3) * (1 - LC.prog(t, at(0.31) + 1.3, 0.4)));
+        A.draw({
+          appear: A.base(), glow: g, packets: SD.hop(t, hops), hot: SD.lit(t, hops),
+          orbit: 0.05 - 0.12 * (t / T), dist: 19,
+        });
+      });
+      window.__timelines["s5-shorten"] = tl;
+    })();
+  </script>
+</template>

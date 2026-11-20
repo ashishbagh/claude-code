@@ -1,0 +1,60 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s7-chips { position: absolute; left: 96px; right: 96px; top: 140px; display: flex; flex-wrap: wrap; gap: 16px; }
+    #s7-chips .sd-chip { font-size: 28px; padding: 10px 22px; border: 2px solid var(--panel-edge); opacity: 0; }
+    #s7-chips .sd-chip b { color: var(--yellow); }
+  </style>
+  <div id="root" data-composition-id="s7-scale" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":19.5},{"id":"S","type":"number","label":"Narration length (s)","default":18.9}]'>
+    <canvas id="s7-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">System Design</span><span class="lc-title">Design TinyURL</span><span class="lc-diff lc-easy">Beginner</span></div>
+    <div id="s7-chips">
+      <span class="sd-chip" id="s7-c1">Shard by <b>hash(code)</b></span>
+      <span class="sd-chip" id="s7-c2">Replicas per shard</span>
+      <span class="sd-chip" id="s7-c3">Kafka + async workers</span>
+      <span class="sd-chip" id="s7-c4">Rate limiting</span>
+      <span class="sd-chip" id="s7-c5">TTL cleanup</span>
+    </div>
+    <div class="lc-caption" id="s7-cap1"><span>hash(code) % N picks the shard: even spread</span></div>
+    <div class="lc-caption" id="s7-cap2"><span>Replicas keep every shard available</span></div>
+    <div class="lc-caption" id="s7-cap3"><span>Clicks → Kafka → workers, off the hot path</span></div>
+    <div class="lc-caption" id="s7-cap4"><span>Plus rate limits and expired-link cleanup</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const A = TinyArch(document.getElementById("s7-canvas"));
+      const at = (f) => f * S;
+      const G = "#22c55e", O = "#fb923c";
+      const hops = [
+        ["app2", "sh1", at(0.18), 0.7, "g7Rk2Xp", G],
+        ["app2", "sh3", at(0.22), 0.8, "Q9x1LmA", G],
+        ["app2", "sh2", at(0.26), 0.75, "3bTz8Wc", G],
+        ["sh1", "rp1", at(0.38), 0.6, null, G], ["sh2", "rp2", at(0.40), 0.6, null, G], ["sh3", "rp3", at(0.42), 0.6, null, G],
+        ["app3", "queue", at(0.50), 0.7, "click", O], ["app3", "queue", at(0.55), 0.7, null, O], ["app3", "queue", at(0.60), 0.7, null, O],
+        ["queue", "worker", at(0.64), 0.8, "click", O], ["queue", "worker", at(0.70), 0.8, null, O],
+      ];
+      [["#s7-c1", 0.03], ["#s7-c2", 0.31], ["#s7-c3", 0.48], ["#s7-c4", 0.82], ["#s7-c5", 0.86]].forEach(([s, a]) =>
+        tl.fromTo(s, { opacity: 0, y: -14 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(2)" }, at(a)));
+      LC.captions(tl, T, [["#s7-cap1", at(0.03) / T], ["#s7-cap2", at(0.31) / T], ["#s7-cap3", at(0.48) / T], ["#s7-cap4", at(0.82) / T]]);
+      LC.drive(tl, T, (t) => {
+        const g = SD.glowFrom(t, hops);
+        g.lb = LC.prog(t, at(0.82), 0.4) * (1 - LC.prog(t, at(0.98), 0.4));
+        A.draw({
+          appear: A.base({
+            sh1: LC.prog(t, at(0.05), 0.7), sh2: LC.prog(t, at(0.09), 0.7), sh3: LC.prog(t, at(0.13), 0.7),
+            rp1: LC.prog(t, at(0.31), 0.6), rp2: LC.prog(t, at(0.33), 0.6), rp3: LC.prog(t, at(0.35), 0.6),
+            queue: LC.prog(t, at(0.48), 0.7), worker: LC.prog(t, at(0.61), 0.7),
+            db: 1 - LC.prog(t, at(0.01), 0.5),
+          }),
+          appearAll: true,
+          glow: g, packets: SD.hop(t, hops), hot: SD.lit(t, hops),
+          target: [-0.4, 0, 0.7], dist: 23 - 1.0 * LC.smooth(t / T), orbit: 0.1 - 0.16 * (t / T),
+        });
+      });
+      window.__timelines["s7-scale"] = tl;
+    })();
+  </script>
+</template>

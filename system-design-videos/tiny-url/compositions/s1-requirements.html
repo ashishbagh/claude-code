@@ -1,0 +1,62 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .s1-url { position: absolute; left: 160px; right: 160px; height: 96px; border-radius: 24px; display: flex;
+      align-items: center; gap: 26px; padding: 0 34px; background: var(--panel); border: 2px solid var(--panel-edge);
+      font: 500 30px var(--mono); color: var(--ink); white-space: nowrap; overflow: hidden; opacity: 0; }
+    .s1-url .sd-chip { flex: none; }
+    #s1-long { top: 180px; color: var(--muted); }
+    #s1-short { top: 330px; left: 560px; right: 560px; justify-content: center; border-color: var(--yellow);
+      box-shadow: 0 0 40px rgba(250, 204, 21, 0.25); }
+    #s1-short span.code { color: var(--yellow); font: 800 46px var(--mono); }
+    #s1-short span.dom { color: var(--ink); font: 600 46px var(--mono); }
+    #s1-arrow { position: absolute; left: 930px; top: 282px; color: var(--yellow); font: 900 44px var(--font); opacity: 0; }
+    #s1-func { left: 160px; top: 480px; width: 780px; height: 330px; }
+    #s1-nf { left: 980px; top: 480px; width: 780px; height: 330px; }
+  </style>
+  <div id="root" data-composition-id="s1-requirements" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":21},{"id":"S","type":"number","label":"Narration length (s)","default":20.6}]'>
+    <div class="lc-titlecard"><h1 id="s1-t-title">Design TinyURL</h1><p id="s1-t-sub">System Design · URL Shortener</p></div>
+    <div id="s1-header" style="opacity:0"><div class="lc-header"><span class="lc-badge">System Design</span><span class="lc-title">Design TinyURL</span><span class="lc-diff lc-easy">Beginner</span></div></div>
+    <div class="s1-url" id="s1-long"><span class="sd-chip">long</span>https://www.example.com/blog/2026/11/how-to-design-large-scale-systems?ref=newsletter&amp;id=82716</div>
+    <div id="s1-arrow">↓</div>
+    <div class="s1-url" id="s1-short"><span class="dom">tinyurl.com/</span><span class="code" id="s1-code">g7Rk2Xp</span></div>
+    <div class="sd-req" id="s1-func" style="opacity:0">
+      <h4>Functional</h4>
+      <div class="sd-li" id="s1-f1"><i>✓</i>Shorten: long URL → short code</div>
+      <div class="sd-li" id="s1-f2"><i>✓</i>Redirect: short code → original</div>
+      <div class="sd-li" id="s1-f3"><i>✓</i>Optional custom alias &amp; expiry</div>
+    </div>
+    <div class="sd-req" id="s1-nf" style="opacity:0">
+      <h4>Non-functional</h4>
+      <div class="sd-li nf" id="s1-n1"><i>⚡</i>Low-latency redirects</div>
+      <div class="sd-li nf" id="s1-n2"><i>↑</i>Highly available</div>
+      <div class="sd-li nf" id="s1-n3"><i>#</i>Every short code unique</div>
+    </div>
+    <div class="lc-caption" id="s1-cap1"><span>Paste a long link → get a 7-character short one</span></div>
+    <div class="lc-caption" id="s1-cap2"><span>Open the short link → redirected to the original</span></div>
+    <div class="lc-caption" id="s1-cap3"><span>Fast, always up, and every code unique</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#s1-t-title", { opacity: 1, scale: 0.94 }, { opacity: 1, scale: 1, duration: 2.4, ease: "power1.out" }, 0);
+      tl.fromTo("#s1-t-sub", { opacity: 1, y: 0 }, { opacity: 1, y: 0, duration: 0.1 }, 0);
+      tl.to(["#s1-t-title", "#s1-t-sub"], { opacity: 0, y: -30, duration: 0.4, ease: "power2.in" }, 2.6);
+      tl.fromTo("#s1-header", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 3.0);
+      tl.fromTo("#s1-long", { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }, 0.16 * S);
+      tl.fromTo("#s1-arrow", { opacity: 0, y: -14 }, { opacity: 1, y: 0, duration: 0.4 }, 0.27 * S);
+      tl.fromTo("#s1-short", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(2)" }, 0.30 * S);
+      tl.fromTo("#s1-code", { opacity: 0.2 }, { opacity: 1, duration: 0.5, ease: "power1.out" }, 0.42 * S);
+      tl.fromTo("#s1-func", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.48 * S);
+      [["#s1-f1", 0.50], ["#s1-f2", 0.56], ["#s1-f3", 0.64]].forEach(([s, a]) =>
+        tl.fromTo(s, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, a * S));
+      tl.fromTo("#s1-nf", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.72 * S);
+      [["#s1-n1", 0.74], ["#s1-n2", 0.83], ["#s1-n3", 0.91]].forEach(([s, a]) =>
+        tl.fromTo(s, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, a * S));
+      LC.captions(tl, T, [["#s1-cap1", (0.16 * S) / T], ["#s1-cap2", (0.48 * S) / T], ["#s1-cap3", (0.73 * S) / T]]);
+      window.__timelines["s1-requirements"] = tl;
+    })();
+  </script>
+</template>

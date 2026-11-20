@@ -1,0 +1,70 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s6-steps { left: 1340px; top: 160px; width: 500px; height: 410px; }
+    #s6-resp { position: absolute; left: 1340px; top: 595px; width: 500px; height: 290px; padding: 24px 30px;
+      display: flex; flex-direction: column; gap: 12px; }
+    .s6-line { color: var(--ink); font: 600 28px/1.3 var(--font); opacity: 0; }
+    .s6-line code { font: 600 28px var(--mono); }
+    #s6-http code { color: var(--yellow); } #s6-loc code { color: #86efac; }
+    #s6-301 { color: var(--muted); } #s6-302 b { color: var(--green); }
+  </style>
+  <div id="root" data-composition-id="s6-redirect" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":19.4},{"id":"S","type":"number","label":"Narration length (s)","default":18.8}]'>
+    <canvas id="s6-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">System Design</span><span class="lc-title">Design TinyURL</span><span class="lc-diff lc-easy">Beginner</span></div>
+    <div class="sd-steps" id="s6-steps">
+      <h4>Redirect</h4>
+      <div class="sd-step" id="s6-st1"><b>1</b><code>GET /g7Rk2Xp</code></div>
+      <div class="sd-step" id="s6-st2"><b>2</b>Check the cache first</div>
+      <div class="sd-step hit" id="s6-st3"><b>✓</b>Hit → redirect (~1 ms)</div>
+      <div class="sd-step miss" id="s6-st4"><b>✗</b>Miss → DB → fill cache</div>
+      <div class="sd-step" id="s6-st5"><b>5</b>Redirect the browser</div>
+    </div>
+    <div class="lc-panel" id="s6-resp">
+      <div class="s6-line" id="s6-http"><code>HTTP/1.1 302 Found</code></div>
+      <div class="s6-line" id="s6-loc"><code>Location: https://example.com/…</code></div>
+      <div class="s6-line" id="s6-301">301: browser caches it, clicks hidden</div>
+      <div class="s6-line" id="s6-302"><b>302</b>: every click reaches us ✓</div>
+    </div>
+    <div class="lc-caption" id="s6-cap1"><span>Cache hit: redirect in about 1 ms</span></div>
+    <div class="lc-caption" id="s6-cap2"><span>Cache miss: read the DB, then fill the cache</span></div>
+    <div class="lc-caption" id="s6-cap3"><span>302 keeps every click visible for analytics</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const A = TinyArch(document.getElementById("s6-canvas"), { shiftX: 330 });
+      const at = (f) => f * S;
+      const B = "#38bdf8", G = "#22c55e", R = "#ef4444", Y = "#facc15";
+      const hops = [
+        ["client", "lb", at(0.01), 0.55, "GET /g7Rk2Xp", B],
+        ["lb", "app2", at(0.01) + 0.55, 0.55, "GET /g7Rk2Xp", B],
+        ["app2", "cache", at(0.11), 0.8, "get g7Rk2Xp", B],
+        ["cache", "app2", at(0.24), 0.6, "HIT", G],
+        ["app2", "lb", at(0.28), 0.5, "302", Y],
+        ["lb", "client", at(0.28) + 0.5, 0.5, "302", Y],
+        ["app2", "cache", at(0.39), 0.55, "get", B],
+        ["cache", "app2", at(0.39) + 0.55, 0.55, "MISS", R],
+        ["app2", "db", at(0.46), 0.7, "read", B],
+        ["db", "app2", at(0.46) + 0.7, 0.7, "long URL", G],
+        ["app2", "cache", at(0.54), 0.7, "set", G],
+        ["app2", "lb", at(0.66), 0.5, "302", Y],
+        ["lb", "client", at(0.66) + 0.5, 0.5, "302", Y],
+      ];
+      [["#s6-st1", 0.01], ["#s6-st2", 0.11], ["#s6-st3", 0.24], ["#s6-st4", 0.43], ["#s6-st5", 0.66]].forEach(([s, a]) =>
+        tl.fromTo(s, { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, at(a)));
+      [["#s6-http", 0.70], ["#s6-loc", 0.73], ["#s6-301", 0.79], ["#s6-302", 0.86]].forEach(([s, a]) =>
+        tl.fromTo(s, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, at(a)));
+      LC.captions(tl, T, [["#s6-cap1", at(0.24) / T], ["#s6-cap2", at(0.43) / T], ["#s6-cap3", at(0.70) / T]]);
+      LC.drive(tl, T, (t) => {
+        A.draw({
+          appear: A.base(), glow: SD.glowFrom(t, hops), packets: SD.hop(t, hops), hot: SD.lit(t, hops),
+          orbit: -0.06 + 0.12 * (t / T), dist: 19,
+        });
+      });
+      window.__timelines["s6-redirect"] = tl;
+    })();
+  </script>
+</template>

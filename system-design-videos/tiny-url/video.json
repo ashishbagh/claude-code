@@ -1,0 +1,210 @@
+{
+  "badge": "System Design",
+  "title": "Design TinyURL",
+  "level": "Beginner",
+  "slug": "design_tinyurl",
+  "scenes": [
+    "s1-requirements",
+    "s2-estimates",
+    "s3-api",
+    "s4-architecture",
+    "s5-shorten",
+    "s6-redirect",
+    "s7-scale",
+    "s8-recap"
+  ],
+  "pad": 0.6,
+  "tracks": {
+    "en": {
+      "audio": "assets/audio/en",
+      "out": "out/design_tinyurl.mp4"
+    },
+    "hinglish": {
+      "audio": "assets/audio/hinglish",
+      "out": "out/design_tinyurl_hinglish.mp4"
+    }
+  },
+  "voice": {
+    "en": {
+      "engine": "kokoro",
+      "voice": "am_michael"
+    },
+    "hinglish": {
+      "engine": "elevenlabs",
+      "voice": "j7yQHuKNC1hdt1LBPAks"
+    }
+  },
+  "sfx_queries": {
+    "whoosh": "whoosh transition",
+    "pop": "pop ui",
+    "click-soft": "soft click ui",
+    "ping": "bright ping notification",
+    "impact-bass-1": "cinematic impact",
+    "whoosh-short": "short swoosh",
+    "sparkle": "magic sparkle chime"
+  },
+  "sfx": [
+    {
+      "scene": "s1-requirements",
+      "sec": 0.25,
+      "sound": "whoosh",
+      "volume": 0.3
+    },
+    {
+      "scene": "s1-requirements",
+      "sec": 2.9,
+      "sound": "whoosh-short",
+      "volume": 0.3
+    },
+    {
+      "scene": "s1-requirements",
+      "at": 0.3,
+      "sound": "pop"
+    },
+    {
+      "scene": "s1-requirements",
+      "at": 0.48,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s1-requirements",
+      "at": 0.72,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s2-estimates",
+      "at": 0.07,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-estimates",
+      "at": 0.29,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-estimates",
+      "at": 0.54,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-estimates",
+      "at": 0.78,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s3-api",
+      "at": 0.08,
+      "sound": "whoosh-short",
+      "volume": 0.25
+    },
+    {
+      "scene": "s3-api",
+      "at": 0.4,
+      "sound": "whoosh-short",
+      "volume": 0.25
+    },
+    {
+      "scene": "s3-api",
+      "at": 0.59,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s4-architecture",
+      "at": 0.0,
+      "sound": "whoosh",
+      "volume": 0.25
+    },
+    {
+      "scene": "s4-architecture",
+      "at": 0.41,
+      "sound": "pop"
+    },
+    {
+      "scene": "s4-architecture",
+      "at": 0.62,
+      "sound": "pop"
+    },
+    {
+      "scene": "s4-architecture",
+      "at": 0.8,
+      "sound": "pop"
+    },
+    {
+      "scene": "s5-shorten",
+      "at": 0.36,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s5-shorten",
+      "at": 0.56,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s5-shorten",
+      "at": 0.76,
+      "sound": "pop"
+    },
+    {
+      "scene": "s5-shorten",
+      "at": 0.98,
+      "sound": "impact-bass-1",
+      "volume": 0.35
+    },
+    {
+      "scene": "s6-redirect",
+      "at": 0.24,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s6-redirect",
+      "at": 0.43,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s6-redirect",
+      "at": 0.7,
+      "sound": "pop"
+    },
+    {
+      "scene": "s7-scale",
+      "at": 0.05,
+      "sound": "whoosh-short",
+      "volume": 0.25
+    },
+    {
+      "scene": "s7-scale",
+      "at": 0.31,
+      "sound": "pop"
+    },
+    {
+      "scene": "s7-scale",
+      "at": 0.48,
+      "sound": "pop"
+    },
+    {
+      "scene": "s8-recap",
+      "at": 0.06,
+      "sound": "pop"
+    },
+    {
+      "scene": "s8-recap",
+      "at": 0.38,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s8-recap",
+      "at": 0.62,
+      "sound": "sparkle",
+      "volume": 0.3
+    }
+  ],
+  "music": null,
+  "outro_hold": 3.0,
+  "scripts": [
+    "assets/tinyurl3d.js"
+  ],
+  "speed": 1.12
+}
