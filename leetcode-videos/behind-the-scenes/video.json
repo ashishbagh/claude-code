@@ -182,5 +182,6 @@
   "styles": [
     "assets/bright.css"
   ],
-  "reel_badge": "Behind the scenes \u00b7 @dsalgo_ai"
+  "reel_badge": "Behind the scenes \u00b7 @dsalgo_ai",
+  "reel_theme": "light"
 }

@@ -128,7 +128,7 @@ python3 $T/build.py <proj> en          # index.html for one track (HyperFrames a
 cd <proj> && $HF check --json          # fix every error; weigh warnings
 $HF snapshot --at <t1,t2,…>            # 2–3 moments per scene (times from timing_en.json); read the contact sheet
 $HF render -o out/<slug>.mp4           # ~4 min for 2 min of video; run in background
-python3 $T/insta.py <proj> en          # Reel + cover
+python3 $T/insta.py <proj> en          # Reel + cover ("reel_theme": "light" for bright videos, "reel_badge" for non-LeetCode)
 python3 $T/build.py <proj> hinglish && $HF render -o out/<slug>_hinglish.mp4   # if asked
 python3 $T/build.py <proj> en          # leave index.html on English
 ```

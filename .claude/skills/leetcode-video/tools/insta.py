@@ -40,7 +40,7 @@ def wrap(text, width=30):
     return "\\N".join(lines)
 
 
-def captions(texts, timing, path, font):
+def captions(texts, timing, path, font, light=False):
     """Sentence-level ASS captions; each sentence gets time proportional to its length."""
     ev = []
     for text, sc in zip(texts, timing["scenes"]):
@@ -51,6 +51,7 @@ def captions(texts, timing, path, font):
             d = sc["speech"] * len(p) / total_chars
             ev.append((t, t + d - 0.05, wrap(p)))
             t += d
+    cap_fg, cap_ol, cap_sh = ("&H004B1B1E", "&H00FFFFFF", 0) if light else ("&H00FFFFFF", "&H00000000", 2)
     head = f"""[Script Info]
 ScriptType: v4.00+
 PlayResX: {W}
@@ -59,7 +60,7 @@ WrapStyle: 2
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,{font},58,&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,-1,0,0,0,100,100,0,0,1,4,2,8,70,70,{VID_Y + VID_H + 90},1
+Style: Cap,{font},58,{cap_fg},&H00FFFFFF,{cap_ol},&H96000000,-1,0,0,0,100,100,0,0,1,4,{cap_sh},8,70,70,{VID_Y + VID_H + 90},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -110,7 +111,8 @@ def main():
     font = "Inter" if "inter" in font_dir else "DejaVu Sans"
     bold = next((os.path.join(font_dir, f) for f in ("Inter-ExtraBold.otf", "DejaVuSans-Bold.ttf")
                  if os.path.exists(os.path.join(font_dir, f))), None)
-    captions(texts, timing, ass, font)
+    light = cfg.get("reel_theme") == "light"      # bright videos: pastel wash + dark ink text
+    captions(texts, timing, ass, font, light)
 
     badge = esc(cfg.get("reel_badge") or f"LeetCode {cfg['number']} · {cfg['difficulty']}")
     tlines, tsize = fit_title(cfg["title"])
@@ -118,12 +120,13 @@ def main():
     ff = f":fontfile={bold}" if bold else ""
     vf = (
         f"[0:v]split[a][b];"
-        f"[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=40:2,eq=brightness=-0.22[bg];"
+        f"[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=40:2,"
+        + ("drawbox=x=0:y=0:w=iw:h=ih:color=white@0.55:t=fill[bg];" if light else "eq=brightness=-0.22[bg];") +
         f"[b]scale={W}:{VID_H}[fg];"
         f"[bg][fg]overlay=0:{VID_Y},"
-        f"drawtext=text='{badge}'{ff}:fontsize=40:fontcolor=0xfacc15:x=(w-tw)/2:y={VID_Y - 250 - (60 if len(tlines) > 1 else 0)},"
-        + "".join(f"drawtext=text='{esc(line)}'{ff}:fontsize={tsize}:fontcolor=white:x=(w-tw)/2:"
-                  f"y={VID_Y - 180 - (len(tlines) - 1 - k) * int(tsize * 1.15)}:shadowcolor=black@0.6:shadowx=3:shadowy=3,"
+        f"drawtext=text='{badge}'{ff}:fontsize=40:fontcolor={'0xdb2777' if light else '0xfacc15'}:x=(w-tw)/2:y={VID_Y - 250 - (60 if len(tlines) > 1 else 0)},"
+        + "".join(f"drawtext=text='{esc(line)}'{ff}:fontsize={tsize}:fontcolor={'0x1e1b4b' if light else 'white'}:x=(w-tw)/2:"
+                  f"y={VID_Y - 180 - (len(tlines) - 1 - k) * int(tsize * 1.15)}:shadowcolor={'white@0.0' if light else 'black@0.6'}:shadowx=3:shadowy=3,"
                   for k, line in enumerate(tlines)) +
         f"subtitles={ass}:fontsdir={font_dir},format=yuv420p[v]"
     )
