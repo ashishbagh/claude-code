@@ -15,7 +15,7 @@
        data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":17.0},{"id":"S","type":"number","label":"Narration length (s)","default":16.4}]'>
     <canvas id="s7-canvas" class="lc-fill" data-layout-ignore></canvas>
     <div id="s7-ask" class="bt-grad">Want the complete skill?</div>
-    <div class="bt-card b-pink" id="s7-dm"><div class="s7-ic"></div><div><h3>Follow <span class="c-pink">@dsalgo_ai</span> &amp; DM me</h3><p>I'll send you the <span class="c-violet">skill link</span></p></div></div>
+    <div class="bt-card b-pink" id="s7-dm"><div class="s7-ic"></div><div><h3>Comment on this reel</h3><p>I'll send you the <span class="c-violet">skill</span> in <span class="c-pink">DM</span></p></div></div>
     <div class="lc-outro">
       <div class="lc-thanks" id="s7-thanks">Thanks for watching!</div>
       <div class="lc-sub" id="s7-sub">Subscribe to <b>@dsalgo_ai</b> for more such videos</div>
@@ -29,8 +29,8 @@
       const pop = (sel, at, from = { y: 40 }) => tl.fromTo(sel, { opacity: 0, scale: 0.92, ...from }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.55, ease: "back.out(1.6)" }, at);
       const fl = Floaty(document.getElementById("s7-canvas"), { count: 18 });
       pop("#s7-ask", 0.02, { y: 50, scale: 0.85 });
-      pop("#s7-dm", 0.19 * S, { y: 60 });
-      tl.fromTo("#s7-dm", { scale: 1 }, { scale: 1.04, duration: 0.25, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0.39 * S);
+      pop("#s7-dm", 0.2 * S, { y: 60 });
+      tl.fromTo("#s7-dm", { scale: 1 }, { scale: 1.04, duration: 0.25, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0.34 * S);
       LC.outro(tl, "s7", 0.54 * S);
       LC.drive(tl, T, (t) => fl.draw(t, LC.prog(t, 0, 1.5)));
       window.__timelines["s7-cta"] = tl;
