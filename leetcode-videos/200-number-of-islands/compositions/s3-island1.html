@@ -1,0 +1,42 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s3-island1-count { left: 1250px; top: 200px; width: 460px; height: 210px; }
+    #s3-island1-calls { left: 1250px; top: 440px; width: 460px; height: 420px; }
+  </style>
+  <div id="root" data-composition-id="s3-island1" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":18}]'>
+    <canvas id="s3-island1-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">LeetCode 200</span><span class="lc-title">Number of Islands</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="lc-panel" id="s3-island1-count">
+      <div class="lc-label">Islands</div>
+      <div class="lc-value"><span id="s3-island1-v0">0</span><span id="s3-island1-v1">1</span></div>
+    </div>
+    <div class="lc-panel" id="s3-island1-calls">
+      <div class="lc-label">DFS calls</div>
+      <div class="lc-list"><div class="lc-item" id="s3-island1-call0">dfs(0, 0)</div><div class="lc-item" id="s3-island1-call1">dfs(0, 1)</div><div class="lc-item" id="s3-island1-call2">dfs(1, 1)</div><div class="lc-item" id="s3-island1-call3">dfs(1, 0)</div></div>
+    </div>
+    <div class="lc-caption" id="s3-island1-cap1"><span>Start scanning at (0, 0) — it’s land!</span></div>
+    <div class="lc-caption" id="s3-island1-cap2"><span>DFS sinks the whole island: right, down, left, up</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T } = window.__hyperframes.getVariables();
+      const grid = IslandGrid(document.getElementById("s3-island1-canvas"));
+      const tl = gsap.timeline({ paused: true });
+      const ORDER = IslandGrid.ORDER;
+      const FOUND = 0.27 * T, SINK = 0.47 * T, STEP = 0.09 * T;
+      LC.values(tl, [["#s3-island1-v0", 0], ["#s3-island1-v1", FOUND]]);
+      LC.listItems(tl, [["#s3-island1-call0", SINK + 0 * STEP], ["#s3-island1-call1", SINK + 1 * STEP], ["#s3-island1-call2", SINK + 2 * STEP], ["#s3-island1-call3", SINK + 3 * STEP]]);
+      LC.captions(tl, T, [["#s3-island1-cap1", 0.05], ["#s3-island1-cap2", 0.47]]);
+      LC.drive(tl, T, (t) => {
+        const sunk = {};
+        for (let i = 0; i < 0; i++) IslandGrid.ISLANDS[i].forEach(([r, c]) => (sunk[r + "," + c] = [i, 1]));
+        const { dfs } = IslandGrid.sink(t, sunk, 0, SINK, STEP);
+        const scan = [0, 0], scanAlpha = 1;
+        grid.draw({ sunk, scan, scanAlpha, dfs, orbit: 0.12 * Math.sin((t / T) * Math.PI) });
+      });
+      window.__timelines["s3-island1"] = tl;
+    })();
+  </script>
+</template>

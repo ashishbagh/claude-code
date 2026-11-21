@@ -1,0 +1,20 @@
+{
+  "en": [
+    "Ever wondered how these animated LeetCode videos are made? I don't open a video editor at all. Claude builds every one of them, from the script, to the voice, to the final reel. Here's the whole process, step by step.",
+    "Step one: I type a single line to Claude. Slash leetcode video, the problem, and the language. That's the whole prompt. A custom Claude skill knows every step that follows.",
+    "Step two: Claude plans the video. It picks one small example, solves it by hand to get the exact trace, and writes a short script for every scene, in English or Hinglish.",
+    "Step three: the voice. Claude sends each scene's script to ElevenLabs for a natural narrator, or to Kokoro, a free voice model that runs locally. The length of every clip sets the timing of its scene.",
+    "Step four: the visuals. Each scene is a HyperFrames composition, written in HTML and GSAP. The 3D parts, like these houses and letter blocks, are built with Three.js. Claude checks snapshots of every scene before it renders.",
+    "Step five: sound and export. Claude adds sound effects, renders the full video to MP4, and uses FFmpeg to make a vertical Instagram reel with captions. Then it commits everything to GitHub.",
+    "Want the complete skill for yourself? Just comment on this reel, and I'll send you the skill link in a DM. Thanks for watching! Subscribe to D S Algo A I on YouTube and Instagram for more such videos."
+  ],
+  "hinglish": [
+    "कभी सोचा है कि ये animated LeetCode videos कैसे बनते हैं? मैं कोई video editor खोलता ही नहीं. हर video Claude बनाता है, script से लेकर voice तक, और final reel तक. चलो पूरा process step by step देखते हैं.",
+    "Step one: मैं Claude को सिर्फ एक line type करता हूँ. Slash leetcode video, problem, और language. बस, यही पूरा prompt है. एक custom Claude skill को आगे का हर step पता है.",
+    "Step two: Claude video plan करता है. वो एक छोटा example चुनता है, उसे हाथ से solve करके exact trace निकालता है, और हर scene के लिए एक छोटा script लिखता है, English या Hinglish में.",
+    "Step three: voice. Claude हर scene का script ElevenLabs को भेजता है, natural narrator के लिए, या Kokoro को, जो एक free voice model है और locally चलता है. हर clip की length उसके scene की timing set करती है.",
+    "Step four: visuals. हर scene एक HyperFrames composition है, जो HTML और GSAP में लिखा जाता है. 3D parts, जैसे ये houses और letter blocks, Three.js से बनते हैं. Render से पहले Claude हर scene के snapshots check करता है.",
+    "Step five: sound और export. Claude sound effects add करता है, पूरी video को MP4 में render करता है, और FFmpeg से captions के साथ एक vertical Instagram reel बनाता है. फिर सब कुछ GitHub पर commit कर देता है.",
+    "क्या आपको भी ये complete skill चाहिए? बस इस reel पर comment करो, और मैं आपको DM में skill का link भेज दूँगा. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}

@@ -1,0 +1,7 @@
+.hyperframes/
+node_modules/
+snapshots/
+out/*.ass
+out/work-*/
+out/.*hf-transaction*/
+vertical/

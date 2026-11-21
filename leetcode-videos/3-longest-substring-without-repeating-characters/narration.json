@@ -1,0 +1,20 @@
+{
+  "en": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "hinglish": [
+    "चलो solve करते हैं LeetCode three, Longest Substring Without Repeating Characters. हमारे पास एक string है: p, w, w, k, e, w. हमें सबसे लंबा substring ढूंढना है, जिसमें कोई भी character repeat ना हो. Substring मतलब continuous characters. तो answer कितना होगा?",
+    "Idea है sliding window. एक window रखो, left से right तक, जिसमें कोई repeat नहीं. Right pointer को एक-एक character आगे बढ़ाओ. अगर नया character window में पहले से है, तो left को उसकी last position के just आगे jump करा दो. और हर step पर best length update करो.",
+    "चलो walkthrough करते हैं. Right zero पर character p है, window है p, length one. Right one पर w आता है, ये नया है, तो window बनती है p w, और best हो जाता है two.",
+    "Right two पर फिर से w आता है. ये window में पहले से है, index one पर! तो left jump करता है two पर, और window सिर्फ w रह जाती है. Right three पर k आता है, window w k, length two, best अभी भी two.",
+    "Right four पर e आता है, window w k e, length three, तो best हो जाता है three. Right five पर फिर w, जो index two पर है, window के अंदर. Left jump करता है three पर, window k e w, length फिर three. तो answer है three.",
+    "अब code देखते हैं. हम एक dictionary रखते हैं, हर character की last index के लिए, और left और best को zero से शुरू करते हैं. हर right पर, अगर character पहले देखा है और वो window के अंदर है, तो left को उसके आगे move करो. फिर last index update करो, और best को right minus left plus one से compare करो.",
+    "Right pointer हर character को एक बार visit करता है, और left सिर्फ आगे जाता है, इसलिए time है O of n. Space है O of k, जहाँ k अलग characters की गिनती है. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}

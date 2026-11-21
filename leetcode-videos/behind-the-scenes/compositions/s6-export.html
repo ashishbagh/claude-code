@@ -1,0 +1,33 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s6-flow { position: absolute; left: 110px; top: 330px; width: 1150px; display: grid; grid-template-columns: 1fr 1fr; gap: 34px 40px; }
+    .s6-node { position: relative; height: 190px; padding: 28px 34px 0 120px; }
+    .s6-node h3 { margin: 0 0 6px; font-size: 38px; }
+    .s6-num { position: absolute; left: 30px; top: 50px; width: 66px; height: 66px; border-radius: 50%; color: #fff;
+      font: 900 36px/66px var(--font); text-align: center; background: linear-gradient(135deg, #db2777, #c2410c); }
+    #s6-reel { left: 1390px; top: 250px; width: 400px; height: 711px; }
+  </style>
+  <div id="root" data-composition-id="s6-export" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":14.1},{"id":"S","type":"number","label":"Narration length (s)","default":13.5}]'>
+    <div class="bt-header"><span class="bt-badge">Behind the scenes</span><span class="bt-htitle">How I make these videos with Claude</span><span class="bt-handle">@dsalgo_ai</span></div>
+    <div class="bt-step" id="s6-step"><b>STEP 5</b><h2 class="bt-grad">Sound & export</h2></div>
+    <div id="s6-flow">
+      <div class="bt-card s6-node b-amber" id="s6-n1"><div class="s6-num">1</div><h3>Sound effects</h3><p>Freesound + bundled library</p></div>
+      <div class="bt-card s6-node b-pink" id="s6-n2"><div class="s6-num">2</div><h3>Render MP4</h3><p>HyperFrames → 1080p video</p></div>
+      <div class="bt-card s6-node b-violet" id="s6-n3"><div class="s6-num">3</div><h3>Instagram reel</h3><p>FFmpeg · 9:16 + captions</p></div>
+      <div class="bt-card s6-node b-green" id="s6-n4"><div class="s6-num">4</div><h3>Commit to GitHub</h3><p>every project, versioned</p></div>
+    </div>
+    <div class="bt-shot" id="s6-reel"><img src="assets/img/reel_cover.jpg"></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, at, from = { y: 40 }) => tl.fromTo(sel, { opacity: 0, scale: 0.92, ...from }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.55, ease: "back.out(1.6)" }, at);
+      pop("#s6-step", 0.05, { x: -60 });
+      pop("#s6-n1", 0.15 * S); pop("#s6-n2", 0.3 * S); pop("#s6-n3", 0.48 * S); pop("#s6-reel", 0.52 * S, { y: 120 }); pop("#s6-n4", 0.8 * S);
+      window.__timelines["s6-export"] = tl;
+    })();
+  </script>
+</template>

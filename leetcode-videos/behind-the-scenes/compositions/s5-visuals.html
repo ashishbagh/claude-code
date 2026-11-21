@@ -1,0 +1,34 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s5-chips { position: absolute; left: 120px; top: 300px; width: 640px; display: flex; flex-direction: column; gap: 26px; }
+    .s5-chip { padding: 26px 34px; opacity: 0; position: relative; }
+    .s5-chip h3 { margin: 0 0 6px; }
+    .s5-rot { position: absolute; width: 500px; height: 282px; }
+  </style>
+  <div id="root" data-composition-id="s5-visuals" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":16.2},{"id":"S","type":"number","label":"Narration length (s)","default":15.6}]'>
+    <div class="bt-header"><span class="bt-badge">Behind the scenes</span><span class="bt-htitle">How I make these videos with Claude</span><span class="bt-handle">@dsalgo_ai</span></div>
+    <div class="bt-step" id="s5-step"><b>STEP 4</b><h2 class="bt-grad2">The visuals</h2></div>
+    <div id="s5-chips">
+      <div class="bt-card s5-chip b-pink" id="s5-c1"><h3 class="c-pink">HyperFrames</h3><p>every scene = HTML + GSAP</p></div>
+      <div class="bt-card s5-chip b-sky" id="s5-c2"><h3 class="c-sky">Three.js</h3><p>the 3D houses, tiles &amp; blocks</p></div>
+      <div class="bt-card s5-chip b-green" id="s5-c3"><h3 class="c-green">Snapshots ✓</h3><p>Claude checks every scene first</p></div>
+    </div>
+    <div class="s5-rot" style="left:880px; top:300px; transform: rotate(-3deg)"><div class="bt-shot" id="s5-a" style="inset:0"><img src="assets/img/house_walk.jpg"></div></div>
+    <div class="s5-rot" style="left:1340px; top:360px; transform: rotate(4deg)"><div class="bt-shot" id="s5-b" style="inset:0"><img src="assets/img/islands.jpg"></div></div>
+    <div class="s5-rot" style="left:1080px; top:620px; transform: rotate(-1deg)"><div class="bt-shot" id="s5-c" style="inset:0"><img src="assets/img/code.jpg"></div></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, at, from = { y: 40 }) => tl.fromTo(sel, { opacity: 0, scale: 0.92, ...from }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.55, ease: "back.out(1.6)" }, at);
+      pop("#s5-step", 0.05, { x: -60 });
+      pop("#s5-c1", 0.11 * S, { x: -50 }); pop("#s5-c", 0.2 * S, { y: 80 });
+      pop("#s5-c2", 0.41 * S, { x: -50 }); pop("#s5-a", 0.46 * S, { y: 80 }); pop("#s5-b", 0.53 * S, { y: 80 });
+      pop("#s5-c3", 0.75 * S, { x: -50 });
+      window.__timelines["s5-visuals"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .lc-title { font-size: 36px; }
+    #s1-in { left: 1250px; top: 200px; width: 560px; height: 260px; padding: 28px 36px; opacity: 0; }
+    .s1-line { color: var(--ink); font: 700 36px/1.55 var(--font); opacity: 0; }
+    .s1-line code { font: 400 36px var(--mono); color: var(--yellow); }
+  </style>
+  <div id="root" data-composition-id="s1-intro" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":22.8},{"id":"S","type":"number","label":"Narration length (s)","default":22.1}]'>
+    <canvas id="s1-canvas" class="lc-fill"></canvas>
+    <div class="lc-titlecard"><h1 id="s1-t-title" style="font-size:84px;text-align:center;line-height:1.1">Longest Substring Without<br/>Repeating Characters</h1><p id="s1-t-sub">LeetCode 3 · Sliding Window</p></div>
+    <div id="s1-hdr" style="opacity:0"><div class="lc-header"><span class="lc-badge">LeetCode 3</span><span class="lc-title">Longest Substring Without Repeating Characters</span><span class="lc-diff lc-medium">Medium</span></div></div>
+    <div class="lc-panel" id="s1-in">
+      <div class="lc-label" style="margin:0 0 10px;text-align:left">Input</div>
+      <div class="s1-line" id="s1-l1"><code>s = "pwwkew"</code></div>
+      <div class="s1-line" id="s1-l2">✗ no repeated characters</div>
+      <div class="s1-line" id="s1-l3">→ longest length</div>
+    </div>
+    <div class="lc-caption" id="s1-intro-cap1"><span>Longest substring with no repeated character</span></div>
+    <div class="lc-caption" id="s1-intro-cap2"><span>Substring = continuous characters</span></div>
+    <div class="lc-caption" id="s1-intro-cap3"><span>Answer = ?</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const win = Win(document.getElementById("s1-canvas"));
+      tl.fromTo("#s1-t-title", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.2);
+      tl.fromTo("#s1-t-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, 0.6);
+      tl.to(["#s1-t-title", "#s1-t-sub"], { opacity: 0, y: -30, duration: 0.4, ease: "power2.in" }, 3.0);
+      tl.fromTo("#s1-hdr", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 3.4);
+      tl.fromTo("#s1-in", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.3 * S);
+      tl.fromTo("#s1-l1", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.32 * S);
+      tl.fromTo("#s1-l2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.5 * S);
+      tl.fromTo("#s1-l3", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.6 * S);
+      LC.captions(tl, T, [["#s1-intro-cap1", 0.5 * S / T], ["#s1-intro-cap2", 0.77 * S / T], ["#s1-intro-cap3", 0.92 * S / T]]);
+      LC.drive(tl, T, (t) => win.draw({ appear: LC.prog(t, 3.5, 2.4),
+        L: 2, R: t > 0.77 * S ? 4 : -1, orbit: -0.2 + 0.2 * (t / T) }));
+      window.__timelines["s1-intro"] = tl;
+    })();
+  </script>
+</template>

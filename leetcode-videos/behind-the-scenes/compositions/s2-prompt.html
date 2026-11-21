@@ -1,0 +1,34 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s2-term { left: 260px; right: 260px; top: 330px; height: 250px; background: #1e1b4b; border-color: #c4b5fd; }
+    .s2-dots { position: absolute; left: 30px; top: 24px; display: flex; gap: 12px; }
+    .s2-dots i { width: 18px; height: 18px; border-radius: 50%; }
+    #s2-type { position: absolute; left: 60px; top: 100px; font: 700 48px var(--mono); color: #fde68a; white-space: nowrap; }
+    #s2-type .c-pink { color: #f9a8d4; } #s2-type .c-sky { color: #7dd3fc; } #s2-type .c-green { color: #86efac; }
+    #s2-chips { position: absolute; left: 260px; right: 260px; top: 630px; display: flex; gap: 22px; justify-content: center; }
+    #s2-skill { left: 460px; right: 460px; top: 760px; height: 120px; display: flex; align-items: center; justify-content: center; gap: 20px; }
+  </style>
+  <div id="root" data-composition-id="s2-prompt" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":10.8},{"id":"S","type":"number","label":"Narration length (s)","default":10.2}]'>
+    <div class="bt-header"><span class="bt-badge">Behind the scenes</span><span class="bt-htitle">How I make these videos with Claude</span><span class="bt-handle">@dsalgo_ai</span></div>
+    <div class="bt-step" id="s2-step"><b>STEP 1</b><h2 class="bt-grad">One line to Claude</h2></div>
+    <div class="bt-card" id="s2-term"><div class="s2-dots"><i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i></div>
+      <div id="s2-type"><span class="c-pink">/leetcode-video</span> <span class="c-sky">198 House Robber</span> <span class="c-green">hinglish</span></div></div>
+    <div id="s2-chips"><span class="bt-chip bg-pink" id="s2-c1">the skill</span><span class="bt-chip bg-sky" id="s2-c2">the problem</span><span class="bt-chip bg-green" id="s2-c3">the language</span></div>
+    <div class="bt-card b-amber" id="s2-skill" data-hold><h3 class="bt-grad" style="margin:0">A custom Claude skill</h3><p style="margin:0">knows every next step</p></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, at, from = { y: 40 }) => tl.fromTo(sel, { opacity: 0, scale: 0.92, ...from }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.55, ease: "back.out(1.6)" }, at);
+      pop("#s2-step", 0.05, { x: -60 });
+      pop("#s2-term", 0.12 * S);
+      tl.fromTo("#s2-type", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.3 * S, ease: "steps(40)" }, 0.22 * S);
+      pop("#s2-c1", 0.24 * S); pop("#s2-c2", 0.33 * S); pop("#s2-c3", 0.45 * S);
+      pop("#s2-skill", 0.7 * S);
+      window.__timelines["s2-prompt"] = tl;
+    })();
+  </script>
+</template>
