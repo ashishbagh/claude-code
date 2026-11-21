@@ -17,12 +17,21 @@
     "en": {
       "audio": "assets/audio/en",
       "out": "out/behind_the_scenes.mp4"
+    },
+    "hinglish": {
+      "audio": "assets/audio/hinglish",
+      "out": "out/behind_the_scenes_hinglish.mp4"
     }
   },
   "voice": {
     "en": {
       "engine": "kokoro",
       "voice": "af_heart"
+    },
+    "hinglish": {
+      "engine": "elevenlabs",
+      "voice": "j7yQHuKNC1hdt1LBPAks",
+      "name": "Prashant - Warm, Clear Hindi Explainer"
     }
   },
   "sfx_queries": {

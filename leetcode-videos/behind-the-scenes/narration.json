@@ -9,12 +9,12 @@
     "Want the complete skill for yourself? Follow D S Algo A I, and send me a DM. I'll send you the skill link. Thanks for watching! Subscribe to D S Algo A I on YouTube and Instagram for more such videos."
   ],
   "hinglish": [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    ""
+    "कभी सोचा है कि ये animated LeetCode videos कैसे बनते हैं? मैं कोई video editor खोलता ही नहीं. हर video Claude बनाता है, script से लेकर voice तक, और final reel तक. चलो पूरा process step by step देखते हैं.",
+    "Step one: मैं Claude को सिर्फ एक line type करता हूँ. Slash leetcode video, problem, और language. बस, यही पूरा prompt है. एक custom Claude skill को आगे का हर step पता है.",
+    "Step two: Claude video plan करता है. वो एक छोटा example चुनता है, उसे हाथ से solve करके exact trace निकालता है, और हर scene के लिए एक छोटा script लिखता है, English या Hinglish में.",
+    "Step three: voice. Claude हर scene का script ElevenLabs को भेजता है, natural narrator के लिए, या Kokoro को, जो एक free voice model है और locally चलता है. हर clip की length उसके scene की timing set करती है.",
+    "Step four: visuals. हर scene एक HyperFrames composition है, जो HTML और GSAP में लिखा जाता है. 3D parts, जैसे ये houses और letter blocks, Three.js से बनते हैं. Render से पहले Claude हर scene के snapshots check करता है.",
+    "Step five: sound और export. Claude sound effects add करता है, पूरी video को MP4 में render करता है, और FFmpeg से captions के साथ एक vertical Instagram reel बनाता है. फिर सब कुछ GitHub पर commit कर देता है.",
+    "क्या आपको भी ये complete skill चाहिए? D S Algo A I को follow करो, और मुझे DM करो. मैं आपको skill का link भेज दूँगा. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
   ]
 }
