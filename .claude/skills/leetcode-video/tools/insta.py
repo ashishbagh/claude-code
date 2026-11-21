@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Instagram Reel export (FFmpeg): 1080x1920 9:16, burned-in captions, -14 LUFS, cover image.
+"""Instagram Reel export (FFmpeg): 1080x1920 9:16, -14 LUFS, cover image; captions only with --captions.
 
     python3 insta.py <project> en            # out/<slug>.mp4 -> out/<slug>_reel.mp4 + _reel_cover.jpg
 
@@ -18,7 +18,8 @@ from common import duration, load_project, narration, need
 
 W, H = 1080, 1920
 VID_H = 608                      # 1080 * 9/16
-VID_Y = (H - VID_H) // 2 - 80    # a little above centre, captions below
+VID_Y_CAPS = (H - VID_H) // 2 - 80   # with captions: a little above centre, captions below
+VID_Y_PLAIN = (H - VID_H) // 2 + 60  # no captions (default): centred, title above
 FONT_DIRS = ["/usr/share/fonts/opentype/inter", "/usr/share/fonts/truetype/dejavu"]
 
 
@@ -40,7 +41,7 @@ def wrap(text, width=30):
     return "\\N".join(lines)
 
 
-def captions(texts, timing, path, font, light=False):
+def captions(texts, timing, path, font, light=False, VID_Y=VID_Y_CAPS):
     """Sentence-level ASS captions; each sentence gets time proportional to its length."""
     ev = []
     for text, sc in zip(texts, timing["scenes"]):
@@ -94,6 +95,7 @@ def main():
     ap.add_argument("project")
     ap.add_argument("track", nargs="?", default="en")
     ap.add_argument("--trim", type=float, help="cut to this many seconds (Reels max 180)")
+    ap.add_argument("--captions", action="store_true", help="burn in narration captions (off by default)")
     a = ap.parse_args()
     need("ffmpeg")
     project, cfg = load_project(a.project)
@@ -112,7 +114,10 @@ def main():
     bold = next((os.path.join(font_dir, f) for f in ("Inter-ExtraBold.otf", "DejaVuSans-Bold.ttf")
                  if os.path.exists(os.path.join(font_dir, f))), None)
     light = cfg.get("reel_theme") == "light"      # bright videos: pastel wash + dark ink text
-    captions(texts, timing, ass, font, light)
+    with_caps = a.captions or cfg.get("reel_captions", False)
+    VID_Y = VID_Y_CAPS if with_caps else VID_Y_PLAIN
+    if with_caps:
+        captions(texts, timing, ass, font, light, VID_Y)
 
     badge = esc(cfg.get("reel_badge") or f"LeetCode {cfg['number']} · {cfg['difficulty']}")
     tlines, tsize = fit_title(cfg["title"])
@@ -127,8 +132,8 @@ def main():
         f"drawtext=text='{badge}'{ff}:fontsize=40:fontcolor={'0xdb2777' if light else '0xfacc15'}:x=(w-tw)/2:y={VID_Y - 250 - (60 if len(tlines) > 1 else 0)},"
         + "".join(f"drawtext=text='{esc(line)}'{ff}:fontsize={tsize}:fontcolor={'0x1e1b4b' if light else 'white'}:x=(w-tw)/2:"
                   f"y={VID_Y - 180 - (len(tlines) - 1 - k) * int(tsize * 1.15)}:shadowcolor={'white@0.0' if light else 'black@0.6'}:shadowx=3:shadowy=3,"
-                  for k, line in enumerate(tlines)) +
-        f"subtitles={ass}:fontsdir={font_dir},format=yuv420p[v]"
+                  for k, line in enumerate(tlines))
+        + (f"subtitles={ass}:fontsdir={font_dir}," if with_caps else "") + "format=yuv420p[v]"
     )
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", src, "-t", f"{limit:.3f}",
                     "-filter_complex", vf, "-map", "[v]", "-map", "0:a",
@@ -138,7 +143,8 @@ def main():
                     "-movflags", "+faststart", out], check=True)
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", "2.5", "-i", out, "-frames:v", "1", "-q:v", "2", cover],
                    check=True)
-    os.remove(ass)
+    if with_caps:
+        os.remove(ass)
     print("reel:", out, f"({min(dur, limit):.1f}s)\ncover:", cover)
 
 

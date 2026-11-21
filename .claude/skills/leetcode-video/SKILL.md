@@ -27,7 +27,7 @@ free); `elevenlabs` in the args → ElevenLabs. Hinglish → ElevenLabs (Kokoro'
 | Voice | Kokoro-82M via `hyperframes tts` (`tools/voice.py`) or ElevenLabs MCP | `assets/audio/<track>/s<i>.mp3` |
 | Sound | Freesound API (CC0 / CC BY) → bundled Pixabay fallback (`tools/sfx.py`) | `assets/sfx/` + `CREDITS.md` |
 | Timing | `tools/build.py`: scene i lasts clip i + pad; SFX peak-aligned | `index.html`, `timing_<track>.json` |
-| Reel | FFmpeg (`tools/insta.py`): 9:16, burned captions, −14 LUFS, cover | `out/<slug>_reel.mp4` |
+| Reel | FFmpeg (`tools/insta.py`): 9:16, −14 LUFS, cover (captions off by default) | `out/<slug>_reel.mp4` |
 
 `T=.claude/skills/leetcode-video/tools`. HyperFrames CLI (`$HF` below): if the `hyperframes` skill is
 installed, load it (`/hyperframes`) and run `node ~/.claude/skills/hyperframes/scripts/plugin-cli.mjs`;
@@ -128,7 +128,7 @@ python3 $T/build.py <proj> en          # index.html for one track (HyperFrames a
 cd <proj> && $HF check --json          # fix every error; weigh warnings
 $HF snapshot --at <t1,t2,…>            # 2–3 moments per scene (times from timing_en.json); read the contact sheet
 $HF render -o out/<slug>.mp4           # ~4 min for 2 min of video; run in background
-python3 $T/insta.py <proj> en          # Reel + cover ("reel_theme": "light" for bright videos, "reel_badge" for non-LeetCode)
+python3 $T/insta.py <proj> en          # Reel + cover (no captions by default; --captions or "reel_captions": true to burn them in; "reel_theme": "light" for bright videos, "reel_badge" for non-LeetCode)
 python3 $T/build.py <proj> hinglish && $HF render -o out/<slug>_hinglish.mp4   # if asked
 python3 $T/build.py <proj> en          # leave index.html on English
 ```
