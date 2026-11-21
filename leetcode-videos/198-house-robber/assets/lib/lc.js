@@ -30,6 +30,8 @@
 
   /** Code highlight box moving over line ranges. ranges: [[firstLine, lastLine, startFrac, endFrac]]. */
   LC.codeHighlight = function (tl, T, sel, ranges, lineH) {
+    const el = document.querySelector(sel), pre = el && el.closest("pre");
+    if (pre) lineH = parseFloat(getComputedStyle(pre).lineHeight) || lineH;
     ranges.forEach(([a, b, s, e], i) => {
       const y = a * lineH - 4, h = (b - a + 1) * lineH + 8;
       if (i === 0) tl.fromTo(sel, { opacity: 0, y, height: h }, { opacity: 1, duration: 0.3 }, s * T);
@@ -60,15 +62,26 @@
   /* ---------- Three.js helpers ---------- */
 
   /** Renderer + scene + camera + studio lights on a canvas. shiftX moves the subject left (+) / right (-) in px. */
-  LC.three = function (canvas, { fov = 34, shiftX = 0, shiftY = 0 } = {}) {
+  /** Composition size (1920x1080, or 1080x1920 for a native vertical reel) and orientation. */
+  // read lazily: lc.js loads in <head>, before the root composition element exists
+  const dim = (k, d) => { const r = document.querySelector('[data-composition-id="main"]'); return +(r && r.dataset[k]) || d; };
+  Object.defineProperty(LC, "W", { get: () => dim("width", 1920) });
+  Object.defineProperty(LC, "H", { get: () => dim("height", 1080) });
+  Object.defineProperty(LC, "portrait", { get: () => LC.H > LC.W });
+  /** Pick a value by orientation: LC.pv(landscapeValue, portraitValue). */
+  LC.pv = (land, port) => (LC.portrait ? port : land);
+
+  LC.three = function (canvas, { fov = 34, shiftX = 0, shiftY = 0, portraitFov = null, portraitShiftY = 0 } = {}) {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true, alpha: true });
     renderer.setPixelRatio(1);
-    renderer.setSize(1920, 1080, false);
+    renderer.setSize(LC.W, LC.H, false);
     renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(fov, 1920 / 1080, 0.1, 200);
-    if (shiftX || shiftY) camera.setViewOffset(1920, 1080, shiftX, shiftY, 1920, 1080);
+    // portrait: wider vertical fov so the subject keeps its width; shiftX (room for side panels) is dropped
+    const camera = new THREE.PerspectiveCamera(LC.portrait ? (portraitFov || fov * 1.9) : fov, LC.W / LC.H, 0.1, 200);
+    const sx = LC.portrait ? 0 : shiftX, sy = LC.portrait ? portraitShiftY : shiftY;
+    if (sx || sy) camera.setViewOffset(LC.W, LC.H, sx, sy, LC.W, LC.H);
     scene.add(new THREE.HemisphereLight(0xc4d6ff, 0x141428, 1.0));
     scene.add(new THREE.AmbientLight(0xffffff, 0.35));
     const key = new THREE.DirectionalLight(0xffe4b8, 2.2); key.position.set(6, 12, 7); scene.add(key);

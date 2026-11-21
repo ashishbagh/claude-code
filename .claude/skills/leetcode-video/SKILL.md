@@ -1,6 +1,6 @@
 ---
 name: leetcode-video
-description: Make an animated, narrated explainer video for a LeetCode problem - HyperFrames (HTML + GSAP) frames, Three.js 3D, Kokoro or ElevenLabs voice-over (English and/or Hinglish), Freesound sound effects, rendered to 1080p MP4 plus an FFmpeg Instagram Reel (9:16). Use when the user gives a LeetCode problem (name, number or link) and asks for a solution video / animation / explainer / reel, or invokes /leetcode-video. Args - the problem, optionally "hinglish", "both", "elevenlabs", "no-reel".
+description: Make an animated, narrated explainer video for a LeetCode problem - HyperFrames (HTML + GSAP) frames, Three.js 3D, Kokoro or ElevenLabs voice-over (English and/or Hinglish), Freesound sound effects, rendered to 1080p MP4 plus a native full-screen 9:16 Instagram Reel. Use when the user gives a LeetCode problem (name, number or link) and asks for a solution video / animation / explainer / reel, or invokes /leetcode-video. Args - the problem, optionally "hinglish", "both", "elevenlabs", "no-reel".
 ---
 
 # LeetCode explainer video
@@ -27,7 +27,7 @@ free); `elevenlabs` in the args → ElevenLabs. Hinglish → ElevenLabs (Kokoro'
 | Voice | Kokoro-82M via `hyperframes tts` (`tools/voice.py`) or ElevenLabs MCP | `assets/audio/<track>/s<i>.mp3` |
 | Sound | Freesound API (CC0 / CC BY) → bundled Pixabay fallback (`tools/sfx.py`) | `assets/sfx/` + `CREDITS.md` |
 | Timing | `tools/build.py`: scene i lasts clip i + pad; SFX peak-aligned | `index.html`, `timing_<track>.json` |
-| Reel | FFmpeg (`tools/insta.py`): 9:16, −14 LUFS, cover (captions off by default) | `out/<slug>_reel.mp4` |
+| Reel | **Native vertical** render: `build.py --vertical` (1080×1920) + portrait CSS, then FFmpeg loudnorm + cover | `out/<slug>_reel.mp4` |
 
 `T=.claude/skills/leetcode-video/tools`. HyperFrames CLI (`$HF` below): if the `hyperframes` skill is
 installed, load it (`/hyperframes`) and run `node ~/.claude/skills/hyperframes/scripts/plugin-cli.mjs`;
@@ -110,6 +110,20 @@ Animate it with `LC.outro(tl, "s7", 0.85 * S)` (or at the call-out sentence), re
 `data-composition-variables`. `build.py` holds the last slide `outro_hold` (default 3 s) after the
 narration so the call-out stays readable. Keep the Time/Space cards (top 170, 370 tall) above it.
 
+### Vertical (Reel) layout – required for every project
+
+`build.py --vertical` writes `vertical/*.html` copies of the scenes at 1080×1920; the browser then
+matches `@media (orientation: portrait)`. `lc.css` already restacks the shared pieces (header, steps,
+code, cards, outro). Each project adds **its own portrait rules** in a stylesheet listed in
+`video.json` `"styles"` (or a `<style>` block in the scene) for every scene-specific id:
+- every declaration `!important` (scene `<style>` blocks load later and would win);
+- single column, 60 px side margins, content between y≈180 and y≈1600 (Instagram UI covers the bottom);
+- target elements by id or `:has(#child)`, not `:nth-of-type`;
+- 3D: `LC.three` widens the fov in portrait and drops `shiftX`; tune with `portraitFov` / `portraitShiftY`,
+  and move the subject above the panels (e.g. 3D on top half, panels below). Read `LC.portrait` at draw time.
+Reference: `leetcode-videos/behind-the-scenes/assets/bright.css` (portrait block) and `confetti3d.js`.
+Snapshot the vertical build too before rendering.
+
 ## 5. Sound
 
 Add cues to `video.json` `"sfx"`: `{"scene", "at": fraction of the narration (S) | "sec": s, "sound", "volume"}` – few and exact:
@@ -128,7 +142,11 @@ python3 $T/build.py <proj> en          # index.html for one track (HyperFrames a
 cd <proj> && $HF check --json          # fix every error; weigh warnings
 $HF snapshot --at <t1,t2,…>            # 2–3 moments per scene (times from timing_en.json); read the contact sheet
 $HF render -o out/<slug>.mp4           # ~4 min for 2 min of video; run in background
-python3 $T/insta.py <proj> en          # Reel + cover (no captions by default; --captions or "reel_captions": true to burn them in; "reel_theme": "light" for bright videos, "reel_badge" for non-LeetCode)
+# Reel = the same scenes rendered NATIVELY at 1080x1920 (never a shrunken 16:9 – the user rejected that)
+python3 $T/build.py <proj> en --vertical && $HF render -o out/<slug>_reel.mp4
+ffmpeg -i out/<slug>_reel.mp4 -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out/_n.mp4 && mv out/_n.mp4 out/<slug>_reel.mp4
+ffmpeg -ss <a showcase second> -i out/<slug>_reel.mp4 -frames:v 1 -q:v 2 out/<slug>_reel_cover.jpg
+# (tools/insta.py = old letterbox fallback only; no captions in reels)
 python3 $T/build.py <proj> hinglish && $HF render -o out/<slug>_hinglish.mp4   # if asked
 python3 $T/build.py <proj> en          # leave index.html on English
 ```

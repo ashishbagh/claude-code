@@ -71,3 +71,58 @@ html, body { background: #fff7ed !important; }
 /* outro on bright */
 .lc-thanks { color: var(--ink); }
 .lc-social span { background: #fff; border: 3px solid #e9d5ff; color: var(--ink); }
+
+/* ---------------- native vertical reel (1080x1920) ---------------- */
+@media (orientation: portrait) {
+  .bt-header { left: 50px !important; right: 50px !important; top: 70px !important; }
+  .bt-htitle { display: none !important; }
+  .bt-header { justify-content: space-between !important; }
+  .bt-step { left: 60px !important; right: 60px !important; top: 190px !important; flex-direction: column !important; align-items: flex-start !important; gap: 18px !important; }
+  .bt-step h2 { font-size: 76px !important; line-height: 1.05 !important; }
+
+  /* s1 hook */
+  #s1-title { top: 470px !important; }
+  #s1-l1 { font-size: 84px !important; } #s1-l2 { font-size: 104px !important; } #s1-l3 { font-size: 46px !important; }
+  .s1-rot { width: 640px !important; height: 360px !important; }
+  #s1-hook .s1-rot:has(#s1-a) { left: 60px !important; top: 900px !important; }
+  #s1-hook .s1-rot:has(#s1-b) { left: 380px !important; top: 1130px !important; }
+  #s1-hook .s1-rot:has(#s1-c) { left: 90px !important; top: 1360px !important; }
+
+  /* s2 prompt */
+  #s2-term { left: 50px !important; right: 50px !important; top: 560px !important; height: 250px !important; }
+  #s2-type { left: 40px !important; top: 100px !important; font-size: 33px !important; }
+  #s2-chips { left: 50px !important; right: 50px !important; top: 880px !important; flex-wrap: wrap !important; }
+  #s2-skill { left: 90px !important; right: 90px !important; top: 1040px !important; height: 220px !important; flex-direction: column !important; gap: 10px !important; text-align: center !important; }
+
+  /* s3 plan */
+  .s3-card { left: 60px !important; width: 960px !important; }
+  #s3-a { top: 440px !important; height: 270px !important; }
+  #s3-b { top: 740px !important; height: 450px !important; }
+  #s3-c { top: 1220px !important; height: 380px !important; }
+
+  /* s4 voice */
+  .s4-card { left: 60px !important; width: 960px !important; height: 450px !important; }
+  #s4-a { top: 440px !important; } #s4-b { top: 930px !important; }
+  #s4-note { top: 1430px !important; }
+
+  /* s5 visuals */
+  #s5-chips { left: 60px !important; top: 440px !important; width: 960px !important; gap: 22px !important; }
+  .s5-chip { padding: 22px 30px !important; }
+  .s5-rot { width: 560px !important; height: 316px !important; }
+  #s5-visuals .s5-rot:has(#s5-a) { left: 50px !important; top: 1040px !important; }
+  #s5-visuals .s5-rot:has(#s5-b) { left: 470px !important; top: 1170px !important; }
+  #s5-visuals .s5-rot:has(#s5-c) { left: 160px !important; top: 1330px !important; }
+
+  /* s6 export */
+  #s6-flow { left: 50px !important; top: 440px !important; width: 980px !important; gap: 24px !important; }
+  .s6-node { height: 210px !important; padding: 24px 22px 0 100px !important; }
+  .s6-node h3 { font-size: 34px !important; } .s6-node p { font-size: 26px !important; }
+  .s6-num { left: 20px !important; top: 30px !important; width: 60px !important; height: 60px !important; font-size: 32px !important; line-height: 60px !important; }
+  #s6-reel { left: 330px !important; top: 940px !important; width: 420px !important; height: 747px !important; }
+
+  /* s7 cta */
+  #s7-ask { top: 380px !important; font-size: 84px !important; line-height: 1.05 !important; padding: 0 50px !important; }
+  #s7-dm { left: 50px !important; right: 50px !important; top: 640px !important; height: 280px !important; padding: 0 36px !important; gap: 26px !important; }
+  #s7-dm h3 { font-size: 46px !important; } #s7-dm p { font-size: 34px !important; }
+  #s7-cta .lc-outro { top: 1040px !important; }
+}

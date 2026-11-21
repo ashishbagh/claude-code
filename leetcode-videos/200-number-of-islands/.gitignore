@@ -4,3 +4,4 @@ snapshots/
 out/*.ass
 out/work-*/
 out/.*hf-transaction*/
+vertical/

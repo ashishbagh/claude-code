@@ -106,7 +106,7 @@ def main():
                 f.write(stub.format(id=sid, p=sid.split("-")[0], number=a.number, title=a.title,
                                     difficulty=a.difficulty, dl=a.difficulty.lower()))
     with open(os.path.join(d, ".gitignore"), "w") as f:
-        f.write(".hyperframes/\nnode_modules/\nsnapshots/\nout/work-*/\nout/.*hf-transaction*/\n")
+        f.write(".hyperframes/\nnode_modules/\nsnapshots/\nvertical/\nout/work-*/\nout/.*hf-transaction*/\n")
     print("scaffolded", d, "scenes:", ", ".join(scenes))
 
 

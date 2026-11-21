@@ -3,3 +3,4 @@ node_modules/
 snapshots/
 out/work-*/
 out/.*hf-transaction*/
+vertical/

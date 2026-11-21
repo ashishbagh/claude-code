@@ -4,7 +4,7 @@
   const COLORS = [0xec4899, 0xf97316, 0xeab308, 0x22c55e, 0x0ea5e9, 0x8b5cf6];
 
   function Floaty(canvas, { count = 22 } = {}) {
-    const ctx = window.LC.three(canvas, { fov: 40 });
+    const ctx = window.LC.three(canvas, { fov: 40, portraitFov: 62 });
     const { scene, camera } = ctx;
     camera.position.set(0, 0, 16); camera.lookAt(0, 0, 0);
     const geos = [new THREE.BoxGeometry(1, 1, 1), new THREE.SphereGeometry(0.62, 24, 16),
@@ -15,7 +15,11 @@
         new THREE.MeshStandardMaterial({ color: COLORS[i % COLORS.length], roughness: 0.35, metalness: 0.05 }));
       // keep the centre column (text) clear: shapes live in the left and right side bands
       const side = i % 2 ? 1 : -1;
-      items.push({ m, x: side * (7.2 + hash(i + 50) * 4), y: (hash(i) - 0.5) * 10.5, z: -3 + hash(i + 9) * 3,
+      // landscape: left/right bands; portrait (vertical reel): top/bottom bands around the content
+      const pos = window.LC.portrait
+        ? { x: (hash(i) - 0.5) * 9, y: side * (8.5 + hash(i + 50) * 1.3) }
+        : { x: side * (7.2 + hash(i + 50) * 4), y: (hash(i) - 0.5) * 10.5 };
+      items.push({ m, x: pos.x, y: pos.y, z: -3 + hash(i + 9) * 3,
         s: 0.55 + hash(i + 3) * 0.7, sp: 0.3 + hash(i + 7) * 0.5, ph: hash(i + 11) * 6.28 });
       scene.add(m);
     }
