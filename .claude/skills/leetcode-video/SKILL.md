@@ -117,7 +117,8 @@ matches `@media (orientation: portrait)`. `lc.css` already restacks the shared p
 code, cards, outro). Each project adds **its own portrait rules** in a stylesheet listed in
 `video.json` `"styles"` (or a `<style>` block in the scene) for every scene-specific id:
 - every declaration `!important` (scene `<style>` blocks load later and would win);
-- single column, 60 px side margins, content between y≈180 and y≈1600 (Instagram UI covers the bottom);
+- single column; everything readable inside the **Instagram Reels safe area: y 270–1248 px, x 65–1015 px**
+  (14–65 % / 6–94 %, from HyperFrames' safeAreas; Instagram's UI covers the rest – `check` warns `outside_safe_zone`);
 - target elements by id or `:has(#child)`, not `:nth-of-type`;
 - 3D: `LC.three` widens the fov in portrait and drops `shiftX`; tune with `portraitFov` / `portraitShiftY`,
   and move the subject above the panels (e.g. 3D on top half, panels below). Read `LC.portrait` at draw time.

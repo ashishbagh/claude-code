@@ -1,0 +1,25 @@
+/* Binary Search – laid out for the native 1080x1920 reel (vertical build only). */
+.bs-target { position: absolute; left: 0; right: 0; top: 240px; text-align: center; opacity: 0; }
+.bs-target span { display: inline-block; padding: 14px 40px; border-radius: 44px; background: #3c2d0a;
+  border: 3px solid var(--yellow); color: var(--yellow); font: 800 50px var(--font); }
+.bs-target code { font: 700 50px var(--mono); }
+.bs-cmp { left: 60px; right: 60px; top: 1010px; height: 290px; padding: 26px 40px; }
+.bs-line { font: 700 40px/1.5 var(--mono); color: var(--ink); opacity: 0; }
+.bs-line .lo { color: #38bdf8; } .bs-line .mid { color: var(--yellow); } .bs-line .hi { color: #f472b6; }
+.bs-go { display: inline-block; margin-top: 8px; padding: 8px 26px; border-radius: 30px; font: 800 36px var(--font); opacity: 0; }
+.bs-right { background: #0c4a6e; color: #7dd3fc; } .bs-left { background: #831843; color: #fbcfe8; }
+.bs-hit { background: #14532d; color: #86efac; }
+.bs-count { left: 60px; right: 60px; top: 1330px; height: 170px; }
+.bs-note { position: absolute; left: 60px; right: 60px; top: 1530px; text-align: center; color: var(--muted);
+  font: 600 34px var(--font); opacity: 0; }
+
+/* positions inside the Instagram Reels safe band (y 270–1248) */
+@media (orientation: portrait) {
+  .bs-target { top: 280px !important; }
+  .bs-cmp { top: 690px !important; height: 260px !important; left: 70px !important; right: 70px !important; }
+  .bs-count { top: 975px !important; height: 165px !important; left: 70px !important; right: 70px !important; }
+  .bs-note { top: 1165px !important; }
+  .lc-code pre { font-size: 32px !important; line-height: 46px !important; }
+  #s1-info { top: 690px !important; }
+  .lc-titlecard { top: -200px !important; }
+}

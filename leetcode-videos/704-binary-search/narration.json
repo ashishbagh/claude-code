@@ -1,0 +1,20 @@
+{
+  "en": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "hinglish": [
+    "चलो solve करते हैं LeetCode seven zero four, Binary Search. हमारे पास एक sorted array है, दस numbers का, और target है twenty three. हमें twenty three का index ढूंढना है, और वो भी बहुत fast, बिना हर element check किए.",
+    "Idea simple है. Array sorted है, तो हम हमेशा बीच वाला element check करते हैं. अगर middle value target से छोटी है, तो answer right half में होगा. अगर बड़ी है, तो left half में. हर step पर search space आधा हो जाता है.",
+    "पहला step. Low zero, high nine, तो mid है four. nums of four है sixteen, जो twenty three से छोटा है. तो पूरा left half discard करो, और low को five पर ले आओ.",
+    "दूसरा step. Low five, high nine, तो mid है seven. nums of seven है fifty six, जो twenty three से बड़ा है. इस बार right half discard करो, और high को six पर ले आओ.",
+    "तीसरा step. Low five, high six, तो mid है five. nums of five है twenty three, यानी target मिल गया! Answer है index five. सिर्फ तीन comparisons में, जबकि linear search में छह लगते.",
+    "अब code देखते हैं. Low और high को array के दोनों ends पर रखो. जब तक low, high से छोटा या बराबर है, mid निकालो. अगर value target के बराबर है, तो mid return करो. छोटी है तो low को mid plus one करो, वरना high को mid minus one. नहीं मिला तो minus one return करो.",
+    "हर step पर array आधा होता है, इसलिए time है O of log n. और हम सिर्फ तीन variables रखते हैं, तो space है O of one. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}

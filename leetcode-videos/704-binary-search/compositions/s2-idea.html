@@ -1,0 +1,28 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+
+  </style>
+  <div id="root" data-composition-id="s2-idea" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":16.6},{"id":"S","type":"number","label":"Narration length (s)","default":16.0}]'>
+    <div class="lc-header"><span class="lc-badge">LeetCode 704</span><span class="lc-title">Binary Search</span><span class="lc-diff lc-easy">Easy</span></div>
+    <div class="lc-steps" data-hold>
+      <div class="lc-step" id="s2-step1"><b>1</b><span>Array is sorted → look at the middle</span></div>
+      <div class="lc-step" id="s2-step2"><b>2</b><span>middle < target → search the right half</span></div>
+      <div class="lc-step" id="s2-step3"><b>3</b><span>middle > target → search the left half</span></div>
+      <div class="lc-step" id="s2-step4"><b>4</b><span>Every step halves the search space</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, duration: 0.45, ease: "power3.out" }, at);
+      tl.fromTo("#s2-step1", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.07 * S);
+      tl.fromTo("#s2-step2", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.36 * S);
+      tl.fromTo("#s2-step3", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.67 * S);
+      tl.fromTo("#s2-step4", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.82 * S);
+      window.__timelines["s2-idea"] = tl;
+    })();
+  </script>
+</template>

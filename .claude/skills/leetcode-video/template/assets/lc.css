@@ -100,23 +100,27 @@
 /* ---------------------------------------------------------------------------------------------
    Native vertical reel (1080x1920, build.py --vertical). Shared components restack here; each
    project adds its own @media (orientation: portrait) rules for scene-specific ids.
-   Keep key content between y≈180 and y≈1600 (Instagram UI covers the bottom ~300 px). */
+   Instagram Reels safe area (HyperFrames safeAreas): y 14–65 % (270–1248 px), x 6–94 % (65–1015 px);
+   everything that must be read goes inside it. */
 @media (orientation: portrait) {
   /* scene files declare 1920x1080; in a vertical build every composition fills the 1080x1920 frame */
   [data-composition-id] { width: 1080px !important; height: 1920px !important; }
-  .lc-header { left: 60px !important; right: 60px !important; top: 70px !important; height: auto !important; flex-wrap: wrap !important; gap: 14px 18px !important; }
+  .lc-header { left: 70px !important; right: 70px !important; top: 150px !important; height: auto !important; flex-wrap: wrap !important; gap: 14px 18px !important; }
   .lc-title { flex-basis: 100% !important; order: 3 !important; font-size: 34px !important; }
-  .lc-caption { bottom: 360px !important; padding: 0 40px !important; }
+  .lc-caption { bottom: 690px !important; padding: 0 40px !important; }
   .lc-caption span { font-size: 34px !important; text-align: center !important; }
-  .lc-steps { left: 60px !important; right: 60px !important; top: 330px !important; gap: 28px !important; }
+  .lc-steps { left: 70px !important; right: 70px !important; top: 300px !important; gap: 28px !important; }
   .lc-step { height: auto !important; min-height: 120px !important; padding: 22px 26px !important; gap: 26px !important; }
   .lc-step span { font-size: 38px !important; line-height: 1.25 !important; }
-  .lc-code { left: 30px !important; right: 30px !important; top: 300px !important; bottom: auto !important; padding: 30px 34px !important; }
-  .lc-code pre { font-size: 22px !important; line-height: 32px !important; }
+  .lc-code { left: 66px !important; right: 66px !important; top: 300px !important; bottom: auto !important; padding: 30px 34px !important; }
+  .lc-code pre { font-size: 28px !important; line-height: 40px !important; }
   .lc-hl { left: -20px !important; right: -20px !important; }
-  .lc-cards { left: 60px !important; right: 60px !important; top: 300px !important; flex-direction: column !important; gap: 30px !important; }
-  .lc-card { height: 300px !important; flex: none !important; }
-  .lc-outro { top: 1040px !important; padding: 0 40px !important; text-align: center !important; }
+  .lc-cards { left: 70px !important; right: 70px !important; top: 290px !important; flex-direction: column !important; gap: 30px !important; }
+  .lc-card { height: 260px !important; flex: none !important; gap: 8px !important; }
+  .lc-card h3 { font-size: 38px !important; }
+  .lc-card strong { font-size: 84px !important; line-height: 1 !important; }
+  .lc-card p { font-size: 30px !important; }
+  .lc-outro { top: 880px !important; padding: 0 40px !important; text-align: center !important; }
   .lc-sub { font-size: 36px !important; }
   .lc-titlecard h1 { font-size: 92px !important; text-align: center !important; line-height: 1.05 !important; padding: 0 40px !important; }
 }
