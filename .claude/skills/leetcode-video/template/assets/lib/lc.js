@@ -39,6 +39,15 @@
     });
   };
 
+  /** "Asked at" company chips in the intro: row fades in, chips pop one by one, row fades out after `hold` s. */
+  LC.companies = function (tl, id, at, hold = 4) {
+    tl.fromTo(`#${id}`, { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, at);
+    document.querySelectorAll(`#${id} .lc-co`).forEach((el, i) => {
+      tl.fromTo(el, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, at + 0.25 + i * 0.22);
+    });
+    tl.to(`#${id}`, { opacity: 0, duration: 0.35 }, at + hold);
+  };
+
   /** Channel outro (last slide, always): the markup is LC_OUTRO_HTML in SKILL.md, ids <prefix>-thanks/-sub/-social. */
   LC.outro = function (tl, prefix, at) {
     tl.fromTo(`#${prefix}-thanks`, { opacity: 0, y: 30, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, at);

@@ -41,7 +41,7 @@ code produces (visiting order, stack/queue contents). The animation must match t
 
 | Scene | Content |
 |---|---|
-| `s1-intro` | title card (~4 s) → header + the example built in 3D/DOM + rules + "Goal: …" caption |
+| `s1-intro` | title card (~4 s) → **"Asked at" company chips** (required, see below) → header + the example built in 3D/DOM + rules + "Goal: …" caption |
 | `s2-idea` | 3–4 numbered `.lc-step` cards, one per narrated step |
 | `s3…s5` | walkthrough: the structure animating step by step; right panels `Answer/counter` (`.lc-value` spans) + `.lc-list` (stack / queue / calls); bottom `.lc-caption`s |
 | `s6-code` | `.lc-code` with `tools/codehl.py` output, `LC.codeHighlight` over line ranges as they are narrated |
@@ -59,6 +59,16 @@ Fill `narration.json` `{"en": [scene texts], "hinglish": [...]}` – about 35–
 style, sentences in the order the visuals appear. Say "LeetCode one ninety nine", "O of n", "D F S".
 Hinglish: Hindi in Devanagari, technical words in English, same sentence order as English
 ("चलो solve करते हैं LeetCode two hundred, Number of Islands…").
+**Every video's intro names the companies that asked the question** (right after the problem name):
+- Before writing narration, WebSearch the problem's company tags (e.g. "LeetCode 875 Koko Eating Bananas
+  companies asked"). Use only companies a source lists – LeetCode company-tag mirrors on GitHub,
+  HelloInterview, LeetCode discuss interview reports. Never guess FAANG names; if nothing is found, skip
+  the line rather than invent it. Pick 3–5, put the source URLs in the project README.
+- Word it as reported, not certain: English "This question has been asked in interviews at Airbnb, Meta
+  and DoorDash." Hinglish "ये question Airbnb, Meta और DoorDash के interviews में पूछा गया है."
+- Show the same names on screen at that moment with the `.lc-companies` chip row (markup below).
+- Tell the user which companies were used and where they came from.
+
 **Every video ends the last scene's narration with the channel call-out:**
 English "Thanks for watching! Subscribe to D S Algo A I on YouTube and Instagram for more such videos."
 Hinglish "देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
@@ -95,6 +105,17 @@ share the code. Shared pieces (loaded by `index.html`):
 HyperFrames rules that bite: no `Math.random`/`Date.now`/timers (everything from `t`); `fromTo` not
 `from`; don't animate an element that has a CSS `transform`; text ≥ 28 px; nothing in the caption band
 except captions; holds over 3 s get `data-hold`.
+
+### "Asked at" company chips – always in the intro
+
+```html
+<div class="lc-companies" id="s1-co">
+  <span class="lc-co-label">Asked at</span>
+  <span class="lc-co" id="s1-co1">Airbnb</span><span class="lc-co" id="s1-co2">Meta</span><span class="lc-co" id="s1-co3">DoorDash</span>
+</div>
+```
+Animate with `LC.companies(tl, "s1-co", at)` where `at` is when the narration names them (fraction of S).
+The row shows for ~4 s, then fades so the example has the space. Plain text chips – never company logos.
 
 ### Channel outro – always on the last slide
 

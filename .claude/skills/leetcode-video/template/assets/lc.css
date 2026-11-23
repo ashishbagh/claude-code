@@ -91,6 +91,13 @@
   border: 3px solid #fff; border-radius: 50%; }
 .lc-ig i::after { content: ""; position: absolute; right: 8px; top: 7px; width: 5px; height: 5px; border-radius: 50%; background: #fff; }
 
+/* "Asked at" company chips (intro) ------------------------------------------------- */
+.lc-companies { position: absolute; left: 0; right: 0; top: 150px; display: flex; flex-wrap: wrap; justify-content: center;
+  align-items: center; gap: 16px; padding: 0 120px; z-index: 6; opacity: 0; }
+.lc-co-label { color: var(--muted); font: 700 32px var(--font); margin-right: 6px; }
+.lc-co { padding: 12px 28px; border-radius: 30px; background: #f8fafc; color: #0f172a; font: 800 34px var(--font);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); opacity: 0; }
+
 /* big title card ---------------------------------------------------------------- */
 .lc-titlecard { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center;
   justify-content: center; gap: 28px; font-family: var(--font); }
@@ -122,5 +129,7 @@
   .lc-card p { font-size: 30px !important; }
   .lc-outro { top: 880px !important; padding: 0 40px !important; text-align: center !important; }
   .lc-sub { font-size: 36px !important; }
+  .lc-companies { top: 300px !important; padding: 0 70px !important; gap: 14px !important; }
+  .lc-co { font-size: 34px !important; }
   .lc-titlecard h1 { font-size: 92px !important; text-align: center !important; line-height: 1.05 !important; padding: 0 40px !important; }
 }
