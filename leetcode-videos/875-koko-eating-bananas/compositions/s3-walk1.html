@@ -1,0 +1,42 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s3-walk1" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":17},{"id":"S","type":"number","label":"Narration length (s)","default":16.4}]'>
+    <canvas id="s3-walk1-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">LeetCode 875</span><span class="lc-title">Koko Eating Bananas</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="kk-h" id="s3-walk1-h" style="opacity:1"><span>h = 8 hours</span></div>
+    <div class="kk-line" id="s3-walk1-line"><div class="kk-range" id="s3-walk1-range"></div><div class="kk-cells"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span></div>
+      <div class="kk-k" id="s3-walk1-k">k<i></i></div></div>
+    <div class="kk-stack">
+      <div class="lc-panel" id="s3-walk1-p1" style="opacity:1">
+        <div class="kk-l" id="s3-walk1-p1l">k = <b>6</b> → hours 1+1+2+2 = <b>6</b></div>
+        <div class="kk-chip kk-ok" id="s3-walk1-p1c">6 ≤ 8 ✓ works → hi = 6</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.45, ease: "power3.out" }, at);
+      const piles = Piles(document.getElementById("s3-walk1-canvas"));
+      tl.fromTo("#s3-walk1-line", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.05);
+      const CW = 85, rng = document.getElementById("s3-walk1-range"), kEl = document.getElementById("s3-walk1-k");
+      const setLine = (lo, hi, k, kA) => {
+        rng.style.transform = `translateX(${(lo - 1) * CW}px) scaleX(${hi - lo + 1})`;
+        rng.style.borderWidth = `3px ${3 / (hi - lo + 1)}px`;
+        kEl.style.transform = `translateX(${(k - 1) * CW}px)`; kEl.style.opacity = kA;
+      };
+      const Arr = (t, st) => { let v = st[0][1]; for (let i = 1; i < st.length; i++) if (t >= st[i][0]) v = v + (st[i][1] - v) * LC.prog(t, st[i][0], 0.5); return v; };
+      fade("#s3-walk1-p1l", 0.27 * S); fade("#s3-walk1-p1c", 0.57 * S, { scale: 0.85 });
+      LC.drive(tl, T, (t) => {
+        const lo = 1, hi = Arr(t, [[0, 11], [0.88 * S, 6]]), k = 6;
+        setLine(lo, hi, k, LC.prog(t, 0.06 * S, 0.4));
+        piles.draw({ k: t > 0.06 * S ? k : null, kK: LC.prog(t, 0.27 * S, 0.7), orbit: 0.08 * Math.sin((t / T) * Math.PI) });
+      });
+      window.__timelines["s3-walk1"] = tl;
+    })();
+  </script>
+</template>

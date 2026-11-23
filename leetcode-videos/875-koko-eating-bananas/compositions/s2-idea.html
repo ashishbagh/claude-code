@@ -1,0 +1,27 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s2-idea" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":20},{"id":"S","type":"number","label":"Narration length (s)","default":19.4}]'>
+    <div class="lc-header"><span class="lc-badge">LeetCode 875</span><span class="lc-title">Koko Eating Bananas</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="lc-steps" data-hold>
+      <div class="lc-step" id="s2-step1"><b>1</b><span>Speed range: 1 … 11 (the biggest pile)</span></div>
+      <div class="lc-step" id="s2-step2"><b>2</b><span>Try the middle speed, count the hours</span></div>
+      <div class="lc-step" id="s2-step3"><b>3</b><span>hours ≤ 8 → try slower: hi = k</span></div>
+      <div class="lc-step" id="s2-step4"><b>4</b><span>hours > 8 → eat faster: lo = k + 1</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.45, ease: "power3.out" }, at);
+      tl.fromTo("#s2-step1", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.14 * S);
+      tl.fromTo("#s2-step2", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.49 * S);
+      tl.fromTo("#s2-step3", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.68 * S);
+      tl.fromTo("#s2-step4", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.86 * S);
+      window.__timelines["s2-idea"] = tl;
+    })();
+  </script>
+</template>

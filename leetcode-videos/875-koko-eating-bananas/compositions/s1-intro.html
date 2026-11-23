@@ -1,0 +1,33 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s1-intro" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":23},{"id":"S","type":"number","label":"Narration length (s)","default":22.4}]'>
+    <canvas id="s1-canvas" class="lc-fill"></canvas>
+    <div class="lc-titlecard"><h1 id="s1-t-title">Koko Eating<br/>Bananas</h1><p id="s1-t-sub">LeetCode 875 · Medium</p></div>
+    <div id="s1-hdr" style="opacity:0"><div class="lc-header"><span class="lc-badge">LeetCode 875</span><span class="lc-title">Koko Eating Bananas</span><span class="lc-diff lc-medium">Medium</span></div></div>
+    <div class="kk-h" id="s1-h"><span>guard returns in h = 8 hours</span></div>
+    <div class="lc-panel kk-panel" id="s1-info" style="opacity:0">
+      <div class="kk-l" id="s1-l1">piles = <b>[3, 6, 7, 11]</b></div>
+      <div class="kk-l" id="s1-l2">each hour: k bananas from 1 pile</div>
+      <div class="kk-l" id="s1-l3">find the <b>smallest k</b></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.45, ease: "power3.out" }, at);
+      const piles = Piles(document.getElementById("s1-canvas"));
+      fade("#s1-t-title", 0.2, { y: 40 }); fade("#s1-t-sub", 0.6);
+      tl.to(["#s1-t-title", "#s1-t-sub"], { opacity: 0, y: -30, duration: 0.4, ease: "power2.in" }, 2.8);
+      tl.fromTo("#s1-hdr", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.1);
+      fade("#s1-info", 0.27 * S); fade("#s1-l1", 0.28 * S);
+      fade("#s1-h", 0.52 * S, { y: -20, scale: 0.85 });
+      fade("#s1-l2", 0.63 * S); fade("#s1-l3", 0.81 * S);
+      LC.drive(tl, T, (t) => piles.draw({ appear: LC.prog(t, 3.2, 2.6), orbit: -0.15 + 0.15 * (t / T) }));
+      window.__timelines["s1-intro"] = tl;
+    })();
+  </script>
+</template>

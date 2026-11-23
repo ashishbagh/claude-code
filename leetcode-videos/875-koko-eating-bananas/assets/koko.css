@@ -1,0 +1,24 @@
+/* Koko Eating Bananas – laid out for the native 1080x1920 reel, inside the Reels safe band (y 270–1248). */
+.kk-h { position: absolute; left: 70px; right: 0; top: 280px; text-align: left; opacity: 0; }
+.kk-h span { display: inline-block; padding: 12px 36px; border-radius: 40px; background: #3c2d0a; border: 3px solid var(--yellow);
+  color: var(--yellow); font: 800 44px var(--font); }
+.kk-line { position: absolute; left: 72px; width: 935px; top: 790px; height: 120px; opacity: 0; }
+.kk-cells { position: absolute; left: 0; right: 0; top: 40px; height: 64px; display: flex; }
+.kk-cells span { width: 85px; flex: none; text-align: center; font: 700 32px/64px var(--mono); color: var(--muted);
+  border-left: 2px solid #2c3658; }
+.kk-range { position: absolute; left: 0; top: 40px; width: 85px; height: 64px; background: rgba(56, 189, 248, 0.22);
+  border: 3px solid #38bdf8; border-radius: 12px; transform-origin: 0 0; }
+.kk-k { position: absolute; left: 0; top: -4px; width: 85px; text-align: center; color: var(--yellow); font: 900 34px var(--font); }
+.kk-k i { display: block; margin: 2px auto 0; width: 0; height: 0; border-left: 12px solid transparent;
+  border-right: 12px solid transparent; border-top: 14px solid var(--yellow); }
+.kk-tag { position: absolute; top: -6px; font: 800 28px var(--font); }
+.kk-panel { left: 70px; right: 70px; top: 940px; height: 250px; padding: 24px 36px; }
+.kk-l { font: 700 36px/1.45 var(--mono); color: var(--ink); opacity: 0; }
+.kk-l b { color: var(--yellow); }
+.kk-chip { display: inline-block; margin-top: 10px; padding: 8px 26px; border-radius: 30px; font: 800 34px var(--font); opacity: 0; }
+.kk-ok { background: #14532d; color: #86efac; } .kk-bad { background: #7f1d1d; color: #fecaca; }
+.kk-ans { background: #3c2d0a; color: var(--yellow); border: 3px solid var(--yellow); font-size: 44px; }
+.kk-stack { position: absolute; left: 70px; right: 70px; top: 940px; height: 250px; }
+.kk-stack .lc-panel { position: absolute; inset: 0; padding: 24px 36px; }
+.lc-titlecard { top: -200px !important; }
+.lc-code pre { font-size: 27px !important; line-height: 46px !important; }
