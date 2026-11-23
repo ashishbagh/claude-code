@@ -41,7 +41,7 @@ code produces (visiting order, stack/queue contents). The animation must match t
 
 | Scene | Content |
 |---|---|
-| `s1-intro` | title card (~4 s) → **"Asked at" company chips** (required, see below) → header + the example built in 3D/DOM + rules + "Goal: …" caption |
+| `s1-intro` | title card: title + "LeetCode N · Difficulty" + **"Asked at …" line** (required, see below), held until the company sentence ends → header + the example built in 3D/DOM + rules + "Goal: …" caption |
 | `s2-idea` | 3–4 numbered `.lc-step` cards, one per narrated step |
 | `s3…s5` | walkthrough: the structure animating step by step; right panels `Answer/counter` (`.lc-value` spans) + `.lc-list` (stack / queue / calls); bottom `.lc-caption`s |
 | `s6-code` | `.lc-code` with `tools/codehl.py` output, `LC.codeHighlight` over line ranges as they are narrated |
@@ -64,9 +64,11 @@ Hinglish: Hindi in Devanagari, technical words in English, same sentence order a
   companies asked"). Use only companies a source lists – LeetCode company-tag mirrors on GitHub,
   HelloInterview, LeetCode discuss interview reports. Never guess FAANG names; if nothing is found, skip
   the line rather than invent it. Pick 3–5, put the source URLs in the project README.
-- Word it as reported, not certain: English "This question has been asked in interviews at Airbnb, Meta
-  and DoorDash." Hinglish "ये question Airbnb, Meta और DoorDash के interviews में पूछा गया है."
-- Show the same names on screen at that moment with the `.lc-companies` chip row (markup below).
+- It is the **second sentence of the intro**, right after the problem number and name, worded as reported:
+  English "This question has been asked in interviews at Airbnb, Meta and DoorDash." Hinglish
+  "ये question Airbnb, Meta और DoorDash के interviews में पूछा गया है."
+- On screen it lives **only on the opening title card** (markup below) – never as chips or a banner
+  anywhere else in the video.
 - Tell the user which companies were used and where they came from.
 
 **Every video ends the last scene's narration with the channel call-out:**
@@ -106,16 +108,18 @@ HyperFrames rules that bite: no `Math.random`/`Date.now`/timers (everything from
 `from`; don't animate an element that has a CSS `transform`; text ≥ 28 px; nothing in the caption band
 except captions; holds over 3 s get `data-hold`.
 
-### "Asked at" company chips – always in the intro
+### Title card with "Asked at" – always the opening of s1
 
 ```html
-<div class="lc-companies" id="s1-co">
-  <span class="lc-co-label">Asked at</span>
-  <span class="lc-co" id="s1-co1">Airbnb</span><span class="lc-co" id="s1-co2">Meta</span><span class="lc-co" id="s1-co3">DoorDash</span>
+<div class="lc-titlecard">
+  <h1 id="s1-t-title">Koko Eating<br/>Bananas</h1>
+  <p id="s1-t-sub">LeetCode 875 · Medium</p>
+  <div class="lc-asked" id="s1-t-asked">Asked at <b>Airbnb</b> · <b>Meta</b> · <b>DoorDash</b></div>
 </div>
 ```
-Animate with `LC.companies(tl, "s1-co", at)` where `at` is when the narration names them (fraction of S).
-The row shows for ~4 s, then fades so the example has the space. Plain text chips – never company logos.
+`LC.titleCard(tl, "s1", askedAt, out)`: `askedAt` = when the narration names the companies, `out` = end of
+that sentence (both from the phrase positions × S, e.g. `0.12 * S`, `0.3 * S`). Start the header and the
+example (3D, panels) after `out`.
 
 ### Channel outro – always on the last slide
 

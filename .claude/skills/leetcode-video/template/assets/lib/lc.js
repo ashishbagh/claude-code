@@ -39,13 +39,13 @@
     });
   };
 
-  /** "Asked at" company chips in the intro: row fades in, chips pop one by one, row fades out after `hold` s. */
-  LC.companies = function (tl, id, at, hold = 4) {
-    tl.fromTo(`#${id}`, { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, at);
-    document.querySelectorAll(`#${id} .lc-co`).forEach((el, i) => {
-      tl.fromTo(el, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, at + 0.25 + i * 0.22);
-    });
-    tl.to(`#${id}`, { opacity: 0, duration: 0.35 }, at + hold);
+  /** Opening title card: title + "LeetCode N · Difficulty", then the "Asked at …" line when the narration
+      names the companies (askedAt, seconds); the whole card leaves at `out` (end of that sentence). */
+  LC.titleCard = function (tl, prefix, askedAt, out) {
+    tl.fromTo(`#${prefix}-t-title`, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.2);
+    tl.fromTo(`#${prefix}-t-sub`, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.6);
+    tl.fromTo(`#${prefix}-t-asked`, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, askedAt);
+    tl.to([`#${prefix}-t-title`, `#${prefix}-t-sub`, `#${prefix}-t-asked`], { opacity: 0, y: -30, duration: 0.4, ease: "power2.in" }, out);
   };
 
   /** Channel outro (last slide, always): the markup is LC_OUTRO_HTML in SKILL.md, ids <prefix>-thanks/-sub/-social. */
