@@ -3,7 +3,7 @@
     #root { position: absolute; inset: 0; }
     #s1-chat { top: 450px; }
     #s1-hero { background: radial-gradient(ellipse at 50% 50%, rgba(13,17,33,0.96) 0%, rgba(13,17,33,0.9) 55%, rgba(13,17,33,0.75) 100%); }
-    #s1-asked2 { position: absolute; left: 72px; right: 72px; top: 640px; justify-content: flex-start; z-index: 5; }
+    #s1-asked2 { position: absolute; left: 72px; right: 72px; top: 675px; justify-content: flex-start; z-index: 5; }
   </style>
   <div id="root" data-composition-id="s1-hook" data-width="1080" data-height="1920"
        data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":16.2},{"id":"S","type":"number","label":"Narration length (s)","default":15.6}]'>
@@ -51,7 +51,7 @@
         const s = at(0.37) + i * 0.4, c = ["#22c55e", "#38bdf8", "#a78bfa"][i % 3];
         hops.push([i % 2 ? "rahul" : "priya", "lb", s, 0.5, null, c], ["lb", i % 2 ? "chatA" : "chatB", s + 0.5, 0.45, null, c]);
       }
-      const beats = [[0, ["priya", "rahul", "lb", "chatA", "chatB"]], [at(0.36), ["priya", "rahul", "lb", "chatA", "chatB", "session", "db"]]];
+      const beats = [[0, ["priya", "rahul", "lb", "chatA", "chatB"]], [at(0.36), ["priya", "rahul", "lb", "chatA", "chatB", "session"]]];
       LC.drive(tl, T, (t) => {
         const sp = A.spot(t, beats, { dim: 0.6 });
         A.draw(Object.assign(sp, {

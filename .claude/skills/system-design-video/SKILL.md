@@ -24,20 +24,29 @@ Reel for the English track unless `no-reel`. Level default Intermediate.
   blurred fill, captions). Reference: `system-design-videos/tiny-url/`.
 - **Vertical immersive** ("9:16", "vertical", "reel only", "immersive"): rendered natively at 1080×1920,
   one video that IS the Reel. Scaffold with `--vertical`. Reference: `system-design-videos/whatsapp/`.
-  What makes it immersive:
-  - **The 3D world is always on screen.** It's full-bleed with a camera that moves every scene, following
-    the packet (`target`/`dist`/`orbit` keyed to the narration). Static scenes (requirements, numbers, recap)
-    keep it behind the cards, blurred and dimmed: `canvas { filter: blur(6px) brightness(0.5) }`.
+  What makes it immersive – the **spotlight** style (a wide diagram squeezed into 880 px is unreadable):
+  - **Top-to-bottom layout:** lay the architecture out along z (the frame's height), not x. Users/phones at the
+    top, then LB, servers, cache, storage at the bottom, so a request travels *down* the screen. Keep x within ±2.5.
+  - **Spotlight beats:** each narrated clause frames only the 2–3 nodes it names and dims the rest.
+    `A.draw(Object.assign(A.spot(t, [[sec, ["priya","lb"]], [sec, ["lb","chatA"]], …]), { appear, packets, hot, glow }))`.
+    The camera glides between beats (`trans` 1 s) and fits the beat's nodes into `band` of the frame height.
+  - **Bigger everything:** `SD.Arch` cfg `labelScale: 1.35, packetScale: 1.6, edgeScale: 1.7, fov: 50, band: 0.35,
+    shiftY: -110, cam.elev: 1.1`. Packets carry a word ("Hi!", "ack", "✓✓"), not a bare dot.
+  - **Route strip** replaces the title in the top bar: `.v-route` with `.v-step` chips (short words, ≤ 6),
+    lit as narrated with `LC.route(tl, "#sN-route", [[sec, idx], …])`. It keeps the big picture while zoomed in.
+  - **Zones, never overlapping:** top bar + route 280–400, headline / chat bubble / note 450–700 (dark backdrop),
+    3D 700–1250, nothing but 3D below. Static scenes (requirements, numbers, recap) keep the 3D behind the
+    cards, blurred and dimmed (`canvas { filter: blur(6px) brightness(0.5) }`).
   - **A story with characters:** two users (Priya → Rahul), a chat bubble whose ticks change as the flow runs,
-    `phone` nodes. Prefer showing the product's own UI moment over a diagram label.
-  - **Kinetic headlines** (`.v-kicker`, dark backdrop, `<em>` yellow): one per beat, swapped as narrated.
-  - **Burned-in word captions:** `"captions": true` makes `build.py` write `compositions/captions-<track>.html`
-    from the narration (clause times from `cues.py`, grouped into readable chunks; words in
-    `"caption_highlight"` turn yellow). Devanagari renders with the bundled Noto Sans Devanagari.
-  - **Layout bands (Instagram safe area):** text only inside x 65–1015, y 269–1248. Top bar 280–400,
-    content 420–1130, captions 1140–1240. Below 1248 only 3D, because the app's UI covers it. Shift the 3D down
-    with `shiftY: -300` so the diagram lives in the middle band. `hyperframes check` flags anything outside.
-  - **Classes** (`sdv.css`): `.v-top .v-name`, `.v-hero` (title card + `.sd-asked`), `.v-kicker`,
+    `phone` nodes. Show the product's own UI moment, not only a label.
+  - **Opening scene:** the title card with "Asked at" is up from frame 0 to about 1.5 s (`cover_at` 0.9). Then the
+    story starts on the first words. When the narration names the companies, the compact `.sd-asked.sm` strip
+    must be on screen at that moment: time it with `cues.py`, never a fixed exit.
+  - **Captions** (optional, `"captions": true`): `build.py` writes `compositions/captions-<track>.html` from
+    the narration (clause times from `cues.py`, readable chunks, `"caption_highlight"` words yellow). Off when
+    the user asks. Devanagari uses the bundled Noto Sans Devanagari.
+  - **Safe area (Instagram Reels):** text only inside x 65–1015, y 269–1248. `hyperframes check` flags the rest.
+  - **Classes** (`sdv.css`): `.v-top .v-name .v-route .v-step`, `.v-hero` (title card + `.sd-asked`), `.v-kicker`,
     `.v-card .v-row(.nf) .v-stat .v-big`, `.v-chat .v-bubble(.in) .v-ticks(.read)`, `.v-vignette`, `.v-outro`.
   - **Length:** 8 scenes, ≤ 2:50. Hinglish runs about 20% longer than English, so ~45 words per scene.
   - **Delivery:** `insta.py` only normalises it to −14 LUFS and grabs the cover (frame at 2.5 s, the title card).
@@ -97,7 +106,8 @@ say it in the first narration sentence ("…a favourite at Google and Amazon.").
 python3 $T/new_project.py system-design-videos/<slug> --title "Design TinyURL" --level Beginner --scenes 8 \
     --asked-at "Google,Amazon,Meta,Netflix,Adobe"            # add --vertical for the 9:16 immersive format
 ```
-(`--vertical` writes no scene stubs: copy the structure of `system-design-videos/whatsapp/compositions/`.)
+(`--vertical` writes no scene stubs: copy the structure of `system-design-videos/whatsapp/compositions/`
+and `assets/whatsapp3d.js`. Before the full render, send the user 3–4 still frames to approve.)
 Rename `s5-flow1`/`s6-flow2` to what they show (`s5-shorten`, `s6-redirect`) in `compositions/` and
 `video.json`. Fill `narration.json` `{"en": [...], "hinglish": [...]}` – 40–60 words per scene, spoken
 style, sentences in the order the visuals appear. Spell for TTS: "tiny U R L dot com", "base sixty-two",

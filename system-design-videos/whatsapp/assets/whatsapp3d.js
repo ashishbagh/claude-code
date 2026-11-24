@@ -29,7 +29,7 @@
 
   window.ChatArch = function (canvas, opts = {}) {
     const A = SD.Arch(canvas, Object.assign({
-      nodes: NODES, edges: EDGES, fov: 50, band: 0.37, shiftY: -60, labelScale: 1.35, packetScale: 1.6, edgeScale: 1.7,
+      nodes: NODES, edges: EDGES, fov: 50, band: 0.35, shiftY: -110, labelScale: 1.35, packetScale: 1.6, edgeScale: 1.7,
       cam: { dist: 16, elev: 1.1, target: [0, 0.5, 0] },
     }, opts));
     /** core nodes at 1, the later (offline / scale) ones at 0, then `extra` on top */
