@@ -1,11 +1,11 @@
 ---
 name: system-design-video
-description: Make an animated, narrated system-design explainer video (e.g. "Design TinyURL", "Design WhatsApp", rate limiter, news feed) - requirements, back-of-envelope estimates, API + data model, a 3D architecture diagram with request packets flowing between services (Three.js), scale-out; HyperFrames (HTML + GSAP) frames, Kokoro or ElevenLabs voice-over (English and/or Hinglish), SFX, rendered to 1080p MP4 plus an FFmpeg Instagram Reel (9:16). Use when the user asks for a system design video / animation / explainer / reel, or invokes /system-design-video. Args - the system, optionally "hinglish", "both", "elevenlabs", "no-reel", "beginner|intermediate|advanced".
+description: Make an animated, narrated system-design explainer video – 16:9 + Reel, or a native 9:16 immersive Reel ("9:16", "vertical", "reel only", "immersive") (e.g. "Design TinyURL", "Design WhatsApp", rate limiter, news feed) - requirements, back-of-envelope estimates, API + data model, a 3D architecture diagram with request packets flowing between services (Three.js), scale-out; HyperFrames (HTML + GSAP) frames, Kokoro or ElevenLabs voice-over (English and/or Hinglish), SFX, rendered to 1080p MP4 plus an FFmpeg Instagram Reel (9:16). Use when the user asks for a system design video / animation / explainer / reel, or invokes /system-design-video. Args - the system, optionally "hinglish", "both", "elevenlabs", "no-reel", "beginner|intermediate|advanced".
 ---
 
 # System-design explainer video
 
-`/system-design-video Design TinyURL [hinglish|both] [elevenlabs] [no-reel] [beginner|intermediate|advanced]`
+`/system-design-video Design TinyURL [hinglish|both] [elevenlabs] [no-reel] [beginner|intermediate|advanced] [9:16 immersive]`
 
 Sister skill of `leetcode-video` (same engine, look and channel outro). Output in
 `system-design-videos/<slug>/out/`: `<slug>.mp4` (1920×1080), `<slug>_reel.mp4` + `_reel_cover.jpg`
@@ -17,6 +17,30 @@ Reel for the English track unless `no-reel`. Level default Intermediate.
 
 **Reference project** – read it before writing scenes: `system-design-videos/tiny-url/`
 (`video.json`, `narration.json`, `compositions/*.html`, `assets/tinyurl3d.js`).
+
+## Two formats
+
+- **Landscape (default)**: 1920×1080 explainer + a Reel made from it by `insta.py` (letterboxed video,
+  blurred fill, captions). Reference: `system-design-videos/tiny-url/`.
+- **Vertical immersive** ("9:16", "vertical", "reel only", "immersive"): rendered natively at 1080×1920,
+  one video that IS the Reel. Scaffold with `--vertical`. Reference: `system-design-videos/whatsapp/`.
+  What makes it immersive:
+  - **The 3D world is always on screen.** It's full-bleed with a camera that moves every scene, following
+    the packet (`target`/`dist`/`orbit` keyed to the narration). Static scenes (requirements, numbers, recap)
+    keep it behind the cards, blurred and dimmed: `canvas { filter: blur(6px) brightness(0.5) }`.
+  - **A story with characters:** two users (Priya → Rahul), a chat bubble whose ticks change as the flow runs,
+    `phone` nodes. Prefer showing the product's own UI moment over a diagram label.
+  - **Kinetic headlines** (`.v-kicker`, dark backdrop, `<em>` yellow): one per beat, swapped as narrated.
+  - **Burned-in word captions:** `"captions": true` makes `build.py` write `compositions/captions-<track>.html`
+    from the narration (clause times from `cues.py`, grouped into readable chunks; words in
+    `"caption_highlight"` turn yellow). Devanagari renders with the bundled Noto Sans Devanagari.
+  - **Layout bands (Instagram safe area):** text only inside x 65–1015, y 269–1248. Top bar 280–400,
+    content 420–1130, captions 1140–1240. Below 1248 only 3D, because the app's UI covers it. Shift the 3D down
+    with `shiftY: -300` so the diagram lives in the middle band. `hyperframes check` flags anything outside.
+  - **Classes** (`sdv.css`): `.v-top .v-name`, `.v-hero` (title card + `.sd-asked`), `.v-kicker`,
+    `.v-card .v-row(.nf) .v-stat .v-big`, `.v-chat .v-bubble(.in) .v-ticks(.read)`, `.v-vignette`, `.v-outro`.
+  - **Length:** 8 scenes, ≤ 2:50. Hinglish runs about 20% longer than English, so ~45 words per scene.
+  - **Delivery:** `insta.py` only normalises it to −14 LUFS and grabs the cover (frame at 2.5 s, the title card).
 
 ## Stack
 
@@ -71,8 +95,9 @@ say it in the first narration sentence ("…a favourite at Google and Amazon.").
 
 ```
 python3 $T/new_project.py system-design-videos/<slug> --title "Design TinyURL" --level Beginner --scenes 8 \
-    --asked-at "Google,Amazon,Meta,Netflix,Adobe"
+    --asked-at "Google,Amazon,Meta,Netflix,Adobe"            # add --vertical for the 9:16 immersive format
 ```
+(`--vertical` writes no scene stubs: copy the structure of `system-design-videos/whatsapp/compositions/`.)
 Rename `s5-flow1`/`s6-flow2` to what they show (`s5-shorten`, `s6-redirect`) in `compositions/` and
 `video.json`. Fill `narration.json` `{"en": [...], "hinglish": [...]}` – 40–60 words per scene, spoken
 style, sentences in the order the visuals appear. Spell for TTS: "tiny U R L dot com", "base sixty-two",
@@ -118,7 +143,7 @@ window.TinyArch = (canvas, opts = {}) => {
   return A;
 };
 ```
-- Node: `{ id, kind, x, z, label, color?, scale?, labelPos: "front"? }`; kinds `client lb server cache db
+- Node: `{ id, kind, x, z, label, color?, scale?, labelPos: "front"? }`; kinds `client phone lb server cache db
   kgs queue worker cdn` (each its own low-poly shape + colour). x runs left→right in request order
   (client −6.4 … storage +3), z back→front; keep ≥ 1.8 between nodes. A group of N servers: label only
   the front one with `labelPos: "front"`.
@@ -143,8 +168,8 @@ python3 $T/build.py <proj> en
 cd <proj> && $HF check --json            # fix errors; fix text_below_floor, first_frame_empty, dead_stretch
 $HF snapshot --at <t1,t2,…>              # 2 per scene (times from timing_en.json); read the contact sheet,
                                          # then one full frame of each 3D scene: labels overlapping? cut off?
-$HF render -o out/<slug>.mp4             # ~5 min for 2:45 (software WebGL); run in background
-python3 $T/insta.py <proj> en            # Reel + cover
+$HF render -o out/<slug>.mp4             # ~20 min for 2:45 (software WebGL); run in background
+python3 $T/insta.py <proj> en            # Reel + cover (vertical project: loudness + cover only)
 python3 $T/build.py <proj> hinglish && $HF render -o out/<slug>_hinglish.mp4   # if asked
 python3 $T/build.py <proj> en            # leave index.html on English
 ```

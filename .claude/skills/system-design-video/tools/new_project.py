@@ -100,6 +100,7 @@ def main():
     ap.add_argument("--badge", default="System Design")
     ap.add_argument("--level", default="Intermediate", choices=["Beginner", "Intermediate", "Advanced"])
     ap.add_argument("--scenes", type=int, default=8)
+    ap.add_argument("--vertical", action="store_true", help="native 1080x1920 immersive Reel (captions burned in)")
     ap.add_argument("--asked-at", default="", help='companies reported to ask it, e.g. "Google,Amazon,Meta"')
     a = ap.parse_args()
 
@@ -118,6 +119,8 @@ def main():
     cfg = {
         "badge": a.badge, "title": a.title, "level": a.level, "slug": slug,
         "asked_at": asked, "asked_at_sources": [],
+        **({"width": 1080, "height": 1920, "styles": ["assets/sdv.css"], "captions": True,
+            "caption_highlight": [], "cover_at": 2.5} if a.vertical else {}),
         "scenes": scenes, "pad": 0.6,
         "tracks": {
             "en": {"audio": "assets/audio/en", "out": f"out/{slug}.mp4"},
@@ -136,7 +139,13 @@ def main():
         json.dump(cfg, f, indent=2)
     with open(os.path.join(d, "narration.json"), "w") as f:
         json.dump({"en": [""] * len(scenes), "hinglish": [""] * len(scenes)}, f, indent=2, ensure_ascii=False)
+    if a.vertical:
+        cfg["tracks"]["hinglish"]["out"] = f"out/{slug}_hinglish.mp4"
+        with open(os.path.join(d, "video.json"), "w") as f:
+            json.dump(cfg, f, indent=2)
     for sid in scenes:
+        if a.vertical:
+            break   # vertical scenes are written from the reference project (system-design-videos/whatsapp)
         p = os.path.join(d, "compositions", f"{sid}.html")
         if not os.path.exists(p):
             stub = LAST_STUB if sid == scenes[-1] else INTRO_STUB if sid == scenes[0] else SCENE_STUB

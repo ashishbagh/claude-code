@@ -1,0 +1,212 @@
+{
+  "badge": "System Design",
+  "title": "Design WhatsApp",
+  "level": "Intermediate",
+  "slug": "design_whatsapp",
+  "asked_at": [
+    "Meta",
+    "Amazon",
+    "Uber",
+    "Microsoft",
+    "Airbnb"
+  ],
+  "asked_at_sources": [
+    "https://www.hellointerview.com/community/questions/messenger-chat-system/cm4szunov00303g2e2gomqo2j",
+    "https://algomaster.io/learn/system-design-interviews/design-whatsapp"
+  ],
+  "width": 1080,
+  "height": 1920,
+  "styles": [
+    "assets/sdv.css"
+  ],
+  "captions": true,
+  "caption_highlight": [
+    "WhatsApp",
+    "WebSocket",
+    "Redis",
+    "Cassandra",
+    "Kafka",
+    "tick",
+    "ticks",
+    "sent",
+    "delivered",
+    "blue",
+    "fan-out",
+    "shard",
+    "end-to-end",
+    "Meta,",
+    "Amazon",
+    "Uber",
+    "billion",
+    "terabytes",
+    "heartbeat",
+    "Priya",
+    "Rahul"
+  ],
+  "cover_at": 2.5,
+  "scenes": [
+    "s1-hook",
+    "s2-requirements",
+    "s3-estimates",
+    "s4-connection",
+    "s5-send",
+    "s6-offline",
+    "s7-scale",
+    "s8-recap"
+  ],
+  "pad": 0.6,
+  "tracks": {
+    "en": {
+      "audio": "assets/audio/en",
+      "out": "out/design_whatsapp.mp4"
+    },
+    "hinglish": {
+      "audio": "assets/audio/hinglish",
+      "out": "out/design_whatsapp_hinglish.mp4"
+    }
+  },
+  "voice": {
+    "en": {
+      "engine": "kokoro",
+      "voice": "am_michael"
+    },
+    "hinglish": {
+      "engine": "elevenlabs",
+      "voice": "j7yQHuKNC1hdt1LBPAks",
+      "name": "Prashant - Warm, Clear Hindi Explainer",
+      "model": "eleven_v4"
+    }
+  },
+  "sfx_queries": {
+    "whoosh": "whoosh transition",
+    "pop": "pop ui",
+    "click-soft": "soft click ui",
+    "ping": "bright ping notification",
+    "impact-bass-1": "cinematic impact",
+    "whoosh-short": "short swoosh",
+    "sparkle": "magic sparkle chime"
+  },
+  "sfx": [
+    {
+      "scene": "s1-hook",
+      "sec": 0.2,
+      "sound": "whoosh",
+      "volume": 0.3
+    },
+    {
+      "scene": "s1-hook",
+      "sec": 3.4,
+      "sound": "whoosh-short",
+      "volume": 0.3
+    },
+    {
+      "scene": "s1-hook",
+      "sec": 3.95,
+      "sound": "pop"
+    },
+    {
+      "scene": "s1-hook",
+      "sec": 6.0,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s2-requirements",
+      "at": 0.1,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-requirements",
+      "at": 0.46,
+      "sound": "pop"
+    },
+    {
+      "scene": "s3-estimates",
+      "at": 0.19,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s3-estimates",
+      "at": 0.8,
+      "sound": "impact-bass-1",
+      "volume": 0.35
+    },
+    {
+      "scene": "s4-connection",
+      "at": 0.0,
+      "sound": "whoosh-short",
+      "volume": 0.25
+    },
+    {
+      "scene": "s4-connection",
+      "at": 0.14,
+      "sound": "pop"
+    },
+    {
+      "scene": "s4-connection",
+      "at": 0.86,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s5-send",
+      "at": 0.03,
+      "sound": "pop"
+    },
+    {
+      "scene": "s5-send",
+      "sec": 8.2,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s5-send",
+      "sec": 18.3,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s6-offline",
+      "at": 0.24,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s6-offline",
+      "at": 0.67,
+      "sound": "sparkle",
+      "volume": 0.25
+    },
+    {
+      "scene": "s7-scale",
+      "at": 0.04,
+      "sound": "whoosh-short",
+      "volume": 0.25
+    },
+    {
+      "scene": "s7-scale",
+      "at": 0.38,
+      "sound": "pop"
+    },
+    {
+      "scene": "s7-scale",
+      "at": 0.76,
+      "sound": "impact-bass-1",
+      "volume": 0.3
+    },
+    {
+      "scene": "s8-recap",
+      "at": 0.05,
+      "sound": "pop"
+    },
+    {
+      "scene": "s8-recap",
+      "at": 0.63,
+      "sound": "sparkle",
+      "volume": 0.3
+    }
+  ],
+  "music": null,
+  "outro_hold": 3.0,
+  "scripts": [
+    "assets/whatsapp3d.js"
+  ]
+}

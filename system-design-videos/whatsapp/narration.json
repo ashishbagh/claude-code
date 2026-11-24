@@ -1,0 +1,22 @@
+{
+  "en": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "hinglish": [
+    "आपने 'Hi' भेजा, और एक second से भी कम में, वो दोस्त के phone पर पहुँच गया. रोज़ करीब सौ billion messages ऐसे ही जाते हैं. चलो design करते हैं WhatsApp, जो Meta, Amazon और Uber के interviews में पूछा जाता है.",
+    "पहले requirements. One-to-one और group chat, sent, delivered और read वाले ticks, और online status. साथ ही, latency बहुत कम हो, कोई message lose न हो, order सही रहे, और system दो billion users तक scale करे.",
+    "थोड़ा math. रोज़ सौ billion messages, यानी लगभग बारह लाख per second. सौ bytes का एक message, तो रोज़ दस terabytes. और पचास करोड़ users एक साथ online हों, और एक server एक लाख connections संभाले, तो करीब पाँच हज़ार chat servers चाहिए.",
+    "Instant delivery के लिए polling नहीं चलेगा. हर phone एक WebSocket खोलता है, जो हमेशा खुला रहता है, ताकि server खुद message push कर सके. Load balancer, Priya को chat server A से जोड़ता है, और Rahul को B से. Session service, Redis में याद रखती है, कौन किस server पर है.",
+    "अब Priya, Rahul को 'Hi' भेजती है. Message server A पर आता है, और पहले Cassandra में save होता है: एक tick, sent. फिर session service बताती है, Rahul server B पर है. B, message push करता है, Rahul का phone ack भेजता है, और Priya को दो ticks दिखते हैं: delivered.",
+    "अगर Rahul offline है, तो message pending रहता है, और push notification चली जाती है. Online आते ही, pending messages sync हो जाते हैं. Message पढ़ते ही read receipt जाती है, और ticks blue हो जाते हैं. Last seen के लिए, phone हर कुछ seconds में heartbeat भेजता है.",
+    "Group में, message एक बार Kafka में जाता है, और workers हर member तक fan-out करते हैं. Messages को chat ID से shard करते हैं, ताकि एक chat के messages सही order में एक जगह रहें. और end-to-end encryption से, server भी message नहीं पढ़ सकता.",
+    "Recap: WebSockets से real-time connection, Redis में sessions, Cassandra में messages, ticks के लिए acks, और groups के लिए Kafka fan-out. यही है WhatsApp का design. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}

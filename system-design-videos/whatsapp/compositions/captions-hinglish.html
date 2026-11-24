@@ -1,0 +1,222 @@
+<template>
+  <style>#root { position: absolute; inset: 0; pointer-events: none; }</style>
+  <div id="root" data-composition-id="captions-hinglish" data-width="1080" data-height="1920">
+    <div class="v-cap" id="cap-0" data-layout-allow-overlap><span>आपने &#x27;Hi&#x27; भेजा, और एक second</span></div>
+    <div class="v-cap" id="cap-1" data-layout-allow-overlap><span>से भी कम में, वो दोस्त के phone पर पहुँच</span></div>
+    <div class="v-cap" id="cap-2" data-layout-allow-overlap><span>गया. रोज़ करीब सौ <b>billion</b></span></div>
+    <div class="v-cap" id="cap-3" data-layout-allow-overlap><span>messages ऐसे ही जाते हैं.</span></div>
+    <div class="v-cap" id="cap-4" data-layout-allow-overlap><span>चलो design करते हैं <b>WhatsApp,</b></span></div>
+    <div class="v-cap" id="cap-5" data-layout-allow-overlap><span>जो Meta, <b>Amazon</b> और <b>Uber</b> के interviews</span></div>
+    <div class="v-cap" id="cap-6" data-layout-allow-overlap><span>में पूछा जाता है.</span></div>
+    <div class="v-cap" id="cap-7" data-layout-allow-overlap><span>पहले requirements.</span></div>
+    <div class="v-cap" id="cap-8" data-layout-allow-overlap><span>One-to-one और group chat,</span></div>
+    <div class="v-cap" id="cap-9" data-layout-allow-overlap><span><b>sent,</b> <b>delivered</b> और read वाले</span></div>
+    <div class="v-cap" id="cap-10" data-layout-allow-overlap><span><b>ticks,</b> और online status.</span></div>
+    <div class="v-cap" id="cap-11" data-layout-allow-overlap><span>साथ ही, latency बहुत कम हो,</span></div>
+    <div class="v-cap" id="cap-12" data-layout-allow-overlap><span>कोई message lose न हो, order सही रहे, और</span></div>
+    <div class="v-cap" id="cap-13" data-layout-allow-overlap><span>system दो <b>billion</b> users तक</span></div>
+    <div class="v-cap" id="cap-14" data-layout-allow-overlap><span>scale करे.</span></div>
+    <div class="v-cap" id="cap-15" data-layout-allow-overlap><span>थोड़ा math.</span></div>
+    <div class="v-cap" id="cap-16" data-layout-allow-overlap><span>रोज़ सौ <b>billion</b> messages,</span></div>
+    <div class="v-cap" id="cap-17" data-layout-allow-overlap><span>यानी लगभग बारह लाख per second.</span></div>
+    <div class="v-cap" id="cap-18" data-layout-allow-overlap><span>सौ bytes का एक message, तो रोज़ दस</span></div>
+    <div class="v-cap" id="cap-19" data-layout-allow-overlap><span><b>terabytes.</b></span></div>
+    <div class="v-cap" id="cap-20" data-layout-allow-overlap><span>और पचास करोड़ users एक साथ online</span></div>
+    <div class="v-cap" id="cap-21" data-layout-allow-overlap><span>हों, और एक server एक लाख</span></div>
+    <div class="v-cap" id="cap-22" data-layout-allow-overlap><span>connections संभाले, तो करीब</span></div>
+    <div class="v-cap" id="cap-23" data-layout-allow-overlap><span>पाँच हज़ार chat servers चाहिए.</span></div>
+    <div class="v-cap" id="cap-24" data-layout-allow-overlap><span>Instant delivery के लिए polling</span></div>
+    <div class="v-cap" id="cap-25" data-layout-allow-overlap><span>नहीं चलेगा.</span></div>
+    <div class="v-cap" id="cap-26" data-layout-allow-overlap><span>हर phone एक <b>WebSocket</b> खोलता है, जो हमेशा</span></div>
+    <div class="v-cap" id="cap-27" data-layout-allow-overlap><span>खुला रहता है, ताकि server</span></div>
+    <div class="v-cap" id="cap-28" data-layout-allow-overlap><span>खुद message push कर सके.</span></div>
+    <div class="v-cap" id="cap-29" data-layout-allow-overlap><span>Load balancer, <b>Priya</b> को chat</span></div>
+    <div class="v-cap" id="cap-30" data-layout-allow-overlap><span>server A से जोड़ता है, और <b>Rahul</b></span></div>
+    <div class="v-cap" id="cap-31" data-layout-allow-overlap><span>को B से. Session service,</span></div>
+    <div class="v-cap" id="cap-32" data-layout-allow-overlap><span><b>Redis</b> में याद रखती है, कौन किस server पर</span></div>
+    <div class="v-cap" id="cap-33" data-layout-allow-overlap><span>है.</span></div>
+    <div class="v-cap" id="cap-34" data-layout-allow-overlap><span>अब <b>Priya,</b> <b>Rahul</b> को &#x27;Hi&#x27; भेजती</span></div>
+    <div class="v-cap" id="cap-35" data-layout-allow-overlap><span>है. Message server A पर आता है, और पहले</span></div>
+    <div class="v-cap" id="cap-36" data-layout-allow-overlap><span><b>Cassandra</b> में save होता है:</span></div>
+    <div class="v-cap" id="cap-37" data-layout-allow-overlap><span>एक <b>tick,</b> <b>sent.</b></span></div>
+    <div class="v-cap" id="cap-38" data-layout-allow-overlap><span>फिर session service बताती</span></div>
+    <div class="v-cap" id="cap-39" data-layout-allow-overlap><span>है, <b>Rahul</b> server B पर है.</span></div>
+    <div class="v-cap" id="cap-40" data-layout-allow-overlap><span>B, message push करता है,</span></div>
+    <div class="v-cap" id="cap-41" data-layout-allow-overlap><span><b>Rahul</b> का phone ack भेजता है, और <b>Priya</b> को</span></div>
+    <div class="v-cap" id="cap-42" data-layout-allow-overlap><span>दो <b>ticks</b> दिखते हैं: <b>delivered.</b></span></div>
+    <div class="v-cap" id="cap-43" data-layout-allow-overlap><span>अगर <b>Rahul</b> offline है, तो message</span></div>
+    <div class="v-cap" id="cap-44" data-layout-allow-overlap><span>pending रहता है, और push notification</span></div>
+    <div class="v-cap" id="cap-45" data-layout-allow-overlap><span>चली जाती है.</span></div>
+    <div class="v-cap" id="cap-46" data-layout-allow-overlap><span>Online आते ही, pending messages</span></div>
+    <div class="v-cap" id="cap-47" data-layout-allow-overlap><span>sync हो जाते हैं.</span></div>
+    <div class="v-cap" id="cap-48" data-layout-allow-overlap><span>Message पढ़ते ही read receipt जाती है,</span></div>
+    <div class="v-cap" id="cap-49" data-layout-allow-overlap><span>और <b>ticks</b> <b>blue</b> हो जाते हैं.</span></div>
+    <div class="v-cap" id="cap-50" data-layout-allow-overlap><span>Last seen के लिए, phone हर कुछ seconds</span></div>
+    <div class="v-cap" id="cap-51" data-layout-allow-overlap><span>में <b>heartbeat</b> भेजता है.</span></div>
+    <div class="v-cap" id="cap-52" data-layout-allow-overlap><span>Group में, message एक बार <b>Kafka</b></span></div>
+    <div class="v-cap" id="cap-53" data-layout-allow-overlap><span>में जाता है, और workers हर member</span></div>
+    <div class="v-cap" id="cap-54" data-layout-allow-overlap><span>तक <b>fan-out</b> करते हैं.</span></div>
+    <div class="v-cap" id="cap-55" data-layout-allow-overlap><span>Messages को chat ID से <b>shard</b> करते हैं,</span></div>
+    <div class="v-cap" id="cap-56" data-layout-allow-overlap><span>ताकि एक chat के messages सही order</span></div>
+    <div class="v-cap" id="cap-57" data-layout-allow-overlap><span>में एक जगह रहें.</span></div>
+    <div class="v-cap" id="cap-58" data-layout-allow-overlap><span>और <b>end-to-end</b> encryption</span></div>
+    <div class="v-cap" id="cap-59" data-layout-allow-overlap><span>से, server भी message नहीं पढ़ सकता.</span></div>
+    <div class="v-cap" id="cap-60" data-layout-allow-overlap><span>Recap: WebSockets से real-time</span></div>
+    <div class="v-cap" id="cap-61" data-layout-allow-overlap><span>connection, <b>Redis</b> में sessions,</span></div>
+    <div class="v-cap" id="cap-62" data-layout-allow-overlap><span><b>Cassandra</b> में messages, <b>ticks</b></span></div>
+    <div class="v-cap" id="cap-63" data-layout-allow-overlap><span>के लिए acks, और groups के लिए <b>Kafka</b></span></div>
+    <div class="v-cap" id="cap-64" data-layout-allow-overlap><span><b>fan-out.</b> यही है <b>WhatsApp</b></span></div>
+    <div class="v-cap" id="cap-65" data-layout-allow-overlap><span>का design.</span></div>
+    <div class="v-cap" id="cap-66" data-layout-allow-overlap><span>देखने के लिए धन्यवाद!</span></div>
+    <div class="v-cap" id="cap-67" data-layout-allow-overlap><span>ऐसी और videos के लिए, YouTube और</span></div>
+    <div class="v-cap" id="cap-68" data-layout-allow-overlap><span>Instagram पर D S Algo A I को subscribe</span></div>
+    <div class="v-cap" id="cap-69" data-layout-allow-overlap><span>करो.</span></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#cap-0", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 0.0);
+      tl.set("#cap-0", { opacity: 0 }, 2.504);
+      tl.fromTo("#cap-1", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 2.514);
+      tl.set("#cap-1", { opacity: 0 }, 5.309);
+      tl.fromTo("#cap-2", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 5.319);
+      tl.set("#cap-2", { opacity: 0 }, 7.405);
+      tl.fromTo("#cap-3", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 7.415);
+      tl.set("#cap-3", { opacity: 0 }, 9.597);
+      tl.fromTo("#cap-4", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 9.607);
+      tl.set("#cap-4", { opacity: 0 }, 11.729);
+      tl.fromTo("#cap-5", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 11.739);
+      tl.set("#cap-5", { opacity: 0 }, 14.140);
+      tl.fromTo("#cap-6", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 14.15);
+      tl.set("#cap-6", { opacity: 0 }, 16.237);
+      tl.fromTo("#cap-7", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 16.247);
+      tl.set("#cap-7", { opacity: 0 }, 18.109);
+      tl.fromTo("#cap-8", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 18.119);
+      tl.set("#cap-8", { opacity: 0 }, 20.127);
+      tl.fromTo("#cap-9", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 20.137);
+      tl.set("#cap-9", { opacity: 0 }, 22.452);
+      tl.fromTo("#cap-10", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 22.462);
+      tl.set("#cap-10", { opacity: 0 }, 24.913);
+      tl.fromTo("#cap-11", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 24.923);
+      tl.set("#cap-11", { opacity: 0 }, 27.494);
+      tl.fromTo("#cap-12", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 27.504);
+      tl.set("#cap-12", { opacity: 0 }, 30.582);
+      tl.fromTo("#cap-13", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 30.592);
+      tl.set("#cap-13", { opacity: 0 }, 32.584);
+      tl.fromTo("#cap-14", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 32.594);
+      tl.set("#cap-14", { opacity: 0 }, 33.699);
+      tl.fromTo("#cap-15", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 34.009);
+      tl.set("#cap-15", { opacity: 0 }, 35.509);
+      tl.fromTo("#cap-16", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 35.519);
+      tl.set("#cap-16", { opacity: 0 }, 37.968);
+      tl.fromTo("#cap-17", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 37.978);
+      tl.set("#cap-17", { opacity: 0 }, 40.972);
+      tl.fromTo("#cap-18", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 40.982);
+      tl.set("#cap-18", { opacity: 0 }, 42.766);
+      tl.fromTo("#cap-19", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 42.776);
+      tl.set("#cap-19", { opacity: 0 }, 43.584);
+      tl.fromTo("#cap-20", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 43.594);
+      tl.set("#cap-20", { opacity: 0 }, 46.450);
+      tl.fromTo("#cap-21", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 46.46);
+      tl.set("#cap-21", { opacity: 0 }, 49.200);
+      tl.fromTo("#cap-22", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 49.21);
+      tl.set("#cap-22", { opacity: 0 }, 52.090);
+      tl.fromTo("#cap-23", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 52.1);
+      tl.set("#cap-23", { opacity: 0 }, 54.570);
+      tl.fromTo("#cap-24", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 54.88);
+      tl.set("#cap-24", { opacity: 0 }, 56.994);
+      tl.fromTo("#cap-25", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 57.004);
+      tl.set("#cap-25", { opacity: 0 }, 57.791);
+      tl.fromTo("#cap-26", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 57.801);
+      tl.set("#cap-26", { opacity: 0 }, 60.738);
+      tl.fromTo("#cap-27", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 60.748);
+      tl.set("#cap-27", { opacity: 0 }, 62.833);
+      tl.fromTo("#cap-28", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 62.843);
+      tl.set("#cap-28", { opacity: 0 }, 64.875);
+      tl.fromTo("#cap-29", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 64.885);
+      tl.set("#cap-29", { opacity: 0 }, 67.243);
+      tl.fromTo("#cap-30", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 67.253);
+      tl.set("#cap-30", { opacity: 0 }, 69.922);
+      tl.fromTo("#cap-31", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 69.932);
+      tl.set("#cap-31", { opacity: 0 }, 72.314);
+      tl.fromTo("#cap-32", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 72.324);
+      tl.set("#cap-32", { opacity: 0 }, 75.266);
+      tl.fromTo("#cap-33", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 75.276);
+      tl.set("#cap-33", { opacity: 0 }, 76.159);
+      tl.fromTo("#cap-34", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 76.169);
+      tl.set("#cap-34", { opacity: 0 }, 78.715);
+      tl.fromTo("#cap-35", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 78.725);
+      tl.set("#cap-35", { opacity: 0 }, 81.591);
+      tl.fromTo("#cap-36", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 81.601);
+      tl.set("#cap-36", { opacity: 0 }, 83.733);
+      tl.fromTo("#cap-37", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 83.743);
+      tl.set("#cap-37", { opacity: 0 }, 85.217);
+      tl.fromTo("#cap-38", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 85.227);
+      tl.set("#cap-38", { opacity: 0 }, 86.917);
+      tl.fromTo("#cap-39", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 86.927);
+      tl.set("#cap-39", { opacity: 0 }, 89.177);
+      tl.fromTo("#cap-40", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 89.187);
+      tl.set("#cap-40", { opacity: 0 }, 91.387);
+      tl.fromTo("#cap-41", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 91.397);
+      tl.set("#cap-41", { opacity: 0 }, 94.279);
+      tl.fromTo("#cap-42", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 94.289);
+      tl.set("#cap-42", { opacity: 0 }, 96.887);
+      tl.fromTo("#cap-43", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 97.197);
+      tl.set("#cap-43", { opacity: 0 }, 99.667);
+      tl.fromTo("#cap-44", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 99.677);
+      tl.set("#cap-44", { opacity: 0 }, 102.278);
+      tl.fromTo("#cap-45", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 102.288);
+      tl.set("#cap-45", { opacity: 0 }, 103.230);
+      tl.fromTo("#cap-46", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 103.24);
+      tl.set("#cap-46", { opacity: 0 }, 105.550);
+      tl.fromTo("#cap-47", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 105.56);
+      tl.set("#cap-47", { opacity: 0 }, 106.670);
+      tl.fromTo("#cap-48", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 106.68);
+      tl.set("#cap-48", { opacity: 0 }, 109.228);
+      tl.fromTo("#cap-49", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 109.238);
+      tl.set("#cap-49", { opacity: 0 }, 111.194);
+      tl.fromTo("#cap-50", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 111.204);
+      tl.set("#cap-50", { opacity: 0 }, 113.081);
+      tl.fromTo("#cap-51", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 113.091);
+      tl.set("#cap-51", { opacity: 0 }, 115.838);
+      tl.fromTo("#cap-52", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 115.848);
+      tl.set("#cap-52", { opacity: 0 }, 118.235);
+      tl.fromTo("#cap-53", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 118.245);
+      tl.set("#cap-53", { opacity: 0 }, 120.926);
+      tl.fromTo("#cap-54", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 120.936);
+      tl.set("#cap-54", { opacity: 0 }, 122.643);
+      tl.fromTo("#cap-55", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 122.653);
+      tl.set("#cap-55", { opacity: 0 }, 125.462);
+      tl.fromTo("#cap-56", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 125.472);
+      tl.set("#cap-56", { opacity: 0 }, 128.093);
+      tl.fromTo("#cap-57", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 128.103);
+      tl.set("#cap-57", { opacity: 0 }, 129.371);
+      tl.fromTo("#cap-58", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 129.381);
+      tl.set("#cap-58", { opacity: 0 }, 131.037);
+      tl.fromTo("#cap-59", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 131.047);
+      tl.set("#cap-59", { opacity: 0 }, 134.149);
+      tl.fromTo("#cap-60", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 134.159);
+      tl.set("#cap-60", { opacity: 0 }, 136.840);
+      tl.fromTo("#cap-61", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 136.85);
+      tl.set("#cap-61", { opacity: 0 }, 139.365);
+      tl.fromTo("#cap-62", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 139.375);
+      tl.set("#cap-62", { opacity: 0 }, 141.627);
+      tl.fromTo("#cap-63", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 141.637);
+      tl.set("#cap-63", { opacity: 0 }, 144.341);
+      tl.fromTo("#cap-64", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 144.351);
+      tl.set("#cap-64", { opacity: 0 }, 146.321);
+      tl.fromTo("#cap-65", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 146.331);
+      tl.set("#cap-65", { opacity: 0 }, 147.193);
+      tl.fromTo("#cap-66", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 147.203);
+      tl.set("#cap-66", { opacity: 0 }, 148.910);
+      tl.fromTo("#cap-67", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 148.92);
+      tl.set("#cap-67", { opacity: 0 }, 151.270);
+      tl.fromTo("#cap-68", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 151.28);
+      tl.set("#cap-68", { opacity: 0 }, 154.062);
+      tl.fromTo("#cap-69", { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.16, ease: "back.out(2.5)" }, 154.072);
+      tl.set("#cap-69", { opacity: 0 }, 154.720);
+      tl.set({}, {}, 158.03);
+      window.__timelines["captions-hinglish"] = tl;
+    })();
+  </script>
+</template>

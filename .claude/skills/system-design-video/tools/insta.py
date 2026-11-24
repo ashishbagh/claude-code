@@ -105,6 +105,15 @@ def main():
         raise SystemExit(f"{dur:.0f}s is over the 3-minute Reel limit; pass --trim 180 or shorten the script")
 
     base = os.path.splitext(src)[0]
+    if cfg.get("height", 1080) > cfg.get("width", 1920):   # native 9:16 render: it IS the reel
+        out, cover = base + "_reel.mp4", base + "_reel_cover.jpg"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", src, "-t", f"{limit:.3f}", "-c:v", "copy",
+                        "-af", "loudnorm=I=-14:TP=-1.5:LRA=11", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
+                        "-movflags", "+faststart", out], check=True)
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", str(cfg.get("cover_at", 2.5)), "-i", out,
+                        "-frames:v", "1", "-q:v", "2", cover], check=True)
+        print("reel (native 9:16):", out, f"({min(dur, limit):.1f}s)\ncover:", cover)
+        return
     out, cover, ass = base + "_reel.mp4", base + "_reel_cover.jpg", base + "_reel.ass"
     font_dir = next((d for d in FONT_DIRS if os.path.isdir(d)), "/usr/share/fonts")
     font = "Inter" if "inter" in font_dir else "DejaVu Sans"

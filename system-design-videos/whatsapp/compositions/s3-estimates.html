@@ -1,0 +1,53 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s3-canvas { filter: blur(5px) brightness(0.5); }
+    #s3-card { top: 420px; padding: 14px 36px; }
+    #s3-card .v-stat strong { font-size: 70px; }
+    #s3-big { position: absolute; left: 64px; right: 64px; top: 850px; text-align: center; opacity: 0; z-index: 5; }
+    #s3-big .v-big { font-size: 140px; }
+    #s3-big p { color: var(--ink); font: 800 44px var(--font); margin-top: 6px; }
+  </style>
+  <div id="root" data-composition-id="s3-estimates" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":20.8},{"id":"S","type":"number","label":"Narration length (s)","default":20.2}]'>
+    <canvas id="s3-canvas" class="lc-fill"></canvas>
+    <div class="v-top"><span class="lc-badge">Back of the envelope</span><span class="v-name">Design WhatsApp</span></div>
+    <div class="v-card" id="s3-card" data-hold>
+      <div class="v-stat" id="s3-r1"><span>Messages / day</span><strong id="s3-n1">100B</strong></div>
+      <div class="v-stat" id="s3-r2"><span>Messages / sec</span><strong id="s3-n2">0</strong></div>
+      <div class="v-stat" id="s3-r3"><span>Storage / day<br><small style="font-size:30px">100 B each</small></span><strong id="s3-n3">0</strong></div>
+      <div class="v-stat" id="s3-r4"><span>Online at once</span><strong id="s3-n4">0</strong></div>
+    </div>
+    <div id="s3-big"><div class="v-big" id="s3-n5">0</div><p>chat servers · 1 lakh connections each</p></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const A = ChatArch(document.getElementById("s3-canvas"));
+      const at = (f) => f * S;
+      const count = (sel, to, t0, dur, fmt) => {
+        const o = { v: 0 };
+        tl.fromTo(o, { v: 0 }, { v: to, duration: dur, ease: "power2.out",
+          onUpdate: () => { document.querySelector(sel).textContent = fmt(o.v); } }, t0);
+      };
+      tl.fromTo("#s3-card", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.1);
+      [["#s3-r1", 0.05], ["#s3-r2", 0.17], ["#s3-r3", 0.36], ["#s3-r4", 0.52]].forEach(([s, a]) =>
+        tl.fromTo(s, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, at(a)));
+      count("#s3-n2", 1.16, at(0.19), 1.2, (v) => "~" + v.toFixed(2) + "M");
+      count("#s3-n3", 10, at(0.38), 1.0, (v) => Math.round(v) + " TB");
+      count("#s3-n4", 500, at(0.54), 1.0, (v) => Math.round(v) + "M");
+      tl.fromTo("#s3-big", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, at(0.80));
+      count("#s3-n5", 5000, at(0.80), 1.1, (v) => "~" + Math.round(v).toLocaleString("en-US"));
+      // message rain in the background
+      const hops = [];
+      for (let i = 0; i < 40; i++) {
+        const s = 0.2 + i * (S / 40), c = ["#22c55e", "#38bdf8", "#a78bfa", "#facc15"][i % 4];
+        hops.push([i % 2 ? "rahul" : "priya", "lb", s, 0.6, null, c], ["lb", i % 3 ? "chatA" : "chatB", s + 0.6, 0.5, null, c]);
+      }
+      LC.drive(tl, T, (t) => A.draw({ appear: A.base(), packets: SD.hop(t, hops), hot: SD.lit(t, hops),
+        orbit: -0.3 + 0.6 * (t / T), dist: 15, elev: 0.95 }));
+      window.__timelines["s3-estimates"] = tl;
+    })();
+  </script>
+</template>

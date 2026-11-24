@@ -1,0 +1,40 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s8-canvas { filter: blur(6px) brightness(0.5); }
+    #s8-card { top: 420px; padding: 10px 36px; }
+    #s8-card .v-row { font-size: 38px; padding: 7px 0; }
+  </style>
+  <div id="root" data-composition-id="s8-recap" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":23.9},{"id":"S","type":"number","label":"Narration length (s)","default":20.3}]'>
+    <canvas id="s8-canvas" class="lc-fill"></canvas>
+    <div class="v-top"><span class="lc-badge">Recap</span><span class="v-name">Design WhatsApp</span></div>
+    <div class="v-card" id="s8-card" data-hold>
+      <div class="v-row" id="s8-r1"><i>⚡</i>WebSocket · real-time</div>
+      <div class="v-row" id="s8-r2"><i>🗺</i>Redis · who is where</div>
+      <div class="v-row" id="s8-r3"><i>💾</i>Cassandra · messages</div>
+      <div class="v-row" id="s8-r4"><i>✓✓</i>Acks → ticks</div>
+      <div class="v-row" id="s8-r5"><i>👥</i>Kafka · group fan-out</div>
+    </div>
+    <div class="v-outro" data-hold>
+      <div class="lc-thanks" id="s8-thanks">Thanks for watching!</div>
+      <div class="lc-sub" id="s8-sub">Subscribe to <b>@dsalgo_ai</b> for more such videos</div>
+      <div class="lc-social" id="s8-social"><span class="lc-yt"><i></i>YouTube</span><span class="lc-ig"><i></i>Instagram</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const A = ChatArch(document.getElementById("s8-canvas"));
+      const at = (f) => f * S;
+      tl.fromTo("#s8-card", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.1);
+      [["#s8-r1", 0.05], ["#s8-r2", 0.17], ["#s8-r3", 0.26], ["#s8-r4", 0.35], ["#s8-r5", 0.41]].forEach(([s, a]) =>
+        tl.fromTo(s, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.35, ease: "back.out(1.8)" }, at(a)));
+      LC.outro(tl, "s8", at(0.63));
+      LC.drive(tl, T, (t) => A.draw({ appear: A.base({ kafka: 1, w1: 1, w2: 1, g1: 1, g2: 1, push: 1 }),
+        orbit: 0.8 * (t / T) - 0.4, dist: 17, elev: 1.0, target: [0, 0, 0] }));
+      window.__timelines["s8-recap"] = tl;
+    })();
+  </script>
+</template>

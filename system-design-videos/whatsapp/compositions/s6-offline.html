@@ -1,0 +1,61 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s6-chat { top: 440px; }
+    .s6-status { position: absolute; left: 72px; top: 590px; padding: 12px 26px; border-radius: 30px; font: 800 40px var(--font);
+      background: var(--panel); border: 2px solid var(--panel-edge); opacity: 0; z-index: 5; }
+    #s6-off { color: #94a3b8; } #s6-on { color: #4ade80; } #s6-hb { color: #f472b6; }
+  </style>
+  <div id="root" data-composition-id="s6-offline" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":18.7},{"id":"S","type":"number","label":"Narration length (s)","default":18}]'>
+    <canvas id="s6-canvas" class="lc-fill"></canvas>
+    <div class="v-vignette"></div>
+    <div class="v-top"><span class="lc-badge">Offline · read · presence</span><span class="v-name">Design WhatsApp</span></div>
+    <div class="v-chat" id="s6-chat">
+      <div class="v-bubble" id="s6-b1">Hi! 👋 <small>10:42</small><span class="v-ticks" data-layout-allow-overlap id="s6-tk"><span class="t1" id="s6-tk1">✓</span><span class="t2" id="s6-tk2">✓</span></span></div>
+    </div>
+    <div class="s6-status" id="s6-off">● Rahul · offline</div>
+    <div class="s6-status" id="s6-on">● Rahul · online</div>
+    <div class="s6-status" id="s6-hb">♥ heartbeat every few sec</div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const A = ChatArch(document.getElementById("s6-canvas"));
+      const at = (f) => f * S;
+      const G = "#22c55e", B = "#38bdf8", Y = "#facc15", O = "#fb923c", P = "#f472b6";
+      const hops = [
+        ["chatA", "db", at(0.08), 0.9, "pending", O],
+        ["chatB", "push", at(0.20), 0.8, null, O], ["push", "rahul", at(0.20) + 0.8, 1.0, "🔔 notify", O],
+        ["rahul", "lb", at(0.33), 0.7, "online", G], ["lb", "chatB", at(0.33) + 0.7, 0.6, null, G],
+        ["db", "chatB", at(0.40), 1.0, "sync", G], ["chatB", "rahul", at(0.40) + 1.0, 0.8, "Hi!", G],
+        ["rahul", "chatB", at(0.53), 0.8, "read", B], ["chatB", "chatA", at(0.53) + 0.8, 0.7, null, B],
+        ["chatA", "priya", at(0.53) + 1.5, 0.8, "✓✓", B],
+      ];
+      for (let i = 0; i < 4; i++) hops.push(["rahul", "chatB", at(0.78) + i * 1.0, 0.6, i === 0 ? "♥" : null, P]);
+      tl.set("#s6-tk1", { opacity: 1 }, 0); tl.set("#s6-tk2", { opacity: 1 }, 0);
+      tl.fromTo("#s6-b1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4 }, 0.05);
+      tl.set("#s6-tk2", { opacity: 0 }, 0.04);   // only one tick while Rahul is offline
+      tl.fromTo("#s6-tk2", { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: 0.3 }, at(0.40) + 1.8);
+      tl.to(["#s6-tk1", "#s6-tk2"], { color: "#38bdf8", duration: 0.3 }, at(0.53) + 2.3);
+      tl.fromTo("#s6-tk", { scale: 1 }, { scale: 1.5, duration: 0.2, yoyo: true, repeat: 1 }, at(0.53) + 2.3);
+      tl.fromTo("#s6-off", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35 }, 0.2);
+      tl.to("#s6-off", { opacity: 0, duration: 0.2 }, at(0.33));
+      tl.fromTo("#s6-on", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35 }, at(0.33) + 0.2);
+      tl.to("#s6-on", { opacity: 0, duration: 0.2 }, at(0.77));
+      tl.fromTo("#s6-hb", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35 }, at(0.78));
+      LC.drive(tl, T, (t) => {
+        const off = 1 - LC.prog(t, at(0.33), 0.6);
+        const k = LC.prog(t, at(0.30), 1.5);
+        A.draw({
+          appear: A.base({ push: LC.prog(t, at(0.18), 0.7) }),
+          fade: { rahul: 0.85 * off },
+          packets: SD.hop(t, hops), hot: SD.lit(t, hops), glow: SD.glowFrom(t, hops),
+          target: [1.2 - 0.8 * k, 0, -1.6 - 1.4 * k], dist: 15.5 + 1.5 * k, elev: 0.95, orbit: -0.15 + 0.2 * (t / T),
+        });
+      });
+      window.__timelines["s6-offline"] = tl;
+    })();
+  </script>
+</template>

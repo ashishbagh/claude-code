@@ -63,12 +63,13 @@
   LC.three = function (canvas, { fov = 34, shiftX = 0, shiftY = 0 } = {}) {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true, alpha: true });
     renderer.setPixelRatio(1);
-    renderer.setSize(1920, 1080, false);
+    const W = window.LC_W || 1920, H = window.LC_H || 1080;   // set by build.py (1080x1920 for vertical)
+    renderer.setSize(W, H, false);
     renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(fov, 1920 / 1080, 0.1, 200);
-    if (shiftX || shiftY) camera.setViewOffset(1920, 1080, shiftX, shiftY, 1920, 1080);
+    const camera = new THREE.PerspectiveCamera(fov, W / H, 0.1, 200);
+    if (shiftX || shiftY) camera.setViewOffset(W, H, shiftX, shiftY, W, H);
     scene.add(new THREE.HemisphereLight(0xc4d6ff, 0x141428, 1.0));
     scene.add(new THREE.AmbientLight(0xffffff, 0.35));
     const key = new THREE.DirectionalLight(0xffe4b8, 2.2); key.position.set(6, 12, 7); scene.add(key);
@@ -97,7 +98,7 @@
 
 /** "Asked at" chips: pop each `.sd-co` inside `sel` in turn, starting at `at` seconds. */
 window.LC.askedAt = function (tl, sel, at, gap = 0.12) {
-  tl.fromTo(`${sel} > em`, { opacity: 0 }, { opacity: 1, duration: 0.3 }, at);
-  document.querySelectorAll(`${sel} .sd-co`).forEach((el, i) =>
+  tl.fromTo(sel + " > em", { opacity: 0 }, { opacity: 1, duration: 0.3 }, at);
+  document.querySelectorAll(sel + " .sd-co").forEach((el, i) =>
     tl.fromTo(el, { opacity: 0, y: 16, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, at + 0.1 + i * gap));
 };

@@ -23,6 +23,24 @@ def pauses(path, noise="-35dB", d=0.12):
     return ends
 
 
+def clause_times(clip, text):
+    """[(start_sec, clause_text), ...] for one scene: char-share estimate snapped to nearby pauses."""
+    S = duration(clip)
+    ends = pauses(clip)
+    parts = [p for p in re.split(r"(?<=[.!?:;,।])\s+", text) if p.strip()]
+    total = sum(len(p) for p in parts) or 1
+    out, acc, last = [], 0, 0.0
+    for p in parts:
+        est = acc / total * S
+        snap = min(ends, key=lambda e: abs(e - est)) if ends and acc else 0.0
+        t = snap if abs(snap - est) < 1.2 and snap >= last else est
+        t = max(t, last)
+        out.append((round(t, 3), p))
+        last = t
+        acc += len(p)
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("project")
@@ -38,17 +56,9 @@ def main():
         if not clip:
             continue
         S = duration(clip)
-        ends = pauses(clip)
-        parts = [p for p in re.split(r"(?<=[.!?:;,।])\s+", text) if p.strip()]
-        total = sum(len(p) for p in parts)
-        print(f"\n== s{i} {cfg['scenes'][i - 1]}  S={S:.2f}s  pauses={len(ends)}")
-        acc = 0
-        for p in parts:
-            est = acc / total * S
-            snap = min(ends, key=lambda e: abs(e - est)) if ends and acc else 0.0
-            t = snap if abs(snap - est) < 1.2 else est
+        print(f"\n== s{i} {cfg['scenes'][i - 1]}  S={S:.2f}s")
+        for t, p in clause_times(clip, text):
             print(f"  {t / S:5.2f}  {t:6.2f}s  {p[:70]}")
-            acc += len(p)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,8 @@
 /* 3D architecture diagrams for system-design explainer scenes (classic script, needs THREE + LC).
 
    const A = SD.Arch(canvas, {
-     nodes: [{ id, kind, x, z, label, color, scale, labelDy, labelPos: "front" }],  // "front": label on the floor in front   // kind: client|lb|server|cache|db|kgs|queue|worker|cdn
+     nodes: [{ id, kind, x, z, label, color, scale, labelDy, labelPos: "front" }],  // "front": label on the floor in front
+                                                         // kinds: client phone lb server cache db kgs queue worker cdn   // kind: client|lb|server|cache|db|kgs|queue|worker|cdn
      edges: [["client", "lb"], ...],                    // drawn on the floor, grow with the nodes they join
      shiftX: 0, fov: 34, cam: { dist: 15, elev: 0.95, target: [0, 0, 0] },
    });
@@ -22,7 +23,7 @@
   const LCx = () => window.LC;
 
   const KIND_COLOR = {
-    client: "#38bdf8", lb: "#a78bfa", server: "#4c66b5", cache: "#ef4444", db: "#22c55e",
+    client: "#38bdf8", phone: "#22c55e", lb: "#a78bfa", server: "#4c66b5", cache: "#ef4444", db: "#22c55e",
     kgs: "#facc15", queue: "#fb923c", worker: "#ec4899", cdn: "#2dd4bf",
   };
 
@@ -68,6 +69,15 @@
       add(new THREE.BoxGeometry(0.12, 0.45, 0.12), body, 0, 0.25, 0);
       add(new THREE.BoxGeometry(0.7, 0.06, 0.45), body, 0, 0.03, 0);
       height = 1.45;
+    } else if (kind === "phone") {
+      const body = std(0x1b2140); mats.push(body);
+      const scr = std(col, { emissive: col.clone().multiplyScalar(0.5) }); mats.push(scr);
+      add(new THREE.BoxGeometry(0.9, 1.7, 0.12), body, 0, 0.95, 0);
+      add(new THREE.BoxGeometry(0.78, 1.5, 0.02), scr, 0, 0.97, 0.07);
+      const notch = std(0x0b0f20); mats.push(notch);
+      add(new THREE.BoxGeometry(0.26, 0.05, 0.02), notch, 0, 1.68, 0.08);
+      const g2 = new THREE.Group(); g2.add(...g.children.splice(0)); g2.rotation.x = -0.35; g.add(g2);
+      height = 1.9;
     } else if (kind === "lb") {
       const m = std(col); mats.push(m);
       add(new THREE.CylinderGeometry(0.8, 0.85, 0.42, 8), m, 0, 0.21, 0);

@@ -1,0 +1,62 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s1-chat { top: 440px; }
+    #s1-hero { background: radial-gradient(ellipse at 50% 50%, rgba(13,17,33,0.96) 0%, rgba(13,17,33,0.9) 55%, rgba(13,17,33,0.75) 100%); }
+  </style>
+  <div id="root" data-composition-id="s1-hook" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":16.2},{"id":"S","type":"number","label":"Narration length (s)","default":15.6}]'>
+    <canvas id="s1-canvas" class="lc-fill"></canvas>
+    <div class="v-vignette"></div>
+    <div class="v-hero" id="s1-hero">
+      <h1 id="s1-t1">Design<br>WhatsApp</h1>
+      <p id="s1-t2">System Design · Chat at scale</p>
+      <div class="sd-asked" id="s1-asked"><em>Asked at</em><span class="sd-co">Meta</span><span class="sd-co">Amazon</span><span class="sd-co">Uber</span><span class="sd-co">Microsoft</span><span class="sd-co">Airbnb</span></div>
+    </div>
+    <div id="s1-top" style="opacity:0"><div class="v-top"><span class="lc-badge">System Design</span><span class="v-name">Design WhatsApp</span></div></div>
+    <div class="v-chat" id="s1-chat">
+      <div class="v-bubble" id="s1-b1">Hi! 👋 <small>10:42</small><span class="v-ticks" data-layout-allow-overlap id="s1-tk"><span class="t1" id="s1-tk1">✓</span><span class="t2" id="s1-tk2">✓</span></span></div>
+    </div>
+    <div class="v-kicker" id="s1-k1" style="top:590px"><em>100 billion</em> messages a day<small>&lt; 1 second each</small></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const A = ChatArch(document.getElementById("s1-canvas"));
+      const at = (f) => f * S;
+      // hero visible from frame 0 (thumbnail / cover)
+      tl.fromTo("#s1-t1", { opacity: 1, scale: 0.95 }, { opacity: 1, scale: 1, duration: 3.2, ease: "power1.out" }, 0);
+      tl.fromTo("#s1-t2", { opacity: 1 }, { opacity: 1, duration: 0.1 }, 0);
+      LC.askedAt(tl, "#s1-asked", 0.5);
+      tl.to("#s1-hero", { opacity: 0, y: -60, duration: 0.45, ease: "power2.in" }, 3.4);
+      tl.fromTo("#s1-top", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 3.8);
+      tl.fromTo("#s1-b1", { opacity: 0, y: 40, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(2)" }, 3.9);
+      tl.fromTo("#s1-tk1", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 4.6);
+      tl.fromTo("#s1-tk2", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 6.0);
+      tl.fromTo("#s1-k1", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, Math.max(at(0.4), 6.6));
+      tl.to("#s1-k1", { opacity: 0, duration: 0.3 }, at(0.66));
+      const hops = [
+        ["priya", "lb", 4.4, 0.6, "Hi!", "#22c55e"], ["lb", "chatA", 5.0, 0.4, null, "#22c55e"],
+        ["chatA", "chatB", 5.4, 0.5, null, "#22c55e"], ["chatB", "rahul", 5.9, 0.6, "Hi!", "#22c55e"],
+      ];
+      // a stream of messages while "100 billion a day" is said
+      for (let i = 0; i < 6; i++) {
+        const s = at(0.42) + i * 0.45, c = ["#22c55e", "#38bdf8", "#a78bfa"][i % 3];
+        hops.push([i % 2 ? "rahul" : "priya", "lb", s, 0.5, null, c], ["lb", i % 2 ? "chatA" : "chatB", s + 0.5, 0.4, null, c]);
+      }
+      LC.drive(tl, T, (t) => {
+        const intro = LC.prog(t, 0, 3.6);
+        A.draw({
+          appear: A.base({ priya: LC.prog(t, 0.2, 1), rahul: LC.prog(t, 0.4, 1) }),
+          packets: SD.hop(t, hops), hot: SD.lit(t, hops), glow: SD.glowFrom(t, hops),
+          orbit: -0.5 + 0.5 * intro + 0.12 * Math.sin(t * 0.25),
+          dist: 22 - 6 * intro + 1.0 * LC.prog(t, at(0.66), 3),
+          elev: 1.25 - 0.25 * intro,
+          target: [0, 0, -1.2 - 1.6 * (1 - intro)],
+        });
+      });
+      window.__timelines["s1-hook"] = tl;
+    })();
+  </script>
+</template>

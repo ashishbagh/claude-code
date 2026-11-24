@@ -1,0 +1,52 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s4-map { top: 960px; display: flex; gap: 20px; justify-content: center; padding: 22px 26px; opacity: 0; }
+    #s4-map .sd-co { font-size: 40px; }
+    #s4-map .sd-co b { color: var(--yellow); }
+  </style>
+  <div id="root" data-composition-id="s4-connection" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":21.3},{"id":"S","type":"number","label":"Narration length (s)","default":20.7}]'>
+    <canvas id="s4-canvas" class="lc-fill"></canvas>
+    <div class="v-vignette"></div>
+    <div class="v-top"><span class="lc-badge">Real-time connection</span><span class="v-name">Design WhatsApp</span></div>
+    <div class="v-kicker" id="s4-k1" style="top:430px"><span style="color:#f87171">✗</span> HTTP polling<small>"Koi naya message?" … again and again</small></div>
+    <div class="v-kicker" id="s4-k2" style="top:430px"><em>WebSocket</em> ✓<small>One connection, always open · server pushes</small></div>
+    <div class="v-card" id="s4-map"><span class="sd-co">Priya → <b>A</b></span><span class="sd-co">Rahul → <b>B</b></span></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const A = ChatArch(document.getElementById("s4-canvas"));
+      const at = (f) => f * S;
+      tl.fromTo("#s4-k1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.1);
+      tl.to("#s4-k1", { opacity: 0, y: -30, duration: 0.3 }, at(0.13));
+      tl.fromTo("#s4-k2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, at(0.14));
+      tl.to("#s4-k2", { opacity: 0, y: -30, duration: 0.3 }, at(0.76));
+      tl.fromTo("#s4-map", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, at(0.86));
+      const R = "#ef4444", G = "#22c55e", B = "#38bdf8", Y = "#facc15";
+      const hops = [];
+      for (let i = 0; i < 4; i++) hops.push(["priya", "lb", 0.3 + i * 0.6, 0.55, i === 0 ? "new?" : null, R]);
+      hops.push(["chatA", "priya", at(0.35), 0.9, "push", G]);
+      hops.push(["chatA", "session", at(0.80), 0.8, "Priya → A", Y], ["chatB", "session", at(0.80) + 0.4, 0.8, "Rahul → B", Y]);
+      LC.drive(tl, T, (t) => {
+        const wsA = LC.prog(t, at(0.55), 0.6), wsB = LC.prog(t, at(0.67), 0.6);
+        const pulse = 0.75 + 0.25 * Math.sin(t * 6);
+        const hot = SD.lit(t, hops);
+        const ws = { "priya>lb": wsA * pulse, "lb>chatA": wsA * pulse, "rahul>lb": wsB * pulse, "lb>chatB": wsB * pulse };
+        Object.keys(ws).forEach((k) => { hot[k] = Math.max(hot[k] || 0, ws[k]); });
+        const g = SD.glowFrom(t, hops);
+        g.lb = Math.max(g.lb || 0, LC.prog(t, at(0.48), 0.4) * (1 - LC.prog(t, at(0.75), 0.4)));
+        g.session = Math.max(g.session || 0, LC.prog(t, at(0.78), 0.4));
+        const focus = LC.prog(t, at(0.76), 1.2);
+        A.draw({
+          appear: A.base(), packets: SD.hop(t, hops), hot, glow: g,
+          orbit: 0.15 * Math.sin(t * 0.2), dist: 15.5 + 1.5 * focus, elev: 1.0,
+          target: [0, 0, -3.6 + 3.0 * focus],
+        });
+      });
+      window.__timelines["s4-connection"] = tl;
+    })();
+  </script>
+</template>
