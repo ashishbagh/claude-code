@@ -1,0 +1,20 @@
+{
+  "en": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "hinglish": [
+    "चलो solve करते हैं LeetCode one fifty two, Maximum Product Subarray. ये question Amazon, Google, Microsoft और LinkedIn के interviews में पूछा गया है. हमारे पास एक array है: two, three, minus two, four, और minus one. ऐसा continuous subarray ढूँढो, जिसका product सबसे बड़ा हो.",
+    "Tricky part है negative numbers. एक negative, सबसे बड़े product को सबसे छोटा बना देता है, और सबसे छोटे को सबसे बड़ा. इसलिए हर step पर दो चीज़ें रखो: current max और current min. नया number x आए, तो x, x times max, और x times min में से, नया max और नया min चुनो. Answer है अब तक का सबसे बड़ा max.",
+    "Start करते हैं two से. Max two, min two, answer two. अगला number three. Candidates हैं three, six, और six. तो max six, min three, और answer अब six है. अभी तक सब positive है, तो simple है.",
+    "अब आया minus two. Candidates हैं minus two, minus twelve, और minus six. Max बन गया minus two, और min minus twelve. फिर four: candidates four, minus eight, और minus forty eight. Max four, min minus forty eight. Answer अभी भी six है. पर ये बड़ा negative min, आगे काम आएगा.",
+    "Last number, minus one. Min था minus forty eight, उसे minus one से multiply करो, तो बन गया plus forty eight! Max forty eight, min minus four. Answer update होकर forty eight. यानी पूरा array, two से minus one तक, product forty eight. यही है जवाब.",
+    "अब code देखते हैं. Answer, current max और current min, तीनों पहले number से start. फिर हर अगले number x के लिए, तीन candidates बनाओ: x, x times max, और x times min. उनमें से max और min update करो, फिर answer में max लो. आखिर में answer return करो.",
+    "Array पर एक ही बार चलते हैं, तो time है O of n. सिर्फ तीन variables रखे, तो space है O of one. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}
