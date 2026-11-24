@@ -57,3 +57,12 @@
 .sd-token { color: var(--yellow); font: 800 64px var(--mono); letter-spacing: 0.04em; }
 .sd-chip { display: inline-block; padding: 6px 18px; border-radius: 14px; font: 700 28px var(--font);
   background: #22305e; color: var(--ink); }
+
+/* "Asked at" companies (intro): title-card row + compact strip in the first scene.
+   Plain-text wordmark chips only – never company logos. */
+.sd-asked { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.sd-asked > em { font-style: normal; color: var(--muted); font: 700 30px var(--font); text-transform: uppercase;
+  letter-spacing: 0.08em; margin-right: 6px; }
+.sd-co { padding: 10px 24px; border-radius: 16px; background: var(--panel); border: 2px solid var(--panel-edge);
+  color: var(--ink); font: 800 34px var(--font); opacity: 0; }
+.sd-asked.sm > em { font-size: 28px; } .sd-asked.sm .sd-co { font-size: 28px; padding: 6px 18px; border-radius: 12px; }

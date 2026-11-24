@@ -94,3 +94,10 @@
 
   window.LC = LC;
 })();
+
+/** "Asked at" chips: pop each `.sd-co` inside `sel` in turn, starting at `at` seconds. */
+window.LC.askedAt = function (tl, sel, at, gap = 0.12) {
+  tl.fromTo(`${sel} > em`, { opacity: 0 }, { opacity: 1, duration: 0.3 }, at);
+  document.querySelectorAll(`${sel} .sd-co`).forEach((el, i) =>
+    tl.fromTo(el, { opacity: 0, y: 16, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, at + 0.1 + i * gap));
+};

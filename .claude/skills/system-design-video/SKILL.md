@@ -41,7 +41,7 @@ user, one message) and carry it through every scene; numbers on screen must add 
 
 | Scene | Content |
 |---|---|
-| `s1-requirements` | title card visible from frame 0 (thumbnail) → the product in one picture (e.g. long URL → short URL) → `.sd-req` Functional / Non-functional columns |
+| `s1-requirements` | title card visible from frame 0 (thumbnail) with the **"Asked at" companies** → the product in one picture (e.g. long URL → short URL) → `.sd-req` Functional / Non-functional columns, compact "Asked at" strip underneath |
 | `s2-estimates` | `.sd-stats` 4 cards with count-up numbers (QPS writes/reads, storage, key space…) + one visual (read:write bar, alphabet math) |
 | `s3-api` | `.sd-api` endpoint cards (lines revealed as narrated) + `.sd-table` schema + why that DB type |
 | `s4-architecture` | the 3D diagram builds node by node as each component is named; a few requests flow at the end |
@@ -52,10 +52,26 @@ user, one message) and carry it through every scene; numbers on screen must add 
 Say the trade-offs out loud (hash vs counter, 301 vs 302, SQL vs KV, push vs pull) – that is what the
 viewer is here for. Double-check every estimate with Python before it goes on screen.
 
-## 2. Scaffold + narration
+## 2. "Asked at" companies (required in the intro)
+
+Every video shows which companies are reported to ask the question. Before scaffolding, WebSearch
+(`"design <system>" system design interview asked at companies`) and keep 3–6 companies that a
+question bank or interview report names for *this* question – e.g. Hello Interview, EnjoyAlgorithms,
+Exponent, LeetCode Discuss, Glassdoor, Blind. Order by how many sources agree. Never invent or pad the
+list; if nothing credible names a company, drop the row (pass no `--asked-at`) and tell the user.
+Plain-text wordmark chips only, no company logos. Save the URLs in `video.json` `"asked_at_sources"`
+and list them for the user at delivery – these are community reports, not official statements.
+
+Where it shows: the scaffolded `s1` stub puts an `.sd-asked` row on the title card (chips pop in from
+0.5 s, card holds to 3.4 s, so it is also on the Reel cover at 2.5 s) and a compact `.sd-asked.sm`
+strip above the caption band once the requirements are up (`LC.askedAt(tl, sel, atSec)`). Optionally
+say it in the first narration sentence ("…a favourite at Google and Amazon.").
+
+## 3. Scaffold + narration
 
 ```
-python3 $T/new_project.py system-design-videos/<slug> --title "Design TinyURL" --level Beginner --scenes 8
+python3 $T/new_project.py system-design-videos/<slug> --title "Design TinyURL" --level Beginner --scenes 8 \
+    --asked-at "Google,Amazon,Meta,Netflix,Adobe"
 ```
 Rename `s5-flow1`/`s6-flow2` to what they show (`s5-shorten`, `s6-redirect`) in `compositions/` and
 `video.json`. Fill `narration.json` `{"en": [...], "hinglish": [...]}` – 40–60 words per scene, spoken
@@ -65,7 +81,7 @@ style, sentences in the order the visuals appear. Spell for TTS: "tiny U R L dot
 English "Thanks for watching! Subscribe to D S Algo A I on YouTube and Instagram for more such videos."
 Hinglish "देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
 
-## 3. Voice, then cues
+## 4. Voice, then cues
 
 - **Kokoro** (default English): `python3 $T/voice.py <proj> en` (voice + `speed` from `video.json`).
   Sum the clip lengths; if clips + 0.6 s/scene + 3 s outro > 175 s, raise `speed` (≤ 1.15) or cut words.
@@ -75,7 +91,7 @@ Hinglish "देखने के लिए धन्यवाद! ऐसी औ�
 - `python3 $T/cues.py <proj> en` prints every clause's start as a fraction of S. Time each visual to the
   clause that names it (`0.41 * S` when "key generation service" is said).
 
-## 4. Scenes
+## 5. Scenes
 
 HyperFrames scene rules are the same as `leetcode-video`: everything in `<template>`, root
 `<div id="root" data-composition-id="<id>">`, one paused GSAP timeline in `window.__timelines["<id>"]`,
@@ -86,9 +102,9 @@ not `from`; text ≥ 28 px; captions only in the caption band; `data-hold` on de
 Shared CSS: `lc.css` (header `.lc-header/.lc-badge/.lc-title/.lc-diff lc-easy|medium|hard`, `.lc-caption`,
 `.lc-panel`, `.lc-outro`, `.lc-titlecard`, `.lc-fill`) + `sd.css` (`.sd-req/.sd-li`, `.sd-stats/.sd-stat`
 (`.green/.blue/.pink`), `.sd-api/.sd-method sd-post|sd-get/.sd-path`, `.sd-table/.sd-th/.sd-row`,
-`.sd-steps/.sd-step` (`.hit/.miss`), `.sd-token`, `.sd-chip`). Header in every scene:
+`.sd-steps/.sd-step` (`.hit/.miss`), `.sd-token`, `.sd-chip`, `.sd-asked/.sd-co` (`.sm` compact)). Header in every scene:
 `<span class="lc-badge">System Design</span><span class="lc-title">Design X</span><span class="lc-diff lc-easy">Beginner</span>`.
-`window.LC` helpers: `captions`, `values`, `listItems`, `outro`, `drive`, `prog/smooth/clamp`.
+`window.LC` helpers: `captions`, `values`, `listItems`, `outro`, `askedAt`, `drive`, `prog/smooth/clamp`.
 
 ### 3D architecture (`assets/lib/sd3d.js`)
 
@@ -113,14 +129,14 @@ window.TinyArch = (canvas, opts = {}) => {
 - Scenes with a right-hand panel: `TinyArch(canvas, { shiftX: 330 })`, panels at `left: 1340px; width: 500px`.
 - Replacing a node (one DB → shards): animate its `appear` back to 0 while the new ones rise.
 
-## 5. Sound
+## 6. Sound
 
 `video.json` `"sfx"`: `{"scene", "at": fraction of S | "sec", "sound", "volume"}` – whoosh on title and
 3D entrances, pop / click-soft on cards and steps, ping when a key value lands (ID, cache hit), one
 impact on the payoff, sparkle on the outro. `python3 $T/sfx.py <proj>` tries Freesound, else copies the
 bundled library (`sfx-library/`). Keep `assets/sfx/CREDITS.md`.
 
-## 6. Build, check, look, render
+## 7. Build, check, look, render
 
 ```
 python3 $T/build.py <proj> en
@@ -136,8 +152,8 @@ Verify with `ffprobe` (1920×1080 h264 + aac, duration ≈ timing total) and lou
 (`ffmpeg -i out/<slug>.mp4 -af ebur128=peak=true -f null - 2>&1 | tail`); outside −16…−14 LUFS →
 `ffmpeg -i in.mp4 -c:v copy -af loudnorm=I=-15:TP=-1.5:LRA=11 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out.mp4`.
 
-## 7. Deliver
+## 8. Deliver
 
 SendUserFile the MP4s (+ cover), commit `system-design-videos/<slug>/` (not `.hyperframes/`), push.
-Report: length, voice + engine, SFX source (Freesound or bundled – and why), anything skipped, and that
+Report: length, the "Asked at" companies with their source links, voice + engine, SFX source (Freesound or bundled – and why), anything skipped, and that
 audio was measured, not heard.

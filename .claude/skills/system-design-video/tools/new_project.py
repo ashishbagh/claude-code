@@ -30,6 +30,38 @@ SCENE_STUB = """<template>
 """
 
 
+INTRO_STUB = """<template>
+  <style>
+    #root {{ position: absolute; inset: 0; }}
+  </style>
+  <div id="root" data-composition-id="{id}" data-width="1920" data-height="1080"
+       data-composition-variables='[{{"id":"T","type":"number","label":"Scene length (s)","default":20}},{{"id":"S","type":"number","label":"Narration length (s)","default":19}}]'>
+    <div class="lc-titlecard"><h1 id="{p}-t-title">{title}</h1><p id="{p}-t-sub">System Design · subtitle</p>
+      <div class="sd-asked" id="{p}-asked" style="margin-top:34px"><em>Asked at</em>{chips}</div></div>
+    <div id="{p}-header" style="opacity:0"><div class="lc-header"><span class="lc-badge">{badge}</span><span class="lc-title">{title}</span><span class="lc-diff lc-{dl}">{level}</span></div></div>
+    <!-- requirements panels (.sd-req) go here, below the header -->
+    <div class="sd-asked sm" id="{p}-asked2" style="position:absolute;left:0;right:0;top:800px"><em>Asked at</em>{chips}</div>
+    <div class="lc-caption" id="{id}-cap1"><span>Caption</span></div>
+  </div>
+  <script>
+    (function () {{
+      const {{ T, S = T }} = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({{ paused: true }});
+      // title card is on screen from frame 0 (thumbnail + Reel cover), companies pop in, then the header takes over
+      tl.fromTo("#{p}-t-title", {{ opacity: 1, scale: 0.94 }}, {{ opacity: 1, scale: 1, duration: 2.4, ease: "power1.out" }}, 0);
+      tl.fromTo("#{p}-t-sub", {{ opacity: 1 }}, {{ opacity: 1, duration: 0.1 }}, 0);
+      LC.askedAt(tl, "#{p}-asked", 0.5);
+      tl.to(["#{p}-t-title", "#{p}-t-sub", "#{p}-asked"], {{ opacity: 0, y: -30, duration: 0.4, ease: "power2.in" }}, 3.4);
+      tl.fromTo("#{p}-header", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.5 }}, 3.7);
+      LC.askedAt(tl, "#{p}-asked2", 0.48 * S, 0.06);   // compact strip stays for the rest of the intro
+      LC.captions(tl, T, [["#{id}-cap1", Math.max(0.16 * S, 3.9) / T]]);
+      window.__timelines["{id}"] = tl;
+    }})();
+  </script>
+</template>
+"""
+
+
 LAST_STUB = """<template>
   <style>
     #root {{ position: absolute; inset: 0; }}
@@ -68,11 +100,14 @@ def main():
     ap.add_argument("--badge", default="System Design")
     ap.add_argument("--level", default="Intermediate", choices=["Beginner", "Intermediate", "Advanced"])
     ap.add_argument("--scenes", type=int, default=8)
+    ap.add_argument("--asked-at", default="", help='companies reported to ask it, e.g. "Google,Amazon,Meta"')
     a = ap.parse_args()
 
     d = os.path.abspath(a.dir)
     os.makedirs(os.path.join(d, "compositions"), exist_ok=True)
     shutil.copytree(os.path.join(SKILL, "template", "assets"), os.path.join(d, "assets"), dirs_exist_ok=True)
+    asked = [c.strip() for c in a.asked_at.split(",") if c.strip()]
+    chips = "".join(f'<span class="sd-co">{c}</span>' for c in asked)
     slug = re.sub(r"[^a-z0-9]+", "_", a.title.lower()).strip("_")
     core = ["requirements", "estimates", "api", "architecture"]
     tail = ["scale", "recap"]
@@ -82,6 +117,7 @@ def main():
 
     cfg = {
         "badge": a.badge, "title": a.title, "level": a.level, "slug": slug,
+        "asked_at": asked, "asked_at_sources": [],
         "scenes": scenes, "pad": 0.6,
         "tracks": {
             "en": {"audio": "assets/audio/en", "out": f"out/{slug}.mp4"},
@@ -103,10 +139,10 @@ def main():
     for sid in scenes:
         p = os.path.join(d, "compositions", f"{sid}.html")
         if not os.path.exists(p):
-            stub = LAST_STUB if sid == scenes[-1] else SCENE_STUB
+            stub = LAST_STUB if sid == scenes[-1] else INTRO_STUB if sid == scenes[0] else SCENE_STUB
             with open(p, "w") as f:
                 f.write(stub.format(id=sid, p=sid.split("-")[0], badge=a.badge, title=a.title,
-                                    level=a.level, dl={"Beginner": "easy", "Intermediate": "medium", "Advanced": "hard"}[a.level]))
+                                    level=a.level, chips=chips, dl={"Beginner": "easy", "Intermediate": "medium", "Advanced": "hard"}[a.level]))
     with open(os.path.join(d, ".gitignore"), "w") as f:
         f.write(".hyperframes/\nnode_modules/\nsnapshots/\nout/work-*/\nout/.*hf-transaction*/\n")
     print("scaffolded", d, "scenes:", ", ".join(scenes))
