@@ -1,0 +1,23 @@
+/* Maximum Product Subarray – laid out for the native 1080x1920 reel, inside the Reels safe band (y 270–1248). */
+.mp-goal { position: absolute; left: 70px; right: 70px; top: 300px; text-align: center; opacity: 0; }
+.mp-goal span { display: inline-block; padding: 12px 34px; border-radius: 40px; background: #3c2d0a; border: 3px solid var(--yellow);
+  color: var(--yellow); font: 800 40px var(--font); }
+.mp-vals { position: absolute; left: 70px; right: 70px; top: 770px; height: 190px; display: flex; gap: 24px; }
+.mp-box { flex: 1; position: relative; background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 24px; opacity: 0; }
+.mp-box h4 { margin-top: 18px; text-align: center; font: 800 32px var(--font); letter-spacing: 0.04em; }
+.mp-box .lc-value { height: 110px; line-height: 110px; font-size: 84px; }
+.mp-max h4 { color: #4ade80; } .mp-max .lc-value { color: #4ade80; }
+.mp-min h4 { color: #f87171; } .mp-min .lc-value { color: #f87171; }
+.mp-ans { border-color: var(--yellow); } .mp-ans h4 { color: var(--yellow); }
+.mp-calc { position: absolute; left: 70px; right: 70px; top: 990px; height: 240px; }
+.mp-calc .lc-panel { position: absolute; inset: 0; padding: 22px 34px; opacity: 0; }
+.mp-l { font: 700 36px/1.5 var(--mono); color: var(--ink); opacity: 0; white-space: nowrap; }
+.mp-l b { color: var(--yellow); } .mp-l .g { color: #4ade80; } .mp-l .r { color: #f87171; }
+.mp-chip { display: inline-block; margin-top: 8px; padding: 8px 26px; border-radius: 30px; font: 800 34px var(--font); opacity: 0; }
+.mp-flip { background: #7f1d1d; color: #fecaca; } .mp-win { background: #3c2d0a; color: var(--yellow); border: 3px solid var(--yellow); font-size: 42px; }
+.mp-rule { position: absolute; left: 70px; right: 70px; top: 1000px; padding: 24px 34px; opacity: 0; }
+.lc-titlecard { top: -200px !important; }
+.lc-code pre { font-size: 28px !important; line-height: 46px !important; }
+.ms-cur h4 { color: #22d3ee; } .ms-cur .lc-value { color: #22d3ee; }
+.mp-l .c { color: #22d3ee; }
+.ms-re { background: #083344; color: #a5f3fc; }
