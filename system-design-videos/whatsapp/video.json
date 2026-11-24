@@ -207,6 +207,6 @@
   "music": null,
   "outro_hold": 3.0,
   "scripts": [
-    "assets/whatsapp3d.js"
+    "assets/whatsappflow.js"
   ]
 }

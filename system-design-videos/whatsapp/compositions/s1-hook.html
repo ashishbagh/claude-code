@@ -3,12 +3,11 @@
     #root { position: absolute; inset: 0; }
     #s1-chat { top: 450px; }
     #s1-hero { background: radial-gradient(ellipse at 50% 50%, rgba(13,17,33,0.96) 0%, rgba(13,17,33,0.9) 55%, rgba(13,17,33,0.75) 100%); }
-    #s1-asked2 { position: absolute; left: 72px; right: 72px; top: 675px; justify-content: flex-start; z-index: 5; }
+    #s1-asked2 { position: absolute; left: 72px; right: 72px; top: 590px; justify-content: flex-start; z-index: 5; }
   </style>
   <div id="root" data-composition-id="s1-hook" data-width="1080" data-height="1920"
        data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":16.2},{"id":"S","type":"number","label":"Narration length (s)","default":15.6}]'>
-    <canvas id="s1-canvas" class="lc-fill"></canvas>
-    <div class="v-vignette"></div>
+    <div id="s1-flow"></div>
     <div class="v-hero" id="s1-hero">
       <h1 id="s1-t1">Design<br>WhatsApp</h1>
       <p id="s1-t2">System Design · Chat at scale</p>
@@ -19,14 +18,14 @@
       <div class="v-bubble" id="s1-b1">Hi! 👋 <small>10:42</small><span class="v-ticks" data-layout-allow-overlap id="s1-tk"><span class="t1" id="s1-tk1">✓</span><span class="t2" id="s1-tk2">✓</span></span></div>
     </div>
     <div class="v-kicker" id="s1-k1" style="top:450px"><em>100 billion</em> messages a day<small>&lt; 1 second each</small></div>
-    <div class="v-kicker" id="s1-k2" style="top:450px">Let's design <em>WhatsApp</em></div>
+    <div class="v-kicker" id="s1-k2" style="top:450px;font-size:64px">Let's design <em>WhatsApp</em></div>
     <div class="sd-asked sm" id="s1-asked2"><em>Asked at</em><span class="sd-co">Meta</span><span class="sd-co">Amazon</span><span class="sd-co">Uber</span><span class="sd-co">Microsoft</span><span class="sd-co">Airbnb</span></div>
   </div>
   <script>
     (function () {
       const { T, S = T } = window.__hyperframes.getVariables();
       const tl = gsap.timeline({ paused: true });
-      const A = ChatArch(document.getElementById("s1-canvas"));
+      const F = WaFlow(document.getElementById("s1-flow"), "core", ["priya", "rahul", "lb", "chatA", "chatB"]);
       const at = (f) => f * S;
       // 0–1.5 s: title card (thumbnail + cover) with the companies
       tl.fromTo("#s1-t1", { opacity: 1, scale: 0.96 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power1.out" }, 0);
@@ -46,20 +45,16 @@
       tl.fromTo("#s1-k2", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, at(0.61));
       LC.askedAt(tl, "#s1-asked2", at(0.745), 0.12);
       const G = "#22c55e";
-      const hops = [["priya", "lb", 1.6, 0.6, "Hi!", G], ["lb", "chatA", 2.2, 0.35, null, G], ["chatA", "chatB", 2.55, 0.4, null, G], ["chatB", "rahul", 2.95, 0.6, "Hi!", G]];
-      for (let i = 0; i < 8; i++) {
-        const s = at(0.37) + i * 0.4, c = ["#22c55e", "#38bdf8", "#a78bfa"][i % 3];
-        hops.push([i % 2 ? "rahul" : "priya", "lb", s, 0.5, null, c], ["lb", i % 2 ? "chatA" : "chatB", s + 0.5, 0.45, null, c]);
+      const hops = [["priya", "lb", 1.6, 0.5, "Hi!", G, 0.4], ["lb", "chatA", 2.1, 0.4, null, G, 0.4], ["chatA", "chatB", 2.5, 0.5, "Hi!", G, 0.4], ["chatB", "rahul", 3.0, 0.55, "Hi!", G, 0.6]];
+      for (let i = 0; i < 26; i++) {
+        const s = at(0.37) + i * 0.38, c = ["#22c55e", "#38bdf8", "#a78bfa"][i % 3];
+        const route = [["priya", "lb"], ["rahul", "lb"], ["lb", "chatA"], ["lb", "chatB"], ["chatA", "chatB"]][i % 5];
+        hops.push([route[0], route[1], s, 0.5, null, c, 0.1]);
       }
-      const beats = [[0, ["priya", "rahul", "lb", "chatA", "chatB"]], [at(0.36), ["priya", "rahul", "lb", "chatA", "chatB", "session"]]];
-      LC.drive(tl, T, (t) => {
-        const sp = A.spot(t, beats, { dim: 0.6 });
-        A.draw(Object.assign(sp, {
-          appear: A.base({ priya: LC.prog(t, 0.2, 1), rahul: LC.prog(t, 0.4, 1) }),
-          packets: SD.hop(t, hops), hot: SD.lit(t, hops), glow: SD.glowFrom(t, hops),
-          orbit: -0.25 + 0.25 * LC.prog(t, 0, 3) + 0.1 * Math.sin(t * 0.25),
-        }));
-      });
+      LC.drive(tl, T, (t) => F.draw(t, {
+        appear: { priya: LC.prog(t, 1.4, 0.4), rahul: LC.prog(t, 1.5, 0.4), lb: LC.prog(t, 1.55, 0.4), chatA: LC.prog(t, 1.6, 0.4), chatB: LC.prog(t, 1.65, 0.4) },
+        hops,
+      }));
       window.__timelines["s1-hook"] = tl;
     })();
   </script>

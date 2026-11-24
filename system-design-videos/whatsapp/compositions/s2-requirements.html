@@ -1,13 +1,11 @@
 <template>
   <style>
     #root { position: absolute; inset: 0; }
-    #s2-canvas { filter: blur(7px) brightness(0.55); }
     #s2-f { top: 420px; } #s2-n { top: 782px; }
     .s2-h { color: var(--muted); font: 800 30px var(--font); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
   </style>
   <div id="root" data-composition-id="s2-requirements" data-width="1080" data-height="1920"
        data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":17.7},{"id":"S","type":"number","label":"Narration length (s)","default":17.1}]'>
-    <canvas id="s2-canvas" class="lc-fill"></canvas>
     <div class="v-top"><span class="lc-badge">Requirements</span><span class="v-name">Design WhatsApp</span></div>
     <div class="v-card" id="s2-f" data-hold>
       <div class="s2-h">Functional</div>
@@ -28,7 +26,6 @@
     (function () {
       const { T, S = T } = window.__hyperframes.getVariables();
       const tl = gsap.timeline({ paused: true });
-      const A = ChatArch(document.getElementById("s2-canvas"));
       const at = (f) => f * S;
       tl.fromTo("#s2-f", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.1);
       [["#s2-f1", 0.10], ["#s2-f2", 0.17], ["#s2-f3", 0.24], ["#s2-f4", 0.38]].forEach(([s, a]) =>
@@ -36,7 +33,6 @@
       tl.fromTo("#s2-n", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, at(0.46));
       [["#s2-n1", 0.50], ["#s2-n2", 0.62], ["#s2-n3", 0.73], ["#s2-n4", 0.82]].forEach(([s, a]) =>
         tl.fromTo(s, { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.35, ease: "back.out(1.8)" }, at(a)));
-      LC.drive(tl, T, (t) => A.draw({ appear: A.base(), orbit: 0.6 * Math.sin(t * 0.18), dist: 16, elev: 0.9 }));
       window.__timelines["s2-requirements"] = tl;
     })();
   </script>

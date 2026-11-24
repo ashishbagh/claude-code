@@ -39,6 +39,7 @@ HEAD = """<!doctype html>
 <script src="assets/lib/three.min.js"></script>
 <script src="assets/lib/lc.js"></script>
 <script src="assets/lib/sd3d.js"></script>
+<script src="assets/lib/sdflow.js"></script>
 {scripts}<style>
   html, body {{ width: {W}px; height: {H}px; overflow: hidden; background: #0d1121; }}
   .lc-fill {{ width: {W}px; height: {H}px; }}

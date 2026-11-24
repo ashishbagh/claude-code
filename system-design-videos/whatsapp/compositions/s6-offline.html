@@ -8,8 +8,7 @@
   </style>
   <div id="root" data-composition-id="s6-offline" data-width="1080" data-height="1920"
        data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":18.7},{"id":"S","type":"number","label":"Narration length (s)","default":18}]'>
-    <canvas id="s6-canvas" class="lc-fill"></canvas>
-    <div class="v-vignette"></div>
+    <div id="s6-flow"></div>
     <div class="v-top"><span class="lc-badge">Offline · read · presence</span>
       <div class="v-route" id="s6-route"><span class="v-step">Offline</span><b>→</b><span class="v-step">Push</span><b>→</b><span class="v-step">Sync</span><b>→</b><span class="v-step">Read</span><b>→</b><span class="v-step">♥ Beat</span></div></div>
     <div class="v-chat" id="s6-chat">
@@ -23,42 +22,33 @@
     (function () {
       const { T, S = T } = window.__hyperframes.getVariables();
       const tl = gsap.timeline({ paused: true });
-      const A = ChatArch(document.getElementById("s6-canvas"));
+      const F = WaFlow(document.getElementById("s6-flow"), "core");
       const at = (f) => f * S;
       const G = "#22c55e", B = "#38bdf8", O = "#fb923c", P = "#f472b6";
       const hops = [
-        ["chatA", "db", at(0.10), 1.0, "pending", O],
-        ["chatB", "push", at(0.20), 0.7, null, O], ["push", "rahul", at(0.20) + 0.7, 1.1, "🔔 notify", O],
+        ["chatA", "db", at(0.10), 1.0, "pending", O, 3],
+        ["chatB", "push", at(0.20), 0.7, null, O], ["push", "rahul", at(0.20) + 0.7, 0.9, "🔔 notify", O],
         ["rahul", "lb", at(0.33), 0.8, "online", G], ["lb", "chatB", at(0.33) + 0.8, 0.6, null, G],
-        ["db", "chatB", at(0.40), 0.9, "sync", G], ["chatB", "rahul", at(0.40) + 0.9, 1.0, "Hi!", G],
-        ["rahul", "chatB", at(0.53), 0.9, "read", B], ["chatB", "priya", at(0.53) + 0.9, 1.3, "✓✓", B],
+        ["db", "chatA", at(0.40), 0.7, "sync", G], ["chatA", "chatB", at(0.40) + 0.7, 0.7, "Hi!", G], ["chatB", "lb", at(0.40) + 1.4, 0.5, null, G], ["lb", "rahul", at(0.40) + 1.9, 0.6, "Hi!", G],
+        ["rahul", "lb", at(0.53), 0.6, "read", B], ["lb", "priya", at(0.53) + 0.6, 0.9, "✓✓", B, 2.5],
       ];
-      for (let i = 0; i < 4; i++) hops.push(["rahul", "lb", at(0.78) + i * 1.0, 0.7, i === 0 ? "♥" : null, P]);
-      const beats = [
-        [0, ["rahul", "lb"]], [at(0.10), ["chatA", "db"]], [at(0.20), ["chatB", "push", "rahul"]],
-        [at(0.33), ["rahul", "lb", "chatB"]], [at(0.40), ["chatB", "db"]], [at(0.46), ["chatB", "rahul"]],
-        [at(0.56), ["priya", "rahul", "lb"]], [at(0.78), ["rahul", "lb"]],
-      ];
+      for (let i = 0; i < 4; i++) hops.push(["rahul", "lb", at(0.78) + i * 1.0, 0.6, i === 0 ? "♥ beat" : "♥", P, 0.2]);
       LC.route(tl, "#s6-route", [[0, 0], [at(0.20), 1], [at(0.40), 2], [at(0.53), 3], [at(0.78), 4]]);
       tl.set("#s6-tk1", { opacity: 1 }, 0);
       tl.fromTo("#s6-b1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4 }, 0.05);
-      tl.fromTo("#s6-tk2", { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: 0.3 }, at(0.40) + 1.9);
-      tl.to(["#s6-tk1", "#s6-tk2"], { color: "#38bdf8", duration: 0.3 }, at(0.53) + 2.2);
-      tl.fromTo("#s6-tk", { scale: 1 }, { scale: 1.5, duration: 0.2, yoyo: true, repeat: 1 }, at(0.53) + 2.2);
+      tl.fromTo("#s6-tk2", { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: 0.3 }, at(0.40) + 2.5);
+      tl.to(["#s6-tk1", "#s6-tk2"], { color: "#7dd3fc", duration: 0.3 }, at(0.53) + 1.5);
+      tl.fromTo("#s6-tk", { scale: 1 }, { scale: 1.5, duration: 0.2, yoyo: true, repeat: 1 }, at(0.53) + 1.5);
       tl.fromTo("#s6-off", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35 }, 0.2);
       tl.to("#s6-off", { opacity: 0, duration: 0.2 }, at(0.33));
       tl.fromTo("#s6-on", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35 }, at(0.33) + 0.2);
       tl.to("#s6-on", { opacity: 0, duration: 0.2 }, at(0.77));
       tl.fromTo("#s6-hb", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35 }, at(0.78));
-      LC.drive(tl, T, (t) => {
-        const sp = A.spot(t, beats);
-        const off = 1 - LC.prog(t, at(0.33), 0.6);
-        sp.fade.rahul = Math.max(sp.fade.rahul, 0.8 * off);
-        A.draw(Object.assign(sp, {
-          appear: A.base({ push: LC.prog(t, at(0.18), 0.7) }),
-          packets: SD.hop(t, hops), hot: SD.lit(t, hops), glow: SD.glowFrom(t, hops), orbit: 0.08 * Math.sin(t * 0.3),
-        }));
-      });
+      LC.drive(tl, T, (t) => F.draw(t, {
+        appear: { push: LC.prog(t, at(0.18), 0.5) },
+        dim: { rahul: 1 - LC.prog(t, at(0.33), 0.5) },
+        hops,
+      }));
       window.__timelines["s6-offline"] = tl;
     })();
   </script>
