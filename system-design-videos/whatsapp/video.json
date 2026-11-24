@@ -19,7 +19,7 @@
   "styles": [
     "assets/sdv.css"
   ],
-  "captions": true,
+  "captions": false,
   "caption_highlight": [
     "WhatsApp",
     "WebSocket",
