@@ -43,7 +43,7 @@
     "Priya",
     "Rahul"
   ],
-  "cover_at": 2.5,
+  "cover_at": 0.9,
   "scenes": [
     "s1-hook",
     "s2-requirements",
@@ -95,18 +95,18 @@
     },
     {
       "scene": "s1-hook",
-      "sec": 3.4,
+      "sec": 1.4,
       "sound": "whoosh-short",
       "volume": 0.3
     },
     {
       "scene": "s1-hook",
-      "sec": 3.95,
+      "sec": 1.6,
       "sound": "pop"
     },
     {
       "scene": "s1-hook",
-      "sec": 6.0,
+      "sec": 3.6,
       "sound": "ping",
       "volume": 0.3
     },

@@ -6,10 +6,11 @@
        data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":18.3},{"id":"S","type":"number","label":"Narration length (s)","default":17.7}]'>
     <canvas id="s7-canvas" class="lc-fill"></canvas>
     <div class="v-vignette"></div>
-    <div class="v-top"><span class="lc-badge">Groups · scale · privacy</span><span class="v-name">Design WhatsApp</span></div>
-    <div class="v-kicker" id="s7-k1" style="top:430px">1 write → <em>N deliveries</em><small>Kafka + fan-out workers</small></div>
-    <div class="v-kicker" id="s7-k2" style="top:430px">Shard by <em>chat_id</em><small>one chat, one shard, right order</small></div>
-    <div class="v-kicker" id="s7-k3" style="top:430px">🔒 <em>End-to-end</em> encrypted<small>server sees only gibberish</small></div>
+    <div class="v-top"><span class="lc-badge">Groups · scale · privacy</span>
+      <div class="v-route" id="s7-route"><span class="v-step">Group</span><b>→</b><span class="v-step">Kafka</span><b>→</b><span class="v-step">Workers</span><b>→</b><span class="v-step">Shards</span><b>→</b><span class="v-step">🔒 E2E</span></div></div>
+    <div class="v-kicker" id="s7-k1" style="top:450px">1 write → <em>N deliveries</em><small>Kafka + fan-out workers</small></div>
+    <div class="v-kicker" id="s7-k2" style="top:450px">Shard by <em>chat_id</em><small>one chat, one shard, right order</small></div>
+    <div class="v-kicker" id="s7-k3" style="top:450px">🔒 <em>End-to-end</em> encrypted<small>server sees only gibberish</small></div>
   </div>
   <script>
     (function () {
@@ -19,25 +20,27 @@
       const at = (f) => f * S;
       const G = "#22c55e", O = "#fb923c", V = "#a78bfa";
       const hops = [
-        ["chatA", "kafka", at(0.05), 1.0, "group msg", O],
-        ["kafka", "w1", at(0.20), 0.7, null, O], ["kafka", "w2", at(0.20) + 0.2, 0.7, null, O],
-        ["w1", "g1", at(0.26), 0.7, "Hi!", G], ["w1", "g2", at(0.26) + 0.25, 0.7, "Hi!", G], ["w2", "rahul", at(0.26) + 0.3, 1.2, "Hi!", G],
-        ["chatA", "sh1", at(0.42), 0.8, "chat 17", V], ["chatA", "sh2", at(0.48), 0.8, "chat 42", V], ["chatA", "sh1", at(0.56), 0.8, "chat 17", V],
-        ["priya", "lb", at(0.78), 0.8, "🔒 x9#q@", G], ["lb", "chatA", at(0.78) + 0.8, 0.6, "🔒 x9#q@", G],
+        ["chatA", "kafka", at(0.05), 1.1, "group msg", O],
+        ["kafka", "w1", at(0.20), 0.8, null, O], ["kafka", "w2", at(0.20) + 0.2, 0.8, null, O],
+        ["w1", "g1", at(0.27), 0.9, "Hi!", G], ["w1", "g2", at(0.27) + 0.3, 0.9, "Hi!", G],
+        ["chatA", "sh1", at(0.42), 0.9, "chat 17", V], ["chatA", "sh2", at(0.50), 0.9, "chat 42", V], ["chatA", "sh1", at(0.60), 0.9, "chat 17", V],
+        ["priya", "lb", at(0.78), 1.0, "🔒 x9#q@", G], ["lb", "chatA", at(0.78) + 1.0, 0.9, "🔒 x9#q@", G],
       ];
+      const beats = [
+        [0, ["chatA", "kafka"]], [at(0.19), ["kafka", "w1", "w2", "g1", "g2"]],
+        [at(0.38), ["chatA", "sh1", "sh2"]], [at(0.76), ["priya", "lb", "chatA"]],
+      ];
+      LC.route(tl, "#s7-route", [[0, 0], [at(0.05), 1], [at(0.19), 2], [at(0.38), 3], [at(0.76), 4]]);
       [["#s7-k1", 0.04, 0.36], ["#s7-k2", 0.38, 0.74], ["#s7-k3", 0.76, 1.2]].forEach(([s, a, b]) => {
         tl.fromTo(s, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, at(a));
         if (b < 1) tl.to(s, { opacity: 0, y: -30, duration: 0.3 }, at(b));
       });
       LC.drive(tl, T, (t) => {
         const kq = LC.prog(t, at(0.05), 0.7), kw = LC.prog(t, at(0.19), 0.7), ks = LC.prog(t, at(0.38), 0.8);
-        const cam1 = LC.prog(t, at(0.02), 1.4), cam2 = LC.prog(t, at(0.38), 1.2), cam3 = LC.prog(t, at(0.76), 1.2);
-        A.draw({
+        A.draw(Object.assign(A.spot(t, beats), {
           appear: A.base({ kafka: kq, w1: kw, w2: kw, g1: kw, g2: kw, sh1: ks, sh2: ks, db: 1 - ks }),
-          packets: SD.hop(t, hops), hot: SD.lit(t, hops), glow: SD.glowFrom(t, hops),
-          target: [0.8 * cam1 - 2.2 * cam2 + 1.4 * cam3, 0, -1 + 4.0 * cam1 - 1.2 * cam2 - 4.0 * cam3],
-          dist: 15 - 1.5 * cam2 + 1.5 * cam3, elev: 0.95, orbit: 0.2 * Math.sin(t * 0.22),
-        });
+          packets: SD.hop(t, hops), hot: SD.lit(t, hops), glow: SD.glowFrom(t, hops), orbit: 0.1 * Math.sin(t * 0.22),
+        }));
       });
       window.__timelines["s7-scale"] = tl;
     })();

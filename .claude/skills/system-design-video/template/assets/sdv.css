@@ -66,3 +66,9 @@
 /* outro in vertical */
 .v-outro { position: absolute; left: 0; right: 0; top: 850px; display: flex; flex-direction: column; align-items: center; gap: 26px; z-index: 6; }
 .v-outro .lc-thanks { font-size: 70px; } .v-outro .lc-sub { font-size: 40px; text-align: center; padding: 0 60px; }
+
+/* spotlight route strip (replaces .v-name in flow scenes): one chip per hop, the current one lit */
+.v-route { display: flex; flex-wrap: nowrap; gap: 10px; align-items: center; }
+.v-step { padding: 8px 14px; border-radius: 16px; background: var(--panel); border: 2px solid var(--yellow);
+  color: var(--ink); font: 800 30px var(--font); white-space: nowrap; opacity: 0.35; }
+.v-route > b { color: var(--muted); font: 800 28px var(--font); }

@@ -102,3 +102,14 @@ window.LC.askedAt = function (tl, sel, at, gap = 0.12) {
   document.querySelectorAll(sel + " .sd-co").forEach((el, i) =>
     tl.fromTo(el, { opacity: 0, y: 16, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, at + 0.1 + i * gap));
 };
+
+/** Route strip (9:16 spotlight): light step `idx` of the `.v-step` chips inside `sel` at each time.
+    beats: [[timeSec, idx], ...]; the rest of the chips stay dim. */
+window.LC.route = function (tl, sel, beats) {
+  const chips = Array.prototype.slice.call(document.querySelectorAll(sel + " .v-step"));
+  tl.set(chips, { opacity: 0.35, scale: 1 }, 0);
+  beats.forEach(([at, idx]) => {
+    tl.to(chips, { opacity: 0.35, scale: 1, duration: 0.2 }, at);
+    if (chips[idx]) tl.to(chips[idx], { opacity: 1, scale: 1.12, duration: 0.3, ease: "back.out(2)" }, at);
+  });
+};

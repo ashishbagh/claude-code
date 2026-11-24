@@ -17,7 +17,9 @@
      orbit: 0, dist: 15, elev: 0.95, target: [x, y, z],
    });
    SD.hop(t, [[from, to, start, dur, label, color], ...]) -> packets for draw() (one packet per active hop).
-   SD.lit(t, hops, fadeAfter) -> { "a>b": k } edges lit by those hops (for draw().hot).               */
+   SD.lit(t, hops, fadeAfter) -> { "a>b": k } edges lit by those hops (for draw().hot).
+   Spotlight (9:16): A.spot(t, [[sec, ["priya","lb"]], [sec, ["lb","chatA","chatB"]], ...]) -> { target, dist, fade }
+   – spread it into draw(); cfg labelScale / packetScale / edgeScale enlarge labels, packets, edges.            */
 (function () {
   const SD = {};
   const LCx = () => window.LC;
@@ -131,6 +133,7 @@
     const ctx = LC.three(canvas, { fov: cfg.fov || 34, shiftX: cfg.shiftX || 0, shiftY: cfg.shiftY || 0 });
     const { scene, camera, renderer } = ctx;
     const cam = Object.assign({ dist: 15, elev: 0.95, target: [0, 0, 0] }, cfg.cam || {});
+    const LS = cfg.labelScale || 1, PS = cfg.packetScale || 1, ES = cfg.edgeScale || 1;   // bigger for 9:16
 
     const grid = new THREE.GridHelper(44, 44, 0x26305a, 0x1a2140);
     grid.material.transparent = true; grid.material.opacity = 0.55;
@@ -148,7 +151,7 @@
       let label = null;
       if (n.label) {
         const { tex, aspect } = SD.labelTexture(n.label, { size: 58 });
-        const h = 0.48 * (n.labelScale || 1);
+        const h = 0.48 * (n.labelScale || 1) * LS;
         label = new THREE.Mesh(new THREE.PlaneGeometry(h * aspect, h),
           new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, depthTest: false }));
         label.renderOrder = 10;
@@ -166,7 +169,7 @@
     const edgeBase = new THREE.Color("#3b4a80"), edgeHot = new THREE.Color("#facc15");
     const edges = (cfg.edges || []).map(([a, b]) => {
       const mat = new THREE.MeshBasicMaterial({ color: edgeBase.clone(), transparent: true });
-      const mesh = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 1, 8), mat);
+      const mesh = new THREE.Mesh(new THREE.CylinderGeometry(0.045 * ES, 0.045 * ES, 1, 8), mat);
       scene.add(mesh);
       return { a, b, key: `${a}>${b}`, mesh, mat };
     });
@@ -178,7 +181,7 @@
       const k = text + "|" + color;
       if (!labelCache[k]) {
         const { tex, aspect } = SD.labelTexture(text, { fg: "#0d1121", bg: color, edge: null, size: 54, mono: true, weight: 700 });
-        const h = 0.42;
+        const h = 0.42 * PS;
         const m = new THREE.Mesh(new THREE.PlaneGeometry(h * aspect, h),
           new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, depthTest: false }));
         m.renderOrder = 20; m.visible = false; scene.add(m);
@@ -189,7 +192,7 @@
     function packetMesh(i) {
       while (packets.length <= i) {
         const mat = new THREE.MeshStandardMaterial({ color: 0xfacc15, emissive: 0xfacc15, emissiveIntensity: 0.8 });
-        const m = new THREE.Mesh(new THREE.SphereGeometry(0.17, 24, 16), mat);
+        const m = new THREE.Mesh(new THREE.SphereGeometry(0.17 * PS, 24, 16), mat);
         m.visible = false; scene.add(m); packets.push(m);
       }
       return packets[i];
@@ -223,7 +226,7 @@
         n.halo.material.opacity = 0.9 * gl * k;
         if (n.label) {
           n.label.visible = k > 0.05;
-          n.label.material.opacity = LC.clamp((k - 0.3) / 0.7) * (1 - 0.75 * f);
+          n.label.material.opacity = LC.clamp((k - 0.3) / 0.7) * (1 - 0.95 * f);
           if (n.labelFront) n.label.position.set(n.cfg.x, 0.3 + n.labelDy, n.cfg.z + 1.05);
           else n.label.position.set(n.cfg.x, n.height + 0.42 + n.labelDy, n.cfg.z);
           n.label.quaternion.copy(camera.quaternion);
@@ -263,14 +266,45 @@
         m.position.set(x, y, z); m.visible = true;
         if (pk.label) {
           const l = packetLabel(pk.label, pk.color || "#facc15");
-          l.position.set(x, y + 0.5, z); l.quaternion.copy(camera.quaternion);
+          l.position.set(x, y + 0.5 * PS, z); l.quaternion.copy(camera.quaternion);
           l.material.opacity = s; l.visible = true;
         }
       });
       renderer.render(scene, camera);
     }
 
-    return { draw, nodes, scene, camera };
+    /** Camera that frames these nodes: { target, dist } (for elev `elev`, frame aspect W/H). `band` = the
+        fraction of the frame height the nodes may use (0.3 in 9:16 to leave room for text). */
+    function frame(ids, { band = cfg.band || 0.3, elev = cam.elev, minDist = 7 } = {}) {
+      const ns = ids.map((id) => nodes[id]).filter(Boolean);
+      if (!ns.length) return { target: cam.target, dist: cam.dist };
+      const xs = ns.map((n) => n.cfg.x), zs = ns.map((n) => n.cfg.z);
+      const x0 = Math.min(...xs), x1 = Math.max(...xs), z0 = Math.min(...zs), z1 = Math.max(...zs);
+      const W = window.LC_W || 1920, H = window.LC_H || 1080;
+      const tv = Math.tan(((cfg.fov || 34) * Math.PI) / 360), th = tv * (W / H);
+      const needH = ((z1 - z0) * Math.sin(elev) + 2.2) / (2 * tv * band);   // depth + node height + label
+      const needW = (x1 - x0 + 3.2) / (2 * th * 0.9);                       // width + label overhang
+      return { target: [(x0 + x1) / 2, 0.5, (z0 + z1) / 2], dist: Math.max(minDist, needH, needW) };
+    }
+
+    /** Spotlight: beats = [[timeSec, [ids]], ...]. Returns { target, dist, fade } blended between beats
+        over `trans` seconds – the camera frames the beat's nodes and every other node dims. */
+    function spot(t, beats, { trans = 1.0, dim = 0.88, band, elev } = {}) {
+      let i = 0;
+      beats.forEach((b, k) => { if (t >= b[0]) i = k; });
+      const cur = beats[i], prev = beats[Math.max(0, i - 1)];
+      const k = i === 0 ? 1 : LC.smooth((t - cur[0]) / trans);
+      const fa = frame(prev[1], { band, elev }), fb = frame(cur[1], { band, elev });
+      const lerp = (a, b) => a + (b - a) * k;
+      const fade = {};
+      Object.keys(nodes).forEach((id) => {
+        const wa = prev[1].includes(id) ? 1 : 0, wb = cur[1].includes(id) ? 1 : 0;
+        fade[id] = dim * (1 - lerp(wa, wb));
+      });
+      return { target: fa.target.map((v, j) => lerp(v, fb.target[j])), dist: lerp(fa.dist, fb.dist), fade };
+    }
+
+    return { draw, nodes, scene, camera, frame, spot };
   };
 
   /** Packets for draw(): hops = [[from, to, startSec, durSec, label, color], ...]. */
