@@ -1,0 +1,192 @@
+{
+  "badge": "AI Engineering",
+  "title": "MCP vs API",
+  "level": "Intermediate",
+  "slug": "mcp_vs_api",
+  "asked_at": [],
+  "asked_at_sources": [
+    "https://www.datacamp.com/sv/blog/mcp-interview-questions"
+  ],
+  "width": 1080,
+  "height": 1920,
+  "styles": [
+    "assets/sdv.css"
+  ],
+  "captions": false,
+  "caption_highlight": [],
+  "cover_at": 0.9,
+  "scenes": [
+    "s1-hook",
+    "s2-api",
+    "s3-problem",
+    "s4-mcp",
+    "s5-flow",
+    "s6-primitives",
+    "s7-compare",
+    "s8-recap"
+  ],
+  "pad": 0.6,
+  "tracks": {
+    "en": {
+      "audio": "assets/audio/en",
+      "out": "out/mcp_vs_api.mp4"
+    },
+    "hinglish": {
+      "audio": "assets/audio/hinglish",
+      "out": "out/mcp_vs_api_hinglish.mp4"
+    }
+  },
+  "voice": {
+    "en": {
+      "engine": "kokoro",
+      "voice": "am_michael"
+    },
+    "hinglish": {
+      "engine": "elevenlabs",
+      "voice": "j7yQHuKNC1hdt1LBPAks",
+      "name": "Prashant - Warm, Clear Hindi Explainer",
+      "model": "eleven_v4"
+    }
+  },
+  "sfx_queries": {
+    "whoosh": "whoosh transition",
+    "pop": "pop ui",
+    "click-soft": "soft click ui",
+    "ping": "bright ping notification",
+    "impact-bass-1": "cinematic impact",
+    "whoosh-short": "short swoosh",
+    "sparkle": "magic sparkle chime"
+  },
+  "sfx": [
+    {
+      "scene": "s1-hook",
+      "sec": 0.2,
+      "sound": "whoosh",
+      "volume": 0.3
+    },
+    {
+      "scene": "s1-hook",
+      "sec": 1.4,
+      "sound": "whoosh-short",
+      "volume": 0.3
+    },
+    {
+      "scene": "s1-hook",
+      "sec": 1.6,
+      "sound": "pop"
+    },
+    {
+      "scene": "s1-hook",
+      "at": 0.55,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s1-hook",
+      "at": 0.65,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-api",
+      "at": 0.08,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-api",
+      "at": 0.3,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s2-api",
+      "at": 0.52,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s3-problem",
+      "at": 0.05,
+      "sound": "pop"
+    },
+    {
+      "scene": "s3-problem",
+      "at": 0.78,
+      "sound": "impact-bass-1",
+      "volume": 0.3
+    },
+    {
+      "scene": "s4-mcp",
+      "at": 0.02,
+      "sound": "whoosh-short",
+      "volume": 0.25
+    },
+    {
+      "scene": "s4-mcp",
+      "at": 0.33,
+      "sound": "pop"
+    },
+    {
+      "scene": "s4-mcp",
+      "at": 0.76,
+      "sound": "sparkle",
+      "volume": 0.25
+    },
+    {
+      "scene": "s5-flow",
+      "at": 0.13,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s5-flow",
+      "at": 0.57,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s5-flow",
+      "sec": 21.5,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s6-primitives",
+      "at": 0.12,
+      "sound": "pop"
+    },
+    {
+      "scene": "s6-primitives",
+      "at": 0.33,
+      "sound": "pop"
+    },
+    {
+      "scene": "s6-primitives",
+      "at": 0.55,
+      "sound": "pop"
+    },
+    {
+      "scene": "s7-compare",
+      "at": 0.02,
+      "sound": "whoosh-short",
+      "volume": 0.25
+    },
+    {
+      "scene": "s7-compare",
+      "at": 0.82,
+      "sound": "impact-bass-1",
+      "volume": 0.3
+    },
+    {
+      "scene": "s8-recap",
+      "at": 0.06,
+      "sound": "pop"
+    },
+    {
+      "scene": "s8-recap",
+      "at": 0.51,
+      "sound": "sparkle",
+      "volume": 0.3
+    }
+  ],
+  "music": null,
+  "outro_hold": 3.0,
+  "scripts": [
+    "assets/mcpflow.js"
+  ]
+}

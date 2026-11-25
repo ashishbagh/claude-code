@@ -1,0 +1,53 @@
+{
+ "scenes": [
+  {
+   "id": "s1-hook",
+   "start": 0,
+   "length": 19.356,
+   "speech": 18.756
+  },
+  {
+   "id": "s2-api",
+   "start": 19.356,
+   "length": 21.289,
+   "speech": 20.689
+  },
+  {
+   "id": "s3-problem",
+   "start": 40.645,
+   "length": 18.651,
+   "speech": 18.051
+  },
+  {
+   "id": "s4-mcp",
+   "start": 59.296,
+   "length": 22.647,
+   "speech": 22.047
+  },
+  {
+   "id": "s5-flow",
+   "start": 81.943,
+   "length": 24.476,
+   "speech": 23.876
+  },
+  {
+   "id": "s6-primitives",
+   "start": 106.419,
+   "length": 24.319,
+   "speech": 23.719
+  },
+  {
+   "id": "s7-compare",
+   "start": 130.738,
+   "length": 22.229,
+   "speech": 21.629
+  },
+  {
+   "id": "s8-recap",
+   "start": 152.967,
+   "length": 23.558,
+   "speech": 19.958
+  }
+ ],
+ "total": 176.525
+}

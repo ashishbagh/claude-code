@@ -1,0 +1,41 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s4-k1, #s4-k2, #s4-k3 { top: 450px; font-size: 62px; }
+    #s4-k3 s { color: #f87171; }
+  </style>
+  <div id="root" data-composition-id="s4-mcp" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":22.6},{"id":"S","type":"number","label":"Narration length (s)","default":22}]'>
+    <div id="s4-flow" data-hold></div>
+    <div class="v-top"><span class="lc-badge">Enter MCP</span>
+      <div class="v-route" id="s4-route"><span class="v-step">Protocol</span><b>→</b><span class="v-step">USB-C</span><b>→</b><span class="v-step">Client</span><b>→</b><span class="v-step">Server</span><b>→</b><span class="v-step">3 + 4</span></div></div>
+    <div class="v-kicker" id="s4-k1" data-hold><em>M</em>odel <em>C</em>ontext <em>P</em>rotocol<small>open standard · Anthropic · 2024</small></div>
+    <div class="v-kicker" id="s4-k2" data-hold>AI का <em>USB-C</em> 🔌<small>plug any AI app into any tool, one way</small></div>
+    <div class="v-kicker" id="s4-k3" data-hold><s>12</s> → 3 + 4 = <em>7</em><small>each app and each service connects once</small></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const F = McpFlow(document.getElementById("s4-flow"), "nplusm", { guides: false });
+      const at = (f) => f * S;
+      LC.route(tl, "#s4-route", [[0, 0], [at(0.33), 1], [at(0.45), 2], [at(0.60), 3], [at(0.76), 4]]);
+      [["#s4-k1", 0.02, 0.31], ["#s4-k2", 0.33, 0.74], ["#s4-k3", 0.76, 2]].forEach(([s, a, b]) => {
+        tl.fromTo(s, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, at(a));
+        if (b < 1) tl.to(s, { opacity: 0, y: -30, duration: 0.3 }, at(b));
+      });
+      const O = "#fb923c";
+      const hops = [
+        ["a1", "hub", at(0.45), 0.7, "MCP client", "#a78bfa", 99], ["a2", "hub", at(0.49), 0.7, null, "#a78bfa", 99], ["a3", "hub", at(0.53), 0.7, null, "#a78bfa", 99],
+        ["hub", "weather", at(0.60), 0.6, "MCP server", O, 99], ["hub", "github", at(0.63), 0.6, null, O, 99],
+        ["hub", "slack", at(0.66), 0.6, null, O, 99], ["hub", "db", at(0.69), 0.6, null, O, 99],
+      ];
+      LC.drive(tl, T, (t) => F.draw(t, {
+        appear: { hub: LC.prog(t, at(0.33), 0.6) },
+        glow: { hub: LC.prog(t, at(0.33), 0.4) * (1 - LC.prog(t, at(0.44), 0.4)) + LC.prog(t, at(0.76), 0.4) },
+        hops,
+      }));
+      window.__timelines["s4-mcp"] = tl;
+    })();
+  </script>
+</template>

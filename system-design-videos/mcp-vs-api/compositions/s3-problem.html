@@ -1,0 +1,39 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s3-k1 { top: 450px; font-size: 64px; }
+    #s3-k2 { top: 450px; font-size: 64px; }
+    #s3-k1 b { color: #f87171; font-weight: 900; }
+  </style>
+  <div id="root" data-composition-id="s3-problem" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":18.6},{"id":"S","type":"number","label":"Narration length (s)","default":18}]'>
+    <div id="s3-flow"></div>
+    <div class="v-top"><span class="lc-badge">The problem</span><span class="v-name">MCP vs API</span></div>
+    <div class="v-kicker" id="s3-k1">3 apps × 4 services = <b id="s3-n">0</b><small>custom integrations, each one by hand</small></div>
+    <div class="v-kicker" id="s3-k2"><em>N × M</em> problem 😵<small>every new app or service adds a whole row of work</small></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const F = McpFlow(document.getElementById("s3-flow"), "nxm", { guides: false });
+      const at = (f) => f * S;
+      tl.fromTo("#s3-k1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, at(0.05));
+      const o = { v: 0 };
+      tl.fromTo(o, { v: 0 }, { v: 12, duration: at(0.78) - at(0.44), ease: "none",
+        onUpdate: () => { document.querySelector("#s3-n").textContent = Math.round(o.v); } }, at(0.44));
+      tl.to("#s3-k1", { opacity: 0, y: -30, duration: 0.3 }, at(0.84));
+      tl.fromTo("#s3-k2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, at(0.85));
+      // 12 hand-written integrations, one after another; the first few show how different each API is
+      const tags = ["API key", "OAuth", "token", "XML"], cols = ["#f87171", "#fb923c", "#facc15", "#f472b6"];
+      const span = at(0.78) - at(0.44);
+      const hops = McpFlow.NXM.map(([a, s], i) => [a, s, at(0.44) + (i * span) / 12, 0.55, i < 4 ? tags[i] : null, cols[i % 4], 99]);
+      LC.drive(tl, T, (t) => F.draw(t, {
+        appear: { a1: LC.prog(t, at(0.02), 0.4), a2: LC.prog(t, at(0.05), 0.4), a3: LC.prog(t, at(0.08), 0.4),
+          weather: LC.prog(t, at(0.17), 0.4), github: LC.prog(t, at(0.23), 0.4), slack: LC.prog(t, at(0.28), 0.4), db: LC.prog(t, at(0.33), 0.4) },
+        hops,
+      }));
+      window.__timelines["s3-problem"] = tl;
+    })();
+  </script>
+</template>

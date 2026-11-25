@@ -132,10 +132,11 @@
           pl.textContent = label;
           pl.style.background = col;
           const vertical = Math.abs(Q.y - P.y) > Math.abs(Q.x - P.x);
-          const mx = P.x + (Q.x - P.x) * Math.min(e, 0.92), my = P.y + (Q.y - P.y) * Math.min(e, 0.92);
+          const cap = Math.min(e, 0.7);   // label stops at 70% of the arrow so it never covers the target card
+          const mx = P.x + (Q.x - P.x) * cap, my = P.y + (Q.y - P.y) * cap;
           pl.style.left = mx + "px"; pl.style.top = my + "px";
           // vertical arrows: label rides beside the arrow, so it never sits on a card
-          pl.style.transform = vertical ? "translate(18px, -50%)" : "translate(-50%, -130%)";
+          pl.style.transform = !vertical ? "translate(-50%, -130%)" : mx > W / 2 ? "translate(calc(-100% - 18px), -50%)" : "translate(18px, -50%)";
           pl.style.opacity = Math.min(1, p * 6, (1 - p) * 8 + 0.2);
         }
         if (p > 0.85 && t <= s + d + 0.9) glow[to] = Math.max(glow[to] || 0, 1 - Math.max(0, t - s - d) / 0.9);

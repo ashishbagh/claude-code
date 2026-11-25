@@ -1,0 +1,57 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s1-hero { background: radial-gradient(ellipse at 50% 50%, rgba(13,17,33,0.97) 0%, rgba(13,17,33,0.92) 60%, rgba(13,17,33,0.8) 100%); }
+    #s1-hero h1 { font-size: 150px; }
+    #s1-hero h1 em { font-style: normal; color: var(--yellow); }
+    #s1-chat { top: 440px; }
+    #s1-k1 { top: 450px; font-size: 64px; }
+    #s1-int { position: absolute; left: 72px; right: 72px; top: 590px; justify-content: flex-start; z-index: 5; }
+  </style>
+  <div id="root" data-composition-id="s1-hook" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":19.3},{"id":"S","type":"number","label":"Narration length (s)","default":18.7}]'>
+    <div id="s1-flow"></div>
+    <div class="v-hero" id="s1-hero">
+      <h1 id="s1-t1">MCP <em>vs</em> API</h1>
+      <p id="s1-t2">AI Engineering · Hinglish</p>
+      <div class="sd-asked" id="s1-asked"><em>Trending in</em><span class="sd-co">AI-engineer interviews</span></div>
+    </div>
+    <div id="s1-top" style="opacity:0"><div class="v-top"><span class="lc-badge">AI Engineering</span><span class="v-name">MCP vs API</span></div></div>
+    <div class="v-chat" id="s1-chat">
+      <div class="v-bubble" id="s1-b1">कल Delhi में बारिश होगी? 🌧</div>
+      <div class="v-bubble in" id="s1-b2">🤔 मेरे पास weather data नहीं…</div>
+    </div>
+    <div class="v-kicker" id="s1-k1" data-hold>MCP vs API: <em>फर्क क्या है?</em></div>
+    <div class="sd-asked sm" id="s1-int"><em>Trending in</em><span class="sd-co">AI-engineer interviews</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const F = McpFlow(document.getElementById("s1-flow"), "hook");
+      const at = (f) => f * S;
+      // 0–1.5 s: title card (thumbnail + cover)
+      tl.fromTo("#s1-t1", { opacity: 1, scale: 0.96 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power1.out" }, 0);
+      tl.fromTo("#s1-t2", { opacity: 1 }, { opacity: 1, duration: 0.1 }, 0);
+      LC.askedAt(tl, "#s1-asked", 0.15, 0.1);
+      tl.to("#s1-hero", { opacity: 0, y: -60, duration: 0.35, ease: "power2.in" }, 1.4);
+      tl.fromTo("#s1-top", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.6);
+      // Priya asks; the AI admits it has no weather data
+      tl.fromTo("#s1-b1", { opacity: 0, y: 40, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, 1.6);
+      tl.fromTo("#s1-b2", { opacity: 0, y: 40, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(0.22));
+      tl.to("#s1-chat", { opacity: 0, y: -30, duration: 0.3 }, at(0.63));
+      tl.fromTo("#s1-k1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, at(0.65));
+      LC.askedAt(tl, "#s1-int", at(0.76), 0.1);
+      const hops = [
+        ["app", "api", at(0.55), 0.8, "API?", "#38bdf8", 99],
+        ["app", "mcp", at(0.58), 0.8, "MCP?", "#fb923c", 99],
+      ];
+      LC.drive(tl, T, (t) => F.draw(t, {
+        appear: { app: LC.prog(t, at(0.36), 0.5), api: LC.prog(t, at(0.53), 0.4), mcp: LC.prog(t, at(0.56), 0.4) },
+        glow: { app: LC.prog(t, at(0.36), 0.3) * (1 - LC.prog(t, at(0.5), 0.4)) },
+        hops,
+      }));
+      window.__timelines["s1-hook"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,52 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s7-tab { top: 430px; padding: 8px 24px; }
+    .s7-r { display: grid; grid-template-columns: 250px 1fr 1fr; gap: 14px; align-items: center; padding: 16px 4px;
+      border-bottom: 2px solid var(--panel-edge); opacity: 0; }
+    .s7-r:last-child { border-bottom: 0; }
+    .s7-r span { color: var(--muted); font: 700 32px/1.2 var(--font); }
+    .s7-r b { color: var(--ink); font: 800 36px/1.2 var(--font); }
+    .s7-r b.api { color: #7dd3fc; } .s7-r b.mcp { color: #fdba74; }
+    .s7-r code { font: 700 34px var(--mono); color: #fdba74; }
+    #s7-h b { font-size: 44px; }
+    #s7-use { background: rgba(250, 204, 21, 0.1); border-radius: 18px; }
+    #s7-note { position: absolute; left: 72px; right: 72px; top: 1040px; text-align: center; color: var(--ink);
+      font: 800 36px var(--font); opacity: 0; z-index: 5; }
+    #s7-note em { font-style: normal; color: var(--yellow); }
+  </style>
+  <div id="root" data-composition-id="s7-compare" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":22.2},{"id":"S","type":"number","label":"Narration length (s)","default":21.6}]'>
+    <div id="s7-flow"></div>
+    <div class="v-top"><span class="lc-badge">So what's the difference?</span><span class="v-name">MCP vs API</span></div>
+    <div class="v-card" id="s7-tab" data-hold>
+      <div class="s7-r" id="s7-h"><span></span><b class="api">🚪 API</b><b class="mcp">🔌 MCP</b></div>
+      <div class="s7-r" id="s7-r1"><span>Who calls?</span><b>Dev's code</b><b>AI model</b></div>
+      <div class="s7-r" id="s7-r2"><span>Discovery</span><b>Read docs</b><code>tools/list</code></div>
+      <div class="s7-r" id="s7-r3"><span>Replaces?</span><b>—</b><b>No, wraps APIs</b></div>
+      <div class="s7-r" id="s7-use"><span>Use for</span><b>Normal app</b><b>AI agent</b></div>
+    </div>
+    <div id="s7-note">MCP = a <em>layer on top</em> of the API</div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const F = McpFlow(document.getElementById("s7-flow"), "layers");
+      const at = (f) => f * S;
+      [["#s7-h", 0.02], ["#s7-r1", 0.08], ["#s7-r2", 0.36], ["#s7-r3", 0.60], ["#s7-use", 0.82]].forEach(([s, a]) =>
+        tl.fromTo(s, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.35, ease: "back.out(1.6)" }, at(a)));
+      tl.fromTo("#s7-use", { scale: 1 }, { scale: 1.04, duration: 0.25, yoyo: true, repeat: 1 }, at(0.82) + 0.4);
+      tl.fromTo("#s7-note", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35 }, at(0.64));
+      const hops = [
+        ["appS", "mcpS", at(0.66), 0.8, null, "#a78bfa", 99],
+        ["mcpS", "apiS", at(0.66) + 0.9, 0.8, null, "#38bdf8", 99],
+      ];
+      LC.drive(tl, T, (t) => F.draw(t, {
+        appear: { appS: LC.prog(t, at(0.62), 0.4), mcpS: LC.prog(t, at(0.64), 0.4), apiS: LC.prog(t, at(0.66), 0.4) },
+        hops,
+      }));
+      window.__timelines["s7-compare"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,51 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s6-k1 { top: 450px; font-size: 62px; }
+    #s6-tr { top: 430px; padding: 14px 30px; opacity: 0; }
+    #s6-tr .v-row { font-size: 38px; padding: 8px 0; }
+    #s6-tr .v-row code { font: 700 36px var(--mono); color: var(--yellow); }
+    .s6-eg { position: absolute; width: 290px; text-align: center; color: var(--muted); font: 700 30px var(--font); opacity: 0; z-index: 5; }
+  </style>
+  <div id="root" data-composition-id="s6-primitives" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":24.3},{"id":"S","type":"number","label":"Narration length (s)","default":23.7}]'>
+    <div id="s6-flow"></div>
+    <div class="v-top"><span class="lc-badge">What an MCP server offers</span>
+      <div class="v-route" id="s6-route"><span class="v-step">🛠 Tools</span><b>·</b><span class="v-step">📄 Resources</span><b>·</b><span class="v-step">📝 Prompts</span><b>·</b><span class="v-step">📨 Wire</span></div></div>
+    <div class="v-kicker" id="s6-k1">3 <em>primitives</em><small>what a server can expose to the AI</small></div>
+    <div class="v-card" id="s6-tr">
+      <div class="v-row" id="s6-t1"><i>📨</i>Messages: <code>JSON-RPC</code></div>
+      <div class="v-row" id="s6-t2"><i>💻</i>Local server → <code>stdio</code></div>
+      <div class="v-row nf" id="s6-t3"><i>🌐</i>Remote server → <code>HTTP</code></div>
+    </div>
+    <div class="s6-eg" id="s6-e1" style="left:80px;top:1095px">actions</div>
+    <div class="s6-eg" id="s6-e2" style="left:395px;top:1095px">data</div>
+    <div class="s6-eg" id="s6-e3" style="left:710px;top:1095px">templates</div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const F = McpFlow(document.getElementById("s6-flow"), "prims");
+      const at = (f) => f * S;
+      LC.route(tl, "#s6-route", [[at(0.08), 0], [at(0.30), 1], [at(0.52), 2], [at(0.68), 3]]);
+      tl.fromTo("#s6-k1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, at(0.02));
+      tl.to("#s6-k1", { opacity: 0, y: -30, duration: 0.3 }, at(0.66));
+      tl.fromTo("#s6-tr", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4 }, at(0.67));
+      [["#s6-t1", 0.68], ["#s6-t2", 0.80], ["#s6-t3", 0.90]].forEach(([s, a]) =>
+        tl.fromTo(s, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.35, ease: "back.out(1.8)" }, at(a)));
+      [["#s6-e1", 0.10], ["#s6-e2", 0.32], ["#s6-e3", 0.54]].forEach(([s, a]) =>
+        tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: 0.3 }, at(a)));
+      const hops = [
+        ["mcpw", "tools", at(0.12), 1.0, "create_issue", "#facc15", 99],
+        ["mcpw", "res", at(0.33), 1.0, "notes.md", "#22c55e", 99],
+        ["mcpw", "prompts", at(0.55), 1.0, "review_pr", "#f472b6", 99],
+      ];
+      LC.drive(tl, T, (t) => F.draw(t, {
+        appear: { mcpw: LC.prog(t, 0.1, 0.5), tools: LC.prog(t, at(0.08), 0.4), res: LC.prog(t, at(0.30), 0.4), prompts: LC.prog(t, at(0.52), 0.4) },
+        hops,
+      }));
+      window.__timelines["s6-primitives"] = tl;
+    })();
+  </script>
+</template>

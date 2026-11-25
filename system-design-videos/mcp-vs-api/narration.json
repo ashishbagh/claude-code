@@ -1,0 +1,22 @@
+{
+  "en": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "hinglish": [
+    "आपने AI से पूछा: कल Delhi में बारिश होगी? पर AI के पास weather data है ही नहीं. उसे बाहर की दुनिया से बात करनी होगी: API से, या MCP से. दोनों में फर्क क्या है? आजकल AI engineer interviews में यह question खूब पूछा जा रहा है.",
+    "पहले API. API एक fixed menu की तरह है. Weather service कहती है: GET slash weather पर city Delhi भेजो, और मैं JSON लौटाऊँगी: temperature इकतीस, बारिश सत्तर percent. पर इसे call करने का code, developer को docs पढ़कर, पहले से लिखना पड़ता है.",
+    "अब सोचो, तीन AI apps हैं, और हर app को चार services चाहिए: Weather, GitHub, Slack, और database. हर API का अलग auth, अलग format. तो तीन गुना चार, यानी बारह custom integrations. यही है N into M problem.",
+    "यहीं आता है MCP, यानी Model Context Protocol. Anthropic ने इसे दो हज़ार चौबीस में open standard बनाया. इसे AI का USB-C समझो. AI app के अंदर MCP client होता है, जो किसी भी MCP server से जुड़ जाता है. अब बारह नहीं, सिर्फ तीन plus चार, यानी सात pieces.",
+    "चलो Priya का question trace करते हैं. AI app, weather MCP server से connect होकर पूछता है: कौन से tools हैं? Server बताता है: get forecast नाम का tool है, city दो. AI खुद तय करता है, और tool call भेजता है: city Delhi. Server अंदर weather API call करता है, और AI जवाब देता है: कल हल्की बारिश.",
+    "MCP server तीन चीज़ें दे सकता है. Tools, यानी actions, जैसे GitHub पर issue बनाना. Resources, यानी data, जैसे files या database rows. और Prompts, यानी ready-made templates. Messages JSON-RPC में जाते हैं, local server stdio से, और remote server HTTP से जुड़ता है.",
+    "तो फर्क क्या है? API को developer का code call करता है, MCP tools को AI खुद चुनता है. API के docs इंसान पढ़ता है, MCP में tools runtime पर discover होते हैं. और MCP, API को replace नहीं करता, उसके ऊपर एक layer है. Normal app के लिए API, AI agent के लिए MCP.",
+    "Recap: API, एक service का fixed contract है. MCP, AI को कई tools से जोड़ने का standard तरीका है, जो अंदर APIs ही use करता है. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}

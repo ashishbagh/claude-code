@@ -1,0 +1,61 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .s5-msg { position: absolute; left: 72px; right: 72px; top: 440px; padding: 18px 28px; border-radius: 26px;
+      background: rgba(24, 30, 52, 0.92); border: 2px solid var(--panel-edge); opacity: 0; z-index: 5; }
+    .s5-msg h5 { color: var(--muted); font: 800 28px var(--font); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .s5-msg pre { font: 600 31px/1.42 var(--mono); color: var(--ink); white-space: pre; font-variant-ligatures: none; }
+    .s5-msg .s { color: #86efac; } .s5-msg .k { color: #fbbf24; }
+    #s5-ans { position: absolute; left: 72px; right: 72px; top: 450px; display: flex; flex-direction: column; gap: 16px; z-index: 5; }
+  </style>
+  <div id="root" data-composition-id="s5-flow" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":24.4},{"id":"S","type":"number","label":"Narration length (s)","default":23.8}]'>
+    <div id="s5-flow"></div>
+    <div class="v-top"><span class="lc-badge">Example: Priya's question</span>
+      <div class="v-route" id="s5-route"><span class="v-step">Ask</span><b>→</b><span class="v-step">list</span><b>→</b><span class="v-step">decide</span><b>→</b><span class="v-step">call</span><b>→</b><span class="v-step">API</span><b>→</b><span class="v-step">Answer</span></div></div>
+    <div class="s5-msg" id="s5-m1"><h5>AI app → MCP server</h5><pre>{ <span class="k">"method"</span>: <span class="s">"tools/list"</span> }</pre></div>
+    <div class="s5-msg" id="s5-m2"><h5>MCP server → AI app</h5><pre>tools: [ { <span class="k">name</span>: <span class="s">"get_forecast"</span>,
+          <span class="k">input</span>: { city } } ]</pre></div>
+    <div class="s5-msg" id="s5-m3"><h5>AI app → MCP server</h5><pre>{ <span class="k">"method"</span>: <span class="s">"tools/call"</span>,
+  <span class="k">"name"</span>: <span class="s">"get_forecast"</span>,
+  <span class="k">"arguments"</span>: { <span class="k">"city"</span>: <span class="s">"Delhi"</span> } }</pre></div>
+    <div class="s5-msg" id="s5-m4"><h5>Inside the MCP server</h5><pre><span class="k">GET</span> /forecast?city=<span class="s">Delhi</span>
+→ { <span class="k">"temp"</span>: 31, <span class="k">"rain"</span>: <span class="s">"70%"</span> }</pre></div>
+    <div id="s5-ans">
+      <div class="v-bubble" id="s5-q">कल Delhi में बारिश होगी? 🌧</div>
+      <div class="v-bubble in" id="s5-a">🌦 हाँ, कल हल्की बारिश · 31°</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const F = McpFlow(document.getElementById("s5-flow"), "flow");
+      const at = (f) => f * S;
+      const V = "#a78bfa", O = "#fb923c", B = "#38bdf8", G = "#22c55e", Y = "#facc15";
+      const hops = [
+        ["priya", "app", at(0.02), 1.0, "बारिश?", G],
+        ["app", "mcpw", at(0.13), 1.0, "tools/list", V],
+        ["mcpw", "app", at(0.31), 1.0, "get_forecast", O],
+        ["app", "mcpw", at(0.57), 1.0, "tools/call", V],
+        ["mcpw", "weather", at(0.70), 0.8, "GET", B], ["weather", "mcpw", at(0.70) + 0.9, 0.8, "31° · 70%", G],
+        ["mcpw", "app", at(0.84), 0.8, "result", O], ["app", "priya", at(0.84) + 0.9, 0.9, "हल्की बारिश", Y, 3],
+      ];
+      LC.route(tl, "#s5-route", [[0, 0], [at(0.13), 1], [at(0.48), 2], [at(0.57), 3], [at(0.70), 4], [at(0.84), 5]]);
+      const show = (sel, a, b) => {
+        tl.fromTo(sel, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, at(a));
+        if (b) tl.to(sel, { opacity: 0, duration: 0.25 }, at(b));
+      };
+      show("#s5-m1", 0.12, 0.30); show("#s5-m2", 0.31, 0.56); show("#s5-m3", 0.57, 0.69); show("#s5-m4", 0.70, 0.83);
+      tl.fromTo("#s5-q", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35 }, 0.05);
+      tl.to("#s5-q", { opacity: 0, duration: 0.25 }, at(0.11));
+      tl.fromTo("#s5-q", { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: false }, at(0.84));
+      tl.fromTo("#s5-a", { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, at(0.84) + 1.6);
+      LC.drive(tl, T, (t) => F.draw(t, {
+        glow: { app: LC.prog(t, at(0.47), 0.3) * (1 - LC.prog(t, at(0.57), 0.3)) },   // "AI खुद तय करता है"
+        hops,
+      }));
+      window.__timelines["s5-flow"] = tl;
+    })();
+  </script>
+</template>

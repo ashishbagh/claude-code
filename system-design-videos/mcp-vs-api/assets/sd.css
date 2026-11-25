@@ -1,0 +1,68 @@
+/* System-design additions on top of lc.css (linked after it from index.html). */
+
+/* requirement columns: <div class="sd-req"><h4>Functional</h4><div class="sd-li"><i>✓</i>…</div></div> */
+.sd-req { position: absolute; padding: 30px 40px; background: var(--panel); border: 2px solid var(--panel-edge);
+  border-radius: 24px; font-family: var(--font); }
+.sd-req h4 { color: var(--muted); font: 700 30px var(--font); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px; }
+.sd-li { display: flex; align-items: center; gap: 18px; color: var(--ink); font: 600 34px/1.35 var(--font);
+  margin: 12px 0; opacity: 0; }
+.sd-li i { font-style: normal; width: 46px; height: 46px; border-radius: 23px; flex: none; display: flex;
+  align-items: center; justify-content: center; font: 800 28px var(--font); background: #0a321e; color: #4ade80; }
+.sd-li.nf i { background: #1a2550; color: var(--accent); }
+.sd-li code { font: 500 31px var(--mono); color: var(--yellow); }
+
+/* estimate stat cards */
+.sd-stats { position: absolute; left: 120px; right: 120px; top: 190px; display: grid;
+  grid-template-columns: repeat(4, 1fr); gap: 32px; }
+.sd-stat { height: 330px; padding: 34px 26px; background: var(--panel); border: 2px solid var(--panel-edge);
+  border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 18px; font-family: var(--font); opacity: 0; }
+.sd-stat h3 { color: var(--muted); font: 700 30px var(--font); text-transform: uppercase; letter-spacing: 0.06em; }
+.sd-stat strong { color: var(--yellow); font: 900 76px var(--font); white-space: nowrap; }
+.sd-stat p { color: var(--ink); font: 500 29px/1.3 var(--font); text-align: center; }
+.sd-stat.green strong { color: var(--green); } .sd-stat.blue strong { color: var(--accent); }
+.sd-stat.pink strong { color: var(--pink); }
+
+/* API endpoint cards */
+.sd-api { position: absolute; padding: 30px 40px; background: var(--panel); border: 2px solid var(--panel-edge);
+  border-radius: 24px; font-family: var(--font); opacity: 0; }
+.sd-api .sd-route { display: flex; align-items: center; gap: 22px; margin-bottom: 18px; }
+.sd-method { padding: 8px 20px; border-radius: 12px; font: 800 30px var(--mono); }
+.sd-post { background: #0a321e; color: #4ade80; } .sd-get { background: #102a52; color: var(--accent); }
+.sd-path { color: var(--ink); font: 600 38px var(--mono); }
+.sd-api pre { color: var(--ink); font: 400 29px/1.5 var(--mono); white-space: pre; font-variant-ligatures: none; }
+.sd-api pre .c { color: #8a94b8; } .sd-api pre .s { color: #86efac; } .sd-api pre .n { color: #fbbf24; }
+.sd-api pre .k { color: #f472b6; font-weight: 700; }
+
+/* schema table */
+.sd-table { position: absolute; background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 24px;
+  overflow: hidden; font-family: var(--font); opacity: 0; }
+.sd-table .sd-th { padding: 20px 32px; background: #22305e; color: var(--ink); font: 800 34px var(--mono); }
+.sd-row { display: flex; justify-content: space-between; gap: 30px; padding: 16px 32px; border-top: 2px solid var(--panel-edge);
+  font: 500 30px var(--mono); color: var(--ink); opacity: 0; }
+.sd-row em { font-style: normal; color: var(--muted); }
+.sd-row b { color: var(--yellow); font-weight: 700; }
+
+/* step list beside a 3D flow */
+.sd-steps { position: absolute; padding: 26px 30px; background: var(--panel); border: 2px solid var(--panel-edge);
+  border-radius: 24px; font-family: var(--font); display: flex; flex-direction: column; gap: 14px; }
+.sd-steps h4 { color: var(--muted); font: 700 28px var(--font); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.sd-step { display: flex; align-items: center; gap: 16px; color: var(--ink); font: 600 30px/1.3 var(--font); opacity: 0; }
+.sd-step b { flex: none; width: 44px; height: 44px; border-radius: 22px; background: var(--yellow); color: var(--bg);
+  font: 900 28px var(--font); display: flex; align-items: center; justify-content: center; }
+.sd-step code { font: 500 28px var(--mono); color: var(--yellow); }
+.sd-step.miss b { background: var(--red); color: #fff; } .sd-step.hit b { background: var(--green); }
+
+/* a big monospace token (short code, id) */
+.sd-token { color: var(--yellow); font: 800 64px var(--mono); letter-spacing: 0.04em; }
+.sd-chip { display: inline-block; padding: 6px 18px; border-radius: 14px; font: 700 28px var(--font);
+  background: #22305e; color: var(--ink); }
+
+/* "Asked at" companies (intro): title-card row + compact strip in the first scene.
+   Plain-text wordmark chips only – never company logos. */
+.sd-asked { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.sd-asked > em { font-style: normal; color: var(--muted); font: 700 30px var(--font); text-transform: uppercase;
+  letter-spacing: 0.08em; margin-right: 6px; }
+.sd-co { padding: 10px 24px; border-radius: 16px; background: var(--panel); border: 2px solid var(--panel-edge);
+  color: var(--ink); font: 800 34px var(--font); opacity: 0; }
+.sd-asked.sm > em { font-size: 28px; } .sd-asked.sm .sd-co { font-size: 28px; padding: 6px 18px; border-radius: 12px; }

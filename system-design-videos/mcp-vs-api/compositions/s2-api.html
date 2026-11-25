@@ -1,0 +1,48 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s2-k1 { top: 450px; font-size: 64px; }
+    #s2-code { top: 440px; padding: 22px 30px; opacity: 0; }
+    #s2-code pre { font: 600 34px/1.5 var(--mono); color: var(--ink); white-space: pre; font-variant-ligatures: none; }
+    #s2-code .m { color: #4ade80; font-weight: 800; } #s2-code .s { color: #86efac; } #s2-code .n { color: #fbbf24; }
+    #s2-code .k { color: #f472b6; font-weight: 800; }
+    #s2-code span.l { display: inline-block; opacity: 0; }
+    #s2-docs { position: absolute; left: 430px; top: 1150px; padding: 10px 22px; border-radius: 18px; background: var(--panel);
+      border: 2px solid var(--panel-edge); color: var(--ink); font: 800 34px var(--font); opacity: 0; z-index: 5; }
+  </style>
+  <div id="root" data-composition-id="s2-api" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":21.2},{"id":"S","type":"number","label":"Narration length (s)","default":20.6}]'>
+    <div id="s2-flow"></div>
+    <div class="v-top"><span class="lc-badge">What is an API?</span>
+      <div class="v-route" id="s2-route"><span class="v-step">Menu</span><b>→</b><span class="v-step">Request</span><b>→</b><span class="v-step">JSON</span><b>→</b><span class="v-step">Dev code</span></div></div>
+    <div class="v-kicker" id="s2-k1">API = <em>fixed menu</em> 📋<small>same door, same rules, every time</small></div>
+    <div class="v-card" id="s2-code" data-hold><pre><span class="l" id="s2-l1"><span class="m">GET</span> /weather?city=<span class="s">Delhi</span></span>
+<span class="l" id="s2-l2"><span class="k">→ 200</span> { <span class="s">"temp"</span>: <span class="n">31</span>, <span class="s">"rain"</span>: <span class="n">"70%"</span> }</span></pre></div>
+    <div id="s2-docs">📖 reads docs first</div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const F = McpFlow(document.getElementById("s2-flow"), "api");
+      const at = (f) => f * S;
+      LC.route(tl, "#s2-route", [[0, 0], [at(0.30), 1], [at(0.50), 2], [at(0.74), 3]]);
+      tl.fromTo("#s2-k1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, at(0.08));
+      tl.to("#s2-k1", { opacity: 0, y: -30, duration: 0.3 }, at(0.27));
+      tl.fromTo("#s2-code", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4 }, at(0.29));
+      tl.fromTo("#s2-l1", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35 }, at(0.30));
+      tl.fromTo("#s2-l2", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35 }, at(0.52));
+      tl.fromTo("#s2-docs", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.35, ease: "back.out(2)" }, at(0.80));
+      const hops = [
+        ["yourapp", "weather", at(0.30), 1.0, "GET ?city=Delhi", "#38bdf8", 2.2],
+        ["weather", "yourapp", at(0.50), 1.0, "JSON · 31°", "#22c55e", 3.5],
+        ["dev", "yourapp", at(0.74), 1.0, "writes code", "#facc15", 99],
+      ];
+      LC.drive(tl, T, (t) => F.draw(t, {
+        appear: { yourapp: LC.prog(t, 0.1, 0.5), weather: LC.prog(t, at(0.13), 0.5), dev: LC.prog(t, at(0.72), 0.5) },
+        hops,
+      }));
+      window.__timelines["s2-api"] = tl;
+    })();
+  </script>
+</template>
