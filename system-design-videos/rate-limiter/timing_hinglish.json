@@ -1,0 +1,47 @@
+{
+ "scenes": [
+  {
+   "id": "s1-hook",
+   "start": 0,
+   "length": 16.404,
+   "speech": 15.804
+  },
+  {
+   "id": "s2-problem",
+   "start": 16.404,
+   "length": 18.389,
+   "speech": 17.789
+  },
+  {
+   "id": "s3-bucket",
+   "start": 34.793,
+   "length": 15.202,
+   "speech": 14.602
+  },
+  {
+   "id": "s4-burst",
+   "start": 49.995,
+   "length": 17.266,
+   "speech": 16.666
+  },
+  {
+   "id": "s5-refill",
+   "start": 67.261,
+   "length": 14.549,
+   "speech": 13.949
+  },
+  {
+   "id": "s6-redis",
+   "start": 81.81,
+   "length": 19.121,
+   "speech": 18.521
+  },
+  {
+   "id": "s7-recap",
+   "start": 100.931,
+   "length": 21.468,
+   "speech": 17.868
+  }
+ ],
+ "total": 122.399
+}

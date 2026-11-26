@@ -1,0 +1,37 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s5-refill" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":14.5},{"id":"S","type":"number","label":"Narration length (s)","default":13.9}]'>
+    <div class="sd-top"><b>@DSALGO_AI</b><span>SYSTEM DESIGN · RATE LIMITER</span></div>
+    <div class="sd-rail" id="s5-rail"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+    <div class="sd-tag" id="s5-tag"><span>TOKEN BUCKET · RATE LIMITING</span></div>
+    <canvas id="s5-canvas" class="lc-fill"></canvas>
+    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sd-chip amber" id="s5-chip">STEP 04 · REFILL</div>
+    <div class="sd-meta" id="s5-meta">tokens <span id="s5-tk"></span>/4</div>
+    <div class="sd-head" style="top:1080px">
+      <p id="s5-p1">burst ≤ capacity <b>(4)</b></p>
+      <p id="s5-p2">avg rate ≤ refill <b>(1 / sec)</b></p>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const rl = RL(document.getElementById("s5-canvas"));
+      SD.rail(tl, "#s5-rail", 4, 0, T);
+      tl.set("#s5-tag", { opacity: 1 }, 0);
+      fade("#s5-chip", 0.05); fade("#s5-meta", 0.2);
+      const tin = 0.09 * S, r7 = 0.25 * S;
+      SD.vals(tl, "#s5-tk", "0", [["1", tin + 0.5], ["0", r7 + 0.6]]);
+      fade("#s5-p1", 0.42 * S, { x: -20 }); fade("#s5-p2", 0.66 * S, { x: -20 });
+      LC.drive(tl, T, (t) => rl.draw({ t, view: [720, 330], show: { client: 1, bucket: 1, server: 1 },
+        tokens: [{ slot: 0, in: tin, out: r7 + 0.6 }], reqs: [{ t0: r7, ok: true }],
+        strip: { status: [2, t > 0.42 * S ? 2 : 1, 1, 0, 0] } }));
+      window.__timelines["s5-refill"] = tl;
+    })();
+  </script>
+</template>

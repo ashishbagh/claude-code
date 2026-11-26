@@ -1,0 +1,39 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s3-bucket" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":15.2},{"id":"S","type":"number","label":"Narration length (s)","default":14.6}]'>
+    <div class="sd-top"><b>@DSALGO_AI</b><span>SYSTEM DESIGN · RATE LIMITER</span></div>
+    <div class="sd-rail" id="s3-rail"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="sd-tag" id="s3-tag"><span>TOKEN BUCKET · RATE LIMITING</span></div>
+    <canvas id="s3-canvas" class="lc-fill"></canvas>
+    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sd-chip amber" id="s3-chip">STEP 02 · TOKEN BUCKET</div>
+    <div class="sd-meta" id="s3-meta">tokens <span id="s3-tk"></span>/4</div>
+    <div class="sd-head">
+      <h4 id="s3-h">TOKEN BUCKET</h4>
+      <p id="s3-p1">capacity = <b>4</b> tokens</p>
+      <p id="s3-p2">refill = <b>1</b> token / sec</p>
+      <p id="s3-p3">1 request = <b>1</b> token</p>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const rl = RL(document.getElementById("s3-canvas"));
+      SD.rail(tl, "#s3-rail", 2, 0, T);
+      tl.set("#s3-tag", { opacity: 1 }, 0);
+      fade("#s3-chip", 0.05); fade("#s3-meta", 0.2); fade("#s3-h", 0.03 * S);
+      fade("#s3-p1", 0.43 * S, { x: -20 }); fade("#s3-p2", 0.55 * S, { x: -20 }); fade("#s3-p3", 0.72 * S, { x: -20 });
+      const ins = [0.43 * S, 0.43 * S + 0.35, 0.43 * S + 0.7, 0.58 * S];
+      SD.vals(tl, "#s3-tk", "0", ins.map((a, i) => [String(i + 1), a + 0.5]));
+      LC.drive(tl, T, (t) => rl.draw({ t, view: [930, 310], show: { bucket: LC.prog(t, 0.21 * S, 0.6) },
+        tokens: ins.map((a, i) => ({ slot: i, in: a })),
+        strip: { status: [2, 1, 0, 0, 0] } }));
+      window.__timelines["s3-bucket"] = tl;
+    })();
+  </script>
+</template>

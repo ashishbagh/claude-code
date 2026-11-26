@@ -1,0 +1,172 @@
+{
+  "number": 0,
+  "title": "Rate Limiter",
+  "difficulty": "Medium",
+  "slug": "rate_limiter",
+  "scenes": [
+    "s1-hook",
+    "s2-problem",
+    "s3-bucket",
+    "s4-burst",
+    "s5-refill",
+    "s6-redis",
+    "s7-recap"
+  ],
+  "pad": 0.6,
+  "tracks": {
+    "hinglish": {
+      "audio": "assets/audio/hinglish",
+      "out": "out/rate_limiter_hinglish.mp4"
+    }
+  },
+  "voice": {
+    "hinglish": {
+      "engine": "elevenlabs",
+      "voice": "j7yQHuKNC1hdt1LBPAks",
+      "name": "Prashant - Warm, Clear Hindi Explainer"
+    }
+  },
+  "sfx_queries": {
+    "whoosh": "whoosh transition",
+    "pop": "pop ui",
+    "click-soft": "soft click ui",
+    "ping": "bright ping notification",
+    "impact-bass-1": "cinematic impact",
+    "whoosh-short": "short swoosh",
+    "sparkle": "magic sparkle chime",
+    "riser": "cinematic riser",
+    "typing": "keyboard typing",
+    "chime": "success chime"
+  },
+  "sfx": [
+    {
+      "scene": "s1-hook",
+      "sec": 0.2,
+      "sound": "riser",
+      "volume": 0.25
+    },
+    {
+      "scene": "s1-hook",
+      "at": 0.41,
+      "sound": "ping",
+      "volume": 0.25
+    },
+    {
+      "scene": "s1-hook",
+      "at": 0.84,
+      "sound": "whoosh",
+      "volume": 0.3
+    },
+    {
+      "scene": "s2-problem",
+      "at": 0.08,
+      "sound": "typing",
+      "volume": 0.25
+    },
+    {
+      "scene": "s2-problem",
+      "at": 0.34,
+      "sound": "impact-bass-1",
+      "volume": 0.3
+    },
+    {
+      "scene": "s2-problem",
+      "at": 0.8,
+      "sound": "whoosh-short",
+      "volume": 0.3
+    },
+    {
+      "scene": "s3-bucket",
+      "at": 0.43,
+      "sound": "pop"
+    },
+    {
+      "scene": "s3-bucket",
+      "at": 0.58,
+      "sound": "pop"
+    },
+    {
+      "scene": "s3-bucket",
+      "at": 0.72,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s4-burst",
+      "at": 0.18,
+      "sound": "ping",
+      "volume": 0.25
+    },
+    {
+      "scene": "s4-burst",
+      "at": 0.45,
+      "sound": "ping",
+      "volume": 0.25
+    },
+    {
+      "scene": "s4-burst",
+      "at": 0.69,
+      "sound": "impact-bass-1",
+      "volume": 0.3
+    },
+    {
+      "scene": "s4-burst",
+      "at": 0.81,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s5-refill",
+      "at": 0.1,
+      "sound": "pop"
+    },
+    {
+      "scene": "s5-refill",
+      "at": 0.29,
+      "sound": "ping",
+      "volume": 0.25
+    },
+    {
+      "scene": "s6-redis",
+      "at": 0.37,
+      "sound": "typing",
+      "volume": 0.2
+    },
+    {
+      "scene": "s6-redis",
+      "at": 0.54,
+      "sound": "typing",
+      "volume": 0.2
+    },
+    {
+      "scene": "s6-redis",
+      "at": 0.73,
+      "sound": "chime",
+      "volume": 0.3
+    },
+    {
+      "scene": "s7-recap",
+      "at": 0.16,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s7-recap",
+      "at": 0.47,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s7-recap",
+      "at": 0.6,
+      "sound": "sparkle",
+      "volume": 0.3
+    }
+  ],
+  "music": null,
+  "outro_hold": 3.0,
+  "scripts": [
+    "assets/lib/sd.js",
+    "assets/rl3d.js"
+  ],
+  "styles": [
+    "assets/sd.css"
+  ]
+}

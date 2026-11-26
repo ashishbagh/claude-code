@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s7-recap" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":19},{"id":"S","type":"number","label":"Narration length (s)","default":18.4}]'>
+    <div class="sd-top"><b>@DSALGO_AI</b><span>SYSTEM DESIGN · RATE LIMITER</span></div>
+    <div class="sd-rail" id="s7-rail"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+    <div class="sd-tag" id="s7-tag"><span>TOKEN BUCKET · RATE LIMITING</span></div>
+    <canvas id="s7-canvas" class="lc-fill"></canvas>
+    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sd-chip" id="s7-chip">RECAP · ALGORITHMS</div>
+    <div class="sd-meta" id="s7-meta">say all 5</div>
+    <div class="sd-rows" id="s7-rows">
+      <div class="sd-row" id="s7-r1">Fixed window <small>simple</small></div>
+      <div class="sd-row" id="s7-r2">Sliding window log <small>exact</small></div>
+      <div class="sd-row" id="s7-r3">Sliding window counter <small>cheap</small></div>
+      <div class="sd-row" id="s7-r4">Leaky bucket <small>smooth</small></div>
+      <div class="sd-row hot" id="s7-r5">Token bucket <small>most common</small></div>
+    </div>
+    <div class="lc-outro sd-outro" data-hold>
+      <div class="lc-thanks" id="s7-thanks">Thanks for watching!</div>
+      <div class="lc-sub" id="s7-sub">Subscribe to <b>@dsalgo_ai</b> for more such videos</div>
+      <div class="lc-social" id="s7-social"><span class="lc-yt"><i></i>YouTube</span><span class="lc-ig"><i></i>Instagram</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const rl = RL(document.getElementById("s7-canvas"));
+      SD.rail(tl, "#s7-rail", 6, 0, T);
+      tl.set("#s7-tag", { opacity: 1 }, 0);
+      fade("#s7-chip", 0.05); fade("#s7-meta", 0.2);
+      [["#s7-r1", 0.16], ["#s7-r2", 0.22], ["#s7-r3", 0.3], ["#s7-r4", 0.41], ["#s7-r5", 0.47]].forEach(([sel, f]) => fade(sel, f * S, { x: 60 }));
+      tl.to(["#s7-rows", "#s7-chip", "#s7-meta"], { opacity: 0, duration: 0.4 }, 0.57 * S);
+      LC.outro(tl, "s7", 0.6 * S);
+      LC.drive(tl, T, (t) => rl.draw({ t, strip: { status: [2, 2, 2, 2, t > 0.47 * S ? 2 : 0] } }));
+      window.__timelines["s7-recap"] = tl;
+    })();
+  </script>
+</template>
