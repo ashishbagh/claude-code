@@ -25,7 +25,7 @@
 
     const floor = SD.grid(20, 8, 0.6, 0x3b2a14); floor.position.y = -0.02; scene.add(floor);
 
-    const title = SD.particleText("RATE LIMITER", { width: 8.6 }); title.position.set(0, 1.0, 0); title.scale.setScalar(0.8); scene.add(title);
+    const title = SD.particleText("RATE LIMITER", { width: 8.6 }); title.position.set(0, 1.0, 0); title.scale.setScalar(1.05); scene.add(title);
 
     const client = SD.wireBox(1.4, 1.4, 1.4, C("#34d399")); client.position.set(CX, 0.7, 0); scene.add(client);
     const server = SD.wireBox(1.6, 1.8, 1.6, C("#22d3ee")); server.position.set(SX, 0.9, 0); scene.add(server);
@@ -35,6 +35,9 @@
 
     const tokens = [0, 1, 2, 3, 4].map(() => { const m = SD.glowCube(0.4, C("#ffb347")); scene.add(m); return m; });
     const reqs = [0, 1, 2, 3, 4, 5, 6, 7].map(() => { const m = SD.glowCube(0.36, C("#e5e7eb")); scene.add(m); return m; });
+    const crowd = SD.dotField({ count: 320, cx: -3.0, cy: 1.0, rx: 1.6, ry: 0.95, rz: 0.9, seed: 11 }); scene.add(crowd);
+    const lCrowd = SD.label("1000 USERS", "#ffb347", 2.2, { font: "800 66px 'JetBrains Mono', monospace" }); lCrowd.position.set(-3.0, -0.3, 1.2); scene.add(lCrowd);
+    const rays = SD.rays(crowd.pts.filter((_, i) => i % 4 === 0), new THREE.Vector3(SX - 0.8, 0.9, 0.3), { seed: 4 }); scene.add(rays);
     const flood = Array.from({ length: 30 }, () => { const m = SD.glowCube(0.22, C("#e5e7eb")); scene.add(m); return m; });
 
     // cluster: three API servers sharing one Redis
@@ -70,6 +73,10 @@
       server.tint(LC.mix(cyan, red, heat)); server.fill(heat * (0.5 + 0.3 * Math.sin(t * 10)));
       server.position.x = SX + heat * 0.05 * Math.sin(t * 40);
 
+      // crowd of clients shooting rays at the API (backendlore-style)
+      const cr = show.crowd ?? 0;
+      crowd.update(t, cr); vis(lCrowd, cr);
+      rays.update(st.rays ?? 0); rays.color(LC.mix(C("#ff9f2e"), red, heat));
       // flood (no limiter): small cubes streaming client → server
       flood.forEach((m, i) => {
         if (!st.flood) { m.visible = false; return; }

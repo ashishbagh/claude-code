@@ -201,5 +201,48 @@
       tl.fromTo(spans[i], { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, at);
     });
   };
+  /** Ticking counter: tween a number into `sel` (Indian grouping, e.g. 2,33,600). */
+  SD.count = function (tl, sel, from, to, at, dur, suffix = "") {
+    const el = document.querySelector(sel); if (!el) return;
+    const o = { v: from }, put = () => { el.textContent = Math.round(o.v).toLocaleString("en-IN") + suffix; };
+    put();
+    tl.fromTo(o, { v: from }, { v: to, duration: dur, ease: "power2.out", onUpdate: put }, at);
+  };
+
+  /** Glowing dot crowd (users / servers / restaurants): seeded points in an ellipse, twinkling.
+      update(t, k) – k 0..1 reveal. .pts = the positions (Vector3) to aim rays from. */
+  SD.dotField = function ({ count = 260, cx = 0, cy = 1, rx = 1.5, ry = 0.9, rz = 0.8, seed = 3, color = "#ffb347", size = 0.07 } = {}) {
+    const R = SD.rand(seed), pts = [], pos = new Float32Array(count * 3), ph = new Float32Array(count);
+    for (let i = 0; i < count; i++) {
+      const a = R() * Math.PI * 2, r = Math.sqrt(R());
+      const p = new THREE.Vector3(cx + Math.cos(a) * r * rx, cy + Math.sin(a) * r * ry, (R() - 0.5) * 2 * rz);
+      pts.push(p); pos.set([p.x, p.y, p.z], i * 3); ph[i] = R() * 6.28;
+    }
+    const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    const mat = new THREE.PointsMaterial({ color, size, transparent: true, depthWrite: false });
+    const o = new THREE.Points(geo, mat);
+    o.pts = pts;
+    o.update = (t, k = 1) => { o.visible = k > 0.01; mat.opacity = k * (0.75 + 0.25 * Math.sin(t * 3)); mat.size = size * (0.9 + 0.1 * Math.sin(t * 5)); };
+    return o;
+  };
+
+  /** Rays from source points to one target, each shooting out with its own delay.
+      update(p) – p 0..1 overall progress; .color(c) recolours (amber → red when it breaks). */
+  SD.rays = function (sources, target, { seed = 5, color = "#ff9f2e", opacity = 0.55 } = {}) {
+    const R = SD.rand(seed), n = sources.length, pos = new Float32Array(n * 6), delay = sources.map(() => R() * 0.6);
+    const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity, depthWrite: false });
+    const o = new THREE.LineSegments(geo, mat);
+    o.update = (p) => {
+      o.visible = p > 0.001;
+      sources.forEach((s, i) => {
+        const k = window.LC.smooth((p - delay[i]) / 0.4);
+        pos.set([s.x, s.y, s.z, s.x + (target.x - s.x) * k, s.y + (target.y - s.y) * k, s.z + (target.z - s.z) * k], i * 6);
+      });
+      geo.attributes.position.needsUpdate = true;
+    };
+    o.color = (c) => mat.color.copy(c);
+    return o;
+  };
   window.SD = SD;
 })();

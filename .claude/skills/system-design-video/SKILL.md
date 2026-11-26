@@ -5,6 +5,10 @@ description: Make a narrated system-design explainer Reel (rate limiter, load ba
 
 # System-design reel ("blueprint glow")
 
+Style merges two references the user liked: a CI/CD reel (3D wireframe pipeline strip, terminals, STEP chips,
+particle title, glowing cubes) and a backendlore reel (part tracker, quote box, ticking counters, glowing
+dot-crowd with rays, dot-grid black background). LeetCode videos keep their own style – never change `leetcode-video` for this.
+
 `/system-design-video rate limiter [english|both]`
 
 Output: `system-design-videos/<slug>/out/<slug>_hinglish_reel.mp4` + `_reel_cover.jpg` (1080×1920, ≤ 2:30).
@@ -20,7 +24,7 @@ loudness, HyperFrames rules) – its SKILL.md sections 3, 5, 6 apply unchanged.
 | Element | Where | How |
 |---|---|---|
 | Stage | whole frame | near-black `#050506` + amber radial glow (`sd.css`, already applied) |
-| Top bar | y 150–220 | `.sd-top` (`@DSALGO_AI` · `SYSTEM DESIGN · <TOPIC>`) + `.sd-rail` 7 segments, scene i fills segment i (`SD.rail`) |
+| Top bar | y 150–220 | `.sd-top` (`@DSALGO_AI`) + `.sd-part` part tracker on the right (`1/3 · THE PROBLEM` → `2/3 · THE IDEA` → `3/3 · AT SCALE`, pills fill) + `.sd-rail` 7 segments, scene i fills segment i (`SD.rail`) |
 | Strip tag | y 262 | `.sd-tag` amber bracket label, e.g. `TOKEN BUCKET · RATE LIMITING` |
 | Pipeline strip | y 290–630 | `SD.strip([{name,color}…])` – 4–6 wireframe stages on a rail; status per stage: 0 idle (dot), 1 active (spinner + glowing core), 2 done (check + lit rail), 3 error (red pulse). It is the map of the system: light the stage the narration is talking about |
 | Work frame | y 650–1250 | `.sd-frame` viewfinder corners; `.sd-chip` (`STEP 0N · …`, colours: default green, `amber`, `red`, `pink`) + `.sd-meta` on the right (live counters via `SD.vals`) |
@@ -28,9 +32,13 @@ loudness, HyperFrames rules) – its SKILL.md sections 3, 5, 6 apply unchanged.
 | Terminal | inside the frame | `.sd-term` with `h5` header, `.sd-cmd` typed with `SD.type`, `.sd-out` (`ok`/`err`/`warn`) |
 | Heading | inside the frame | `.sd-head` amber mono `h4` + muted `p` lines with `<b>` values |
 | Recap list | inside the frame | `.sd-rows` / `.sd-row` (`.hot` for the recommended one) |
+| Quote box | inside the frame | `.sd-quote` (`<label>INTERVIEWER:</label>` or `TUMNE BOLA:` + amber-bordered `<div>` with the line in Roman Hinglish; `.red` = the naive answer that fails) |
+| Counter | inside the frame | `.sd-count` mono label + big amber number ticking with `SD.count` (Indian grouping 2,33,600); turn border/number red when the limit breaks |
+| Crowd + rays | main 3D | `SD.dotField` – glowing dot cloud (users, restaurants, servers) + `SD.rays` – lines shooting from the dots to one target, amber → red under load |
 | Hook | s1 | `SD.particleText("TOPIC")` – coloured particles converge into the title, then the strip appears |
 
 Palette per stage: green `#34d399`, amber `#ff9f2e`, cyan `#22d3ee`, pink `#f472b6`, violet `#a78bfa`, yellow `#facc15`; red `#f87171` for errors.
+Background: black with a faint dot grid and the amber glow (sd.css). No headlines and no captions – narration carries the words.
 All text ≥ 28 px, mono for labels. Everything readable inside y 270–1248, x 65–1015.
 
 ## 1. Plan (7 scenes, ~2:00)

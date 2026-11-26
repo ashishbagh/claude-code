@@ -16,10 +16,11 @@
   --sd-yellow: #facc15;
   --mono: "JetBrains Mono", ui-monospace, monospace;
 }
-html, body, [data-composition-id="main"] { background: radial-gradient(ellipse 75% 40% at 50% 50%, rgba(255, 140, 30, 0.16), rgba(255, 120, 20, 0.04) 55%, transparent 78%), var(--sd-bg) !important; }
+html, body, [data-composition-id="main"], #bg { background: radial-gradient(rgba(255, 255, 255, 0.07) 1.6px, transparent 1.8px) 0 0 / 36px 36px,
+  radial-gradient(ellipse 75% 40% at 50% 50%, rgba(255, 140, 30, 0.15), rgba(255, 120, 20, 0.04) 55%, transparent 78%), var(--sd-bg) !important; }
 [data-composition-id] { background: transparent !important; }
-#bg { background: radial-gradient(ellipse 75% 40% at 50% 50%, rgba(255, 140, 30, 0.16), rgba(255, 120, 20, 0.04) 55%, transparent 78%), var(--sd-bg) !important; }
-[data-composition-id="main"] { background: radial-gradient(ellipse 75% 40% at 50% 50%, rgba(255, 140, 30, 0.16), rgba(255, 120, 20, 0.04) 55%, transparent 78%), var(--sd-bg) !important; }
+[data-composition-id="main"], #bg { background: radial-gradient(rgba(255, 255, 255, 0.07) 1.6px, transparent 1.8px) 0 0 / 36px 36px,
+  radial-gradient(ellipse 75% 40% at 50% 50%, rgba(255, 140, 30, 0.15), rgba(255, 120, 20, 0.04) 55%, transparent 78%), var(--sd-bg) !important; }
 
 /* top bar: handle · topic + segmented progress rail */
 .sd-top { position: absolute; left: 70px; right: 70px; top: 150px; display: flex; justify-content: space-between;
@@ -85,3 +86,18 @@ html, body, [data-composition-id="main"] { background: radial-gradient(ellipse 7
 .sd-outro .lc-thanks { color: var(--sd-ink) !important; }
 .sd-outro .lc-sub b { color: var(--sd-amber) !important; }
 .sd-outro .lc-social span { background: rgba(20, 20, 24, 0.85) !important; border-color: #2a2a30 !important; }
+
+/* ---- story elements (from the second reference): part tracker, quote box, ticking counters ---- */
+.sd-part { position: absolute; right: 70px; top: 146px; display: flex; align-items: center; gap: 8px; }
+.sd-part i { width: 34px; height: 12px; border-radius: 6px; border: 2px solid #d4d4d8; }
+.sd-part i.on { background: #f4f4f5; border-color: #f4f4f5; }
+.sd-part span { margin-left: 8px; padding: 2px 12px; border-radius: 6px; background: #f4f4f5; color: #09090b; font: 800 28px var(--mono); letter-spacing: 0.04em; }
+.sd-quote { position: absolute; left: 90px; right: 90px; top: 745px; opacity: 0; }
+.sd-quote label { display: block; color: var(--sd-muted); font: 700 28px var(--mono); letter-spacing: 0.12em; margin-bottom: 10px; }
+.sd-quote div { padding: 20px 28px; border: 3px solid var(--sd-amber); border-radius: 16px; background: rgba(14, 14, 16, 0.92);
+  color: var(--sd-ink); font: 800 36px/1.35 Inter, sans-serif; }
+.sd-quote.red div { border-color: var(--sd-red); }
+.sd-count { position: absolute; left: 90px; right: 90px; top: 1050px; display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 26px; border: 2px solid #2e2e34; border-radius: 12px; background: rgba(12, 12, 14, 0.9); opacity: 0; }
+.sd-count label { color: var(--sd-muted); font: 700 28px var(--mono); letter-spacing: 0.1em; }
+.sd-count b { color: var(--sd-amber); font: 800 52px var(--mono); }
