@@ -1,0 +1,37 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s3-walk1" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":22},{"id":"S","type":"number","label":"Narration length (s)","default":21.4}]'>
+    <canvas id="s3-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">LeetCode 75</span><span class="lc-title">Sort Colors</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="mp-vals">
+      <div class="mp-box sc-lo" id="s3-blo"><h4>LO</h4><div class="lc-value" id="s3-vlo"></div></div>
+      <div class="mp-box sc-mid" id="s3-bmid"><h4>MID</h4><div class="lc-value" id="s3-vmid"></div></div>
+      <div class="mp-box sc-hi" id="s3-bhi"><h4>HI</h4><div class="lc-value" id="s3-vhi"></div></div>
+    </div>
+    <div class="mp-calc"><div class="lc-panel" id="s3-p" style="opacity:1">
+      <div class="mp-l" id="s3-l1">mid = <b>2</b> → swap(mid, hi), hi--</div>
+      <div class="mp-chip sc-note" id="s3-l2">mid stays: check the new 0</div>
+      <div class="mp-l" id="s3-l3">mid = <b>0</b> → swap(lo, mid), lo++ mid++</div>
+    </div></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.45, ease: "power3.out" }, at);
+      const flag = Flag(document.getElementById("s3-canvas"), [2, 0, 2, 1, 1, 0]);
+      ["#s3-blo", "#s3-bmid", "#s3-bhi"].forEach((s, i) => fade(s, 0.02 * S + i * 0.12, { y: 30 }));
+      Flag.vals(tl, "#s3-vlo", null, [["0", 0.04 * S], ["1", 0.9 * S]]);
+      Flag.vals(tl, "#s3-vmid", null, [["0", 0.04 * S], ["1", 0.9 * S]]);
+      Flag.vals(tl, "#s3-vhi", null, [["5", 0.04 * S], ["4", 0.33 * S]]);
+      fade("#s3-l1", 0.16 * S); fade("#s3-l2", 0.39 * S, { scale: 0.85 }); fade("#s3-l3", 0.74 * S);
+      LC.drive(tl, T, (t) => flag.draw({ t, swaps: [[0.22 * S, 0, 5], [0.8 * S, 0, 0]], zones: LC.prog(t, 0.05 * S, 0.5),
+        lo: Flag.track(t, [[0, 0], [0.9 * S, 1]]), mid: Flag.track(t, [[0, 0], [0.9 * S, 1]]), hi: Flag.track(t, [[0, 5], [0.33 * S, 4]]),
+        orbit: 0.08 * Math.sin((t / T) * Math.PI) }));
+      window.__timelines["s3-walk1"] = tl;
+    })();
+  </script>
+</template>

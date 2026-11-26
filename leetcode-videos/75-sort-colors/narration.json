@@ -1,0 +1,20 @@
+{
+  "en": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "hinglish": [
+    "चलो solve करते हैं LeetCode seventy five, Sort Colors. ये question Microsoft, Amazon, Adobe और Facebook के interviews में पूछा गया है. Array में सिर्फ zero, one और two हैं: two, zero, two, one, one, zero. इन्हें sort करो, in place, एक ही pass में, बिना sort function के.",
+    "इसे कहते हैं Dutch National Flag algorithm. तीन pointers रखो: low, mid और high. Low के left में सारे zeros, high के right में सारे twos. Mid पर zero मिले, तो low से swap करो, और दोनों आगे बढ़ाओ. One मिले, तो बस mid आगे. Two मिले, तो high से swap करो, और high पीछे करो.",
+    "Low और mid zero पर, high five पर. Mid पर two है, तो high से swap करो, और high four. ध्यान दो, mid आगे नहीं बढ़ा, क्योंकि swap में आया zero अभी check करना है. अब mid पर zero है, तो low से swap, low और mid दोनों one.",
+    "Mid पर फिर zero, low से swap, low और mid two. अब mid पर two है, high से swap करो, array बना zero, zero, one, one, two, two. High अब three.",
+    "Mid पर one है, बस mid आगे, three. फिर one, mid four. अब mid, high से आगे निकल गया, तो loop खत्म. Array sorted है: zero, zero, one, one, two, two. सिर्फ एक pass में!",
+    "अब code देखते हैं. Low और mid zero से, high last index से. जब तक mid, high से छोटा या बराबर है: zero पर low से swap, दोनों आगे. One पर mid आगे. Two पर high से swap, और high पीछे.",
+    "हर element को ज़्यादा से ज़्यादा एक बार देखते हैं, तो time है O of n. कोई extra array नहीं, तो space है O of one. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}
