@@ -1,0 +1,36 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s3-walk1" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":18},{"id":"S","type":"number","label":"Narration length (s)","default":17.4}]'>
+    <div class="sd-top"><b>@DSALGO_AI</b><span>LEETCODE 146 · MEDIUM</span></div>
+    <div class="sd-rail" id="s3-rail"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <canvas id="s3-canvas" class="lc-fill"></canvas>
+    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sd-chip amber" id="s3-chip">STEP 02 · PUT 1, PUT 2</div>
+    <div class="sd-meta" id="s3-meta">size <span id="s3-sz"></span>/2</div>
+    <div class="sd-term" id="s3-term"><h5>CACHE <em>cap 2</em></h5>
+      <div class="sd-cmd" id="s3-c1">cache.put(1, 1)</div>
+      <div class="sd-cmd" id="s3-c2">cache.put(2, 2)</div>
+      <div class="sd-out ok" id="s3-o1">HEAD ⇄ 2 ⇄ 1 ⇄ TAIL</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const lru = Lru(document.getElementById("s3-canvas"));
+      SD.rail(tl, "#s3-rail", 2, 0, T);
+      fade("#s3-chip", 0.05); fade("#s3-meta", 0.2); fade("#s3-term", 0.03 * S);
+      const b1 = 0.1 * S, b2 = 0.15 * S + 0.6;
+      SD.type(tl, "#s3-c1", b1 - 0.4, 30); SD.type(tl, "#s3-c2", b2 - 0.4, 30); fade("#s3-o1", 0.72 * S, { x: -20 });
+      SD.vals(tl, "#s3-sz", "0", [["1", b1 + 0.3], ["2", b2 + 0.3]]);
+      LC.drive(tl, T, (t) => lru.draw({ t, view: [250, 520], show: 1, links: LC.prog(t, 0.45 * S, 1.0),
+        keys: [{ key: 1, born: b1, slots: [[0, 0], [b2, 1]] }, { key: 2, born: b2, slots: [[0, 0]] }],
+        tags: { mru: 0, lruKey: t > 0.87 * S ? 1 : null } }));
+      window.__timelines["s3-walk1"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,42 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s1-intro" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":23},{"id":"S","type":"number","label":"Narration length (s)","default":22.4}]'>
+    <div class="sd-top"><b>@DSALGO_AI</b><span>LEETCODE 146 · MEDIUM</span></div>
+    <div class="sd-rail" id="s1-rail"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <canvas id="s1-canvas" class="lc-fill"></canvas>
+    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sd-quote" id="s1-q"><label>INTERVIEWER:</label><div>“LRU cache kaise design karoge?”</div></div>
+    <div class="sd-out err" id="s1-rej" style="position:absolute; left:90px; top:1030px; padding-left:0; font-size:34px">Sirf HashMap? → ❌ reject</div>
+    <div class="lc-titlecard" data-hold>
+      <h1 id="s1-t-title">LeetCode 146</h1>
+      <p id="s1-t-sub">Medium · Design</p>
+      <div class="lc-asked" id="s1-t-asked">Asked at <b>Amazon</b> · <b>Microsoft</b><br/><b>Meta</b> · <b>Bloomberg</b></div>
+    </div>
+    <div class="sd-chip amber" id="s1-chip">GOAL</div>
+    <div class="sd-head" id="s1-goal">
+      <p id="s1-g1">get(key) → <b>O(1)</b></p>
+      <p id="s1-g2">put(key, value) → <b>O(1)</b></p>
+      <p id="s1-g3">capacity fixed → evict the <b>least recently used</b></p>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const lru = Lru(document.getElementById("s1-canvas"));
+      SD.rail(tl, "#s1-rail", 0, 0, T);
+      fade("#s1-q", 0.1, { y: 16 }); fade("#s1-rej", 0.19 * S, { x: -20 });
+      tl.to(["#s1-q", "#s1-rej"], { opacity: 0, y: -12, duration: 0.4 }, 0.29 * S);
+      fade("#s1-t-title", 0.31 * S); fade("#s1-t-sub", 0.35 * S); fade("#s1-t-asked", 0.49 * S);
+      tl.to(["#s1-t-title", "#s1-t-sub", "#s1-t-asked"], { opacity: 0, y: -20, duration: 0.4 }, 0.78 * S);
+      fade("#s1-chip", 0.79 * S); fade("#s1-g1", 0.8 * S); fade("#s1-g2", 0.85 * S); fade("#s1-g3", 0.9 * S);
+      LC.drive(tl, T, (t) => lru.draw({ t, view: [250, 520], title: LC.prog(t, 0.1, 0.25 * S) * 1.05, titleOp: 1 - LC.prog(t, 0.78 * S, 0.6),
+        show: LC.prog(t, 0.8 * S, 0.8) }));
+      window.__timelines["s1-intro"] = tl;
+    })();
+  </script>
+</template>

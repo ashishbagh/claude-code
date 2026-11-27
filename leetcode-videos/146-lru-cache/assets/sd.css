@@ -1,0 +1,103 @@
+/* "Blueprint glow" theme for system-design reels (native 1080x1920).
+   Near-black stage with a warm amber glow, mono labels, a 3D pipeline strip on top,
+   a framed work area (viewfinder corners) with STEP chips, terminals and 3D below.
+   Every text >= 28 px; everything readable inside the Reels safe area (y 270–1248, x 65–1015). */
+:root {
+  --sd-bg: #050506;
+  --sd-ink: #f4f4f5;
+  --sd-muted: #8b8b94;
+  --sd-dim: #71717a;
+  --sd-amber: #ff9f2e;
+  --sd-green: #34d399;
+  --sd-cyan: #22d3ee;
+  --sd-pink: #f472b6;
+  --sd-violet: #a78bfa;
+  --sd-red: #f87171;
+  --sd-yellow: #facc15;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+html, body, [data-composition-id="main"], #bg { background: radial-gradient(rgba(255, 255, 255, 0.07) 1.6px, transparent 1.8px) 0 0 / 36px 36px,
+  radial-gradient(ellipse 75% 40% at 50% 50%, rgba(255, 140, 30, 0.15), rgba(255, 120, 20, 0.04) 55%, transparent 78%), var(--sd-bg) !important; }
+[data-composition-id] { background: transparent !important; }
+[data-composition-id="main"], #bg { background: radial-gradient(rgba(255, 255, 255, 0.07) 1.6px, transparent 1.8px) 0 0 / 36px 36px,
+  radial-gradient(ellipse 75% 40% at 50% 50%, rgba(255, 140, 30, 0.15), rgba(255, 120, 20, 0.04) 55%, transparent 78%), var(--sd-bg) !important; }
+
+/* top bar: handle · topic + segmented progress rail */
+.sd-top { position: absolute; left: 70px; right: 70px; top: 150px; display: flex; justify-content: space-between;
+  align-items: baseline; font-family: var(--mono); }
+.sd-top b { color: var(--sd-ink); font: 800 30px var(--mono); letter-spacing: 0.08em; }
+.sd-top span { color: var(--sd-muted); font: 600 28px var(--mono); letter-spacing: 0.06em; }
+.sd-rail { position: absolute; left: 70px; right: 70px; top: 206px; height: 14px; display: flex; gap: 8px; }
+.sd-rail i { flex: 1; position: relative; border-bottom: 2px solid #2a2a30; }
+.sd-rail i::after { content: ""; position: absolute; left: 0; bottom: -2px; height: 2px; width: var(--f, 0%); background: var(--sd-amber); }
+.sd-rail i.on { --f: 100%; }
+
+/* strip tag (bracket label over the 3D pipeline strip) */
+.sd-tag { position: absolute; left: 0; right: 0; top: 262px; text-align: center; opacity: 0; }
+.sd-tag span { position: relative; z-index: 1; display: inline-block; padding: 4px 18px; background: var(--sd-amber); color: #1a0d00;
+  font: 800 28px var(--mono); letter-spacing: 0.08em; border-radius: 4px; }
+.sd-tag::before { content: ""; position: absolute; left: 110px; right: 110px; top: 24px; height: 22px;
+  border: 2px solid rgba(255, 159, 46, 0.7); border-bottom: none; }
+
+/* framed work area with viewfinder corners */
+.sd-frame { position: absolute; left: 60px; right: 60px; top: 650px; height: 600px; pointer-events: none; }
+.sd-frame i { position: absolute; width: 38px; height: 38px; border-color: #6b6b75; border-style: solid; border-width: 0; }
+.sd-frame i:nth-child(1) { left: 0; top: 0; border-left-width: 3px; border-top-width: 3px; }
+.sd-frame i:nth-child(2) { right: 0; top: 0; border-right-width: 3px; border-top-width: 3px; }
+.sd-frame i:nth-child(3) { left: 0; bottom: 0; border-left-width: 3px; border-bottom-width: 3px; }
+.sd-frame i:nth-child(4) { right: 0; bottom: 0; border-right-width: 3px; border-bottom-width: 3px; }
+
+.sd-chip { position: absolute; left: 90px; top: 676px; padding: 6px 18px; border-radius: 6px; font: 800 28px var(--mono);
+  letter-spacing: 0.06em; color: #04130a; background: var(--sd-green); opacity: 0; }
+.sd-chip.amber { background: var(--sd-amber); color: #1a0d00; }
+.sd-chip.red { background: var(--sd-red); color: #1f0505; }
+.sd-chip.pink { background: var(--sd-pink); color: #1f0512; }
+.sd-meta { position: absolute; right: 90px; top: 684px; color: var(--sd-muted); font: 500 28px var(--mono); opacity: 0; }
+
+/* terminal panel */
+.sd-term { position: absolute; left: 90px; right: 90px; top: 750px; padding: 22px 30px 26px; border-radius: 18px;
+  background: rgba(8, 36, 24, 0.62); border: 2px solid rgba(52, 211, 153, 0.45); font-family: var(--mono); opacity: 0; }
+.sd-term h5 { display: flex; justify-content: space-between; color: rgba(52, 211, 153, 0.75); font: 700 28px var(--mono);
+  letter-spacing: 0.12em; margin-bottom: 12px; }
+.sd-term h5 em { font-style: normal; color: var(--sd-dim); letter-spacing: 0; }
+.sd-cmd { color: var(--sd-ink); font: 800 34px/1.5 var(--mono); white-space: nowrap; overflow: hidden; opacity: 0; }
+.sd-cmd::before { content: "$ "; color: var(--sd-green); }
+.sd-out { color: #a1a1aa; font: 500 30px/1.45 var(--mono); white-space: nowrap; padding-left: 26px; opacity: 0; }
+.sd-out.ok { color: var(--sd-green); } .sd-out.err { color: var(--sd-red); } .sd-out.warn { color: var(--sd-amber); }
+
+/* heading block inside the frame (amber mono title + muted sub-lines) */
+.sd-head { position: absolute; left: 90px; right: 90px; top: 750px; font-family: var(--mono); }
+.sd-head h4 { color: var(--sd-amber); font: 800 34px var(--mono); letter-spacing: 0.12em; opacity: 0; }
+.sd-head p { color: var(--sd-muted); font: 500 28px/1.55 var(--mono); opacity: 0; }
+.sd-head p b { color: var(--sd-ink); font-weight: 800; }
+.sd-pill { position: absolute; right: 90px; top: 752px; padding: 4px 16px; border-radius: 6px; font: 800 28px var(--mono);
+  background: var(--sd-green); color: #04130a; opacity: 0; }
+.sd-pill.red { background: var(--sd-red); color: #1f0505; }
+
+/* list rows (recap) */
+.sd-rows { position: absolute; left: 90px; right: 90px; top: 750px; display: flex; flex-direction: column; gap: 16px; }
+.sd-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-radius: 12px;
+  border: 2px solid #2a2a30; background: rgba(20, 20, 24, 0.7); font: 700 32px var(--mono); color: var(--sd-ink); opacity: 0; }
+.sd-row small { font: 600 28px var(--mono); color: var(--sd-muted); }
+.sd-row.hot { border-color: var(--sd-amber); box-shadow: 0 0 30px rgba(255, 159, 46, 0.25); }
+.sd-row.hot small { color: var(--sd-amber); }
+
+/* outro in this theme */
+.sd-outro .lc-thanks { color: var(--sd-ink) !important; }
+.sd-outro .lc-sub b { color: var(--sd-amber) !important; }
+.sd-outro .lc-social span { background: rgba(20, 20, 24, 0.85) !important; border-color: #2a2a30 !important; }
+
+/* ---- story elements (from the second reference): part tracker, quote box, ticking counters ---- */
+.sd-part { position: absolute; right: 70px; top: 146px; display: flex; align-items: center; gap: 8px; }
+.sd-part i { width: 34px; height: 12px; border-radius: 6px; border: 2px solid #d4d4d8; }
+.sd-part i.on { background: #f4f4f5; border-color: #f4f4f5; }
+.sd-part span { margin-left: 8px; padding: 2px 12px; border-radius: 6px; background: #f4f4f5; color: #09090b; font: 800 28px var(--mono); letter-spacing: 0.04em; }
+.sd-quote { position: absolute; left: 90px; right: 90px; top: 745px; opacity: 0; }
+.sd-quote label { display: block; color: var(--sd-muted); font: 700 28px var(--mono); letter-spacing: 0.12em; margin-bottom: 10px; }
+.sd-quote div { padding: 20px 28px; border: 3px solid var(--sd-amber); border-radius: 16px; background: rgba(14, 14, 16, 0.92);
+  color: var(--sd-ink); font: 800 36px/1.35 Inter, sans-serif; }
+.sd-quote.red div { border-color: var(--sd-red); }
+.sd-count { position: absolute; left: 90px; right: 90px; top: 1050px; display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 26px; border: 2px solid #2e2e34; border-radius: 12px; background: rgba(12, 12, 14, 0.9); opacity: 0; }
+.sd-count label { color: var(--sd-muted); font: 700 28px var(--mono); letter-spacing: 0.1em; }
+.sd-count b { color: var(--sd-amber); font: 800 52px var(--mono); }

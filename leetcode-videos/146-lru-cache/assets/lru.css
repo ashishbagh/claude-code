@@ -1,0 +1,17 @@
+/* LRU Cache – LeetCode layout in the dark "blueprint glow" look (sd.css) for the 1080x1920 reel. */
+.sd-frame { top: 790px !important; height: 460px !important; }
+.sd-chip { top: 812px !important; }
+.sd-meta { top: 820px !important; }
+.sd-quote { top: 840px !important; }
+.sd-term, .sd-rows, .sd-head { top: 880px !important; }
+.lc-titlecard { top: 820px !important; bottom: auto !important; height: 380px !important; justify-content: flex-start !important; gap: 18px !important; }
+.lc-titlecard h1 { font: 800 64px var(--mono) !important; color: var(--sd-amber) !important; letter-spacing: 0.04em !important; }
+.lc-titlecard p { color: var(--sd-muted) !important; font: 600 36px var(--mono) !important; }
+.lc-titlecard .lc-asked { color: var(--sd-muted) !important; font: 600 34px var(--mono) !important; }
+.lc-titlecard .lc-asked b { color: var(--sd-ink) !important; }
+.lc-code { background: rgba(12, 12, 14, 0.92) !important; border-color: #2e2e34 !important; top: 290px !important; }
+.lc-code pre { font-size: 28px !important; line-height: 46px !important; }
+.lc-hl { border-color: var(--sd-amber) !important; background: rgba(255, 159, 46, 0.12) !important; }
+.lc-card { background: rgba(12, 12, 14, 0.92) !important; border-color: #2e2e34 !important; }
+.lc-card strong { color: var(--sd-amber) !important; }
+.sd-row small.bad { color: var(--sd-red); }
