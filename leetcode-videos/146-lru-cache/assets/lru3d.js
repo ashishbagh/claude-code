@@ -20,7 +20,7 @@
     const C = (h) => new THREE.Color(h);
     const amber = C("#ff9f2e"), red = C("#f87171"), green = C("#34d399");
 
-    const floor = SD.grid(22, 8, 0.6, 0x3b2a14); floor.position.y = -0.05; scene.add(floor);
+    const floor = SD.grid(22, 8, 0.6, 0x243055); floor.position.y = -0.05; scene.add(floor);
     const title = SD.particleText("LRU CACHE", { width: 8.2, seed: 21 }); title.position.set(0, 2.0, 0); scene.add(title);
 
     const head = SD.wireBox(1.1, 1.1, 1.1, C("#a1a1aa")); head.position.set(-4.0, LIST_Y, 0); scene.add(head);

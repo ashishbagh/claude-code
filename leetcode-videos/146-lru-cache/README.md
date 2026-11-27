@@ -1,8 +1,8 @@
 # LeetCode 146 – LRU Cache (Hinglish, 9:16 only)
 
-Made with the `leetcode-video` skill, borrowing the dark "blueprint glow" look from the `system-design-video`
-skill (copied into this project only: `assets/lib/sd.js`, `assets/sd.css`; `assets/lru.css` adapts the LeetCode pieces).
-Interviewer hook + particle title, 3D HashMap → doubly linked list (HEAD/TAIL), terminal ops, STEP chips.
+Made with the `leetcode-video` skill, in the classic LeetCode look, with a few accents from the `system-design-video`
+skill (3D helpers `assets/lib/sd.js`; `assets/lru.css`).
+Interviewer quote hook, 3D HashMap → doubly linked list (HEAD/TAIL), typed cache ops.
 
 - Example (capacity 2): put(1,1), put(2,2), get(1) → 1 (move to front), put(3,3) → evict 2, get(2) → -1
 - Voice: ElevenLabs "Prashant" (flow https://elevenlabs.io/app/flows/qzAOYTrcW8f2hgns3Web); SFX bundled

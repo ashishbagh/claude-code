@@ -175,7 +175,6 @@
     "assets/lru3d.js"
   ],
   "styles": [
-    "assets/sd.css",
     "assets/lru.css"
   ]
 }

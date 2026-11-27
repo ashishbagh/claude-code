@@ -4,16 +4,13 @@
   </style>
   <div id="root" data-composition-id="s2-idea" data-width="1920" data-height="1080"
        data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":21},{"id":"S","type":"number","label":"Narration length (s)","default":20.4}]'>
-    <div class="sd-top"><b>@DSALGO_AI</b><span>LEETCODE 146 · MEDIUM</span></div>
     <canvas id="s2-canvas" class="lc-fill"></canvas>
-    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
-    <div class="sd-chip amber" id="s2-chip">STEP 01 · THE IDEA</div>
-    <div class="sd-meta" id="s2-meta">HashMap + DLL</div>
-    <div class="sd-rows">
-      <div class="sd-row" id="s2-r1">HashMap: key → node <small>O(1) find</small></div>
-      <div class="sd-row" id="s2-r2">HashMap order? <small class="bad">✗ none</small></div>
-      <div class="sd-row hot" id="s2-r3">DLL front = latest <small>MRU</small></div>
-      <div class="sd-row" id="s2-r4">DLL back = oldest <small class="bad">evict</small></div>
+    <div class="lc-header" id="s2-hdr"><span class="lc-badge">LeetCode 146</span><span class="lc-title">LRU Cache</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="lc-steps lru-steps" data-hold>
+      <div class="lc-step" id="s2-step1"><b>1</b><span>HashMap: key → node in O(1)</span></div>
+      <div class="lc-step" id="s2-step2"><b>2</b><span>But HashMap has no order</span></div>
+      <div class="lc-step" id="s2-step3"><b>3</b><span>Linked list front = most recent</span></div>
+      <div class="lc-step" id="s2-step4"><b>4</b><span>Back = least recent → evict</span></div>
     </div>
   </div>
   <script>
@@ -22,9 +19,9 @@
       const tl = gsap.timeline({ paused: true });
       const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
       const lru = Lru(document.getElementById("s2-canvas"));
-      fade("#s2-chip", 0.05); fade("#s2-meta", 0.2);
-      [["#s2-r1", 0.35], ["#s2-r2", 0.47], ["#s2-r3", 0.62], ["#s2-r4", 0.69]].forEach(([sel, f]) => fade(sel, f * S, { x: 60 }));
-      LC.drive(tl, T, (t) => lru.draw({ t, view: [250, 520], show: 1, tags: { mru: LC.prog(t, 0.69 * S, 0.5) } }));
+      [["#s2-step1", 0.35], ["#s2-step2", 0.47], ["#s2-step3", 0.62], ["#s2-step4", 0.69]].forEach(([sel, f]) =>
+        tl.fromTo(sel, { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, f * S));
+      LC.drive(tl, T, (t) => lru.draw({ t, view: [290, 490], show: 1, tags: { mru: LC.prog(t, 0.62 * S, 0.5) } }));
       window.__timelines["s2-idea"] = tl;
     })();
   </script>

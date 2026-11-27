@@ -1,17 +1,20 @@
-/* LRU Cache – LeetCode layout in the dark "blueprint glow" look (sd.css) for the 1080x1920 reel. */
-.sd-frame { top: 790px !important; height: 460px !important; }
-.sd-chip { top: 812px !important; }
-.sd-meta { top: 820px !important; }
-.sd-quote { top: 840px !important; }
-.sd-term, .sd-rows, .sd-head { top: 880px !important; }
-.lc-titlecard { top: 820px !important; bottom: auto !important; height: 380px !important; justify-content: flex-start !important; gap: 18px !important; }
-.lc-titlecard h1 { font: 800 64px var(--mono) !important; color: var(--sd-amber) !important; letter-spacing: 0.04em !important; }
-.lc-titlecard p { color: var(--sd-muted) !important; font: 600 36px var(--mono) !important; }
-.lc-titlecard .lc-asked { color: var(--sd-muted) !important; font: 600 34px var(--mono) !important; }
-.lc-titlecard .lc-asked b { color: var(--sd-ink) !important; }
-.lc-code { background: rgba(12, 12, 14, 0.92) !important; border-color: #2e2e34 !important; top: 290px !important; }
-.lc-code pre { font-size: 28px !important; line-height: 46px !important; }
-.lc-hl { border-color: var(--sd-amber) !important; background: rgba(255, 159, 46, 0.12) !important; }
-.lc-card { background: rgba(12, 12, 14, 0.92) !important; border-color: #2e2e34 !important; }
-.lc-card strong { color: var(--sd-amber) !important; }
-.sd-row small.bad { color: var(--sd-red); }
+/* LRU Cache – classic LeetCode look (lc.css) + a few accents borrowed from the system-design skill:
+   interviewer quote hook, typed cache ops, 3D HashMap → doubly linked list stage. 1080x1920 reel. */
+.lru-quote { position: absolute; left: 70px; right: 70px; top: 330px; opacity: 0; font-family: var(--font); }
+.lru-quote label { display: block; color: var(--muted); font: 700 30px var(--mono); letter-spacing: 0.1em; margin-bottom: 10px; }
+.lru-quote div { padding: 20px 28px; border: 3px solid var(--yellow); border-radius: 18px; background: var(--panel);
+  color: var(--ink); font: 800 38px/1.3 var(--font); }
+.lru-rej { position: absolute; left: 70px; right: 70px; top: 520px; color: var(--red); font: 800 36px var(--font); opacity: 0; }
+.lru-panel { position: absolute; left: 70px; right: 70px; top: 800px; padding: 22px 30px 26px; opacity: 0; }
+.lru-panel h5 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.lru-panel h5 span { padding: 6px 18px; border: 2px solid var(--yellow); border-radius: 26px; background: #281e0a;
+  color: var(--yellow); font: 700 28px var(--font); }
+.lru-panel h5 em { font-style: normal; color: var(--muted); font: 600 30px var(--mono); }
+.lru-cmd { color: var(--ink); font: 700 34px/1.5 var(--mono); white-space: nowrap; overflow: hidden; opacity: 0; }
+.lru-cmd::before { content: "› "; color: var(--yellow); }
+.lru-out { color: #aab4d6; font: 500 30px/1.45 var(--mono); white-space: nowrap; padding-left: 30px; opacity: 0; }
+.lru-out.ok { color: #4ade80; } .lru-out.err { color: #f87171; } .lru-out.warn { color: var(--orange); }
+.lru-line { color: var(--ink); font: 600 34px/1.6 var(--mono); opacity: 0; }
+.lru-line b { color: var(--yellow); }
+.lc-steps.lru-steps { top: 800px !important; }
+.lc-titlecard { top: 260px !important; }
