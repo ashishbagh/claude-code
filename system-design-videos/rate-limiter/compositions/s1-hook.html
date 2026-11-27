@@ -12,8 +12,9 @@
     <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
     <div class="sd-chip amber" id="s1-chip">INTERVIEW · Q</div>
     <div class="sd-meta" id="s1-meta">system-design #01</div>
+    <div class="sd-title" id="s1-big" style="top:400px">Rate Limiter<small>SYSTEM DESIGN · INTERVIEW</small></div>
     <div class="sd-quote" id="s1-q"><label>INTERVIEWER:</label><div>“Rate limiter kaise design karoge?”</div></div>
-    <div class="sd-head" style="top:1140px; text-align:center">
+    <div class="sd-head" style="top:960px; text-align:center">
       <p id="s1-d1" style="font-size:32px">how many <b>requests</b> can a user send</p>
       <p id="s1-d2" style="font-size:32px">in one <b>time window</b>?</p>
     </div>
@@ -25,10 +26,10 @@
       const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
       const rl = RL(document.getElementById("s1-canvas"));
       SD.rail(tl, "#s1-rail", 0, 0, T);
-      fade("#s1-chip", 0.1); fade("#s1-meta", 0.3); fade("#s1-q", 0.15, { y: 16 }); tl.to("#s1-q", { opacity: 0, y: -12, duration: 0.4 }, 0.38 * S);
+      fade("#s1-chip", 0.1); fade("#s1-meta", 0.3); fade("#s1-q", 0.15, { y: 16 }); fade("#s1-big", 0.5, { y: 30 }); tl.to("#s1-big", { opacity: 0, y: -20, duration: 0.4 }, 0.8 * S); tl.to("#s1-q", { opacity: 0, y: -12, duration: 0.4 }, 0.38 * S);
       fade("#s1-d1", 0.41 * S); fade("#s1-d2", 0.5 * S);
       tl.fromTo("#s1-tag", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.86 * S);
-      LC.drive(tl, T, (t) => rl.draw({ t, view: [860, 290], show: { title: 1 }, title: LC.prog(t, 0.2, 0.42 * S) * 1.05,
+      LC.drive(tl, T, (t) => rl.draw({ t, view: [860, 290], show: {},
         strip: { appear: LC.prog(t, 0.84 * S, 1.2), status: [] } }));
       window.__timelines["s1-hook"] = tl;
     })();

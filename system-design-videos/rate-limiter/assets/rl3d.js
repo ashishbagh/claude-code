@@ -59,7 +59,7 @@
       if (st.strip) { strip.draw({ ...st.strip, t }); R.view(strip.scene, strip.camera, 290, 340); }
 
       camera.position.set(0, 2.6, 7.4); camera.lookAt(0, 1.0, 0); camera.fov = st.fov || 30;
-      floor.visible = !show.title || show.client || show.bucket || show.cluster;
+      floor.visible = !!(show.client || show.bucket || show.cluster || show.crowd || show.server);
 
       // particle title
       title.visible = (show.title ?? 0) > 0.01;

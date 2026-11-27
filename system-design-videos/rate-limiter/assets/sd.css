@@ -101,3 +101,8 @@ html, body, [data-composition-id="main"], #bg { background: radial-gradient(rgba
   padding: 14px 26px; border: 2px solid #2e2e34; border-radius: 12px; background: rgba(12, 12, 14, 0.9); opacity: 0; }
 .sd-count label { color: var(--sd-muted); font: 700 28px var(--mono); letter-spacing: 0.1em; }
 .sd-count b { color: var(--sd-amber); font: 800 52px var(--mono); }
+
+/* clean title for the intro (normal text – no particle lettering) */
+.sd-title { position: absolute; left: 60px; right: 60px; text-align: center; color: var(--sd-ink);
+  font: 900 112px/1.05 Inter, sans-serif; letter-spacing: -0.02em; opacity: 0; }
+.sd-title small { display: block; margin-top: 14px; color: var(--sd-amber); font: 700 34px var(--mono); letter-spacing: 0.14em; }

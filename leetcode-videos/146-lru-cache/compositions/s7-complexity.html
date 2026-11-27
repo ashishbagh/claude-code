@@ -5,7 +5,6 @@
   <div id="root" data-composition-id="s7-complexity" data-width="1920" data-height="1080"
        data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":17},{"id":"S","type":"number","label":"Narration length (s)","default":16.4}]'>
     <div class="sd-top"><b>@DSALGO_AI</b><span>LEETCODE 146 · MEDIUM</span></div>
-    <div class="sd-rail" id="s7-rail"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
     <canvas id="s7-canvas" class="lc-fill"></canvas>
     <div class="lc-cards" data-hold>
       <div class="lc-card" id="s7-time"><h3>Time</h3><strong>O(1)</strong><p>get &amp; put</p></div>
@@ -23,7 +22,6 @@
       const tl = gsap.timeline({ paused: true });
       const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
       const lru = Lru(document.getElementById("s7-canvas"));
-      SD.rail(tl, "#s7-rail", 6, 0, T);
       tl.fromTo("#s7-time", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.3 * S);
       tl.fromTo("#s7-space", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.41 * S);
       LC.outro(tl, "s7", 0.52 * S);

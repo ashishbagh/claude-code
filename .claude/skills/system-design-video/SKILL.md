@@ -1,12 +1,12 @@
 ---
 name: system-design-video
-description: Make a narrated system-design explainer Reel (rate limiter, load balancer, cache, URL shortener, CI/CD, Kafka…) in the "blueprint glow" style - near-black stage with an amber glow, a 3D wireframe pipeline strip that lights up stage by stage, a particle-text title, STEP chips, terminal panels and glowing 3D cubes - rendered natively at 1080x1920 with HyperFrames + Three.js, ElevenLabs voice (Hinglish by default) and bundled SFX. Use when the user asks for a system design video / reel / explainer or invokes /system-design-video. Args - the topic, optionally "english", "both".
+description: Make a narrated system-design explainer Reel (rate limiter, load balancer, cache, URL shortener, CI/CD, Kafka…) in the "blueprint glow" style - near-black stage with an amber glow, a 3D wireframe pipeline strip that lights up stage by stage, a clean bold intro title, STEP chips, terminal panels and glowing 3D cubes - rendered natively at 1080x1920 with HyperFrames + Three.js, ElevenLabs voice (Hinglish by default) and bundled SFX. Use when the user asks for a system design video / reel / explainer or invokes /system-design-video. Args - the topic, optionally "english", "both".
 ---
 
 # System-design reel ("blueprint glow")
 
 Style merges two references the user liked: a CI/CD reel (3D wireframe pipeline strip, terminals, STEP chips,
-particle title, glowing cubes) and a backendlore reel (part tracker, quote box, ticking counters, glowing
+glowing cubes) and a backendlore reel (part tracker, quote box, ticking counters, glowing
 dot-crowd with rays, dot-grid black background). LeetCode videos keep their own style – never change `leetcode-video` for this.
 
 `/system-design-video rate limiter [english|both]`
@@ -35,7 +35,7 @@ loudness, HyperFrames rules) – its SKILL.md sections 3, 5, 6 apply unchanged.
 | Quote box | inside the frame | `.sd-quote` (`<label>INTERVIEWER:</label>` or `TUMNE BOLA:` + amber-bordered `<div>` with the line in Roman Hinglish; `.red` = the naive answer that fails) |
 | Counter | inside the frame | `.sd-count` mono label + big amber number ticking with `SD.count` (Indian grouping 2,33,600); turn border/number red when the limit breaks |
 | Crowd + rays | main 3D | `SD.dotField` – glowing dot cloud (users, restaurants, servers) + `SD.rays` – lines shooting from the dots to one target, amber → red under load |
-| Hook | s1 | `SD.particleText("TOPIC")` – coloured particles converge into the title, then the strip appears |
+| Hook | s1 | quote box with the interview question + a **clean title** `.sd-title` (normal text, `<small>` tagline) – no particle lettering for titles (the user found it odd); then the strip appears |
 
 Palette per stage: green `#34d399`, amber `#ff9f2e`, cyan `#22d3ee`, pink `#f472b6`, violet `#a78bfa`, yellow `#facc15`; red `#f87171` for errors.
 Background: black with a faint dot grid and the amber glow (sd.css). No headlines and no captions – narration carries the words.
@@ -45,7 +45,7 @@ All text ≥ 28 px, mono for labels. Everything readable inside y 270–1248, x 
 
 | Scene | Content |
 |---|---|
-| `s1-hook` | "अगर interviewer पूछे … कैसे design करोगे?" + one-line definition; particle title; strip fades in at the end |
+| `s1-hook` | "अगर interviewer पूछे … कैसे design करोगे?" + one-line definition; clean `.sd-title`; strip fades in at the end |
 | `s2-problem` | what breaks without it (red chip, error stage on the strip, a terminal with the failure) |
 | `s3-idea` | the core mechanism as a 3D object + `.sd-head` parameters |
 | `s4…s5` | walk one concrete example step by step (counters in `.sd-meta`, terminal log lines) |

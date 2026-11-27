@@ -5,7 +5,6 @@
   <div id="root" data-composition-id="s6-code" data-width="1920" data-height="1080"
        data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":21},{"id":"S","type":"number","label":"Narration length (s)","default":20.4}]'>
     <div class="sd-top"><b>@DSALGO_AI</b><span>LEETCODE 146 · MEDIUM</span></div>
-    <div class="sd-rail" id="s6-rail"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
     <canvas id="s6-canvas" class="lc-fill"></canvas>
     <div class="lc-code" id="s6-panel" data-hold><pre><div class="lc-hl" id="s6-hl"></div><span class="k">class</span> <span class="f">LRUCache</span>:
   <span class="k">def</span> <span class="f">__init__</span>(self, cap):
@@ -32,7 +31,6 @@
       const tl = gsap.timeline({ paused: true });
       const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
       const lru = Lru(document.getElementById("s6-canvas"));
-      SD.rail(tl, "#s6-rail", 5, 0, T);
       tl.fromTo("#s6-panel", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.1);
       const f = S / T;
       LC.codeHighlight(tl, T, "#s6-hl", [[1, 5, 0.08 * f, 0.25 * f], [6, 7, 0.25 * f, 0.39 * f], [8, 10, 0.39 * f, 0.53 * f], [11, 12, 0.53 * f, 0.64 * f], [13, 14, 0.64 * f, 0.72 * f], [15, 17, 0.72 * f, 1]], 46);

@@ -5,7 +5,6 @@
   <div id="root" data-composition-id="s4-walk2" data-width="1920" data-height="1080"
        data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":18.5},{"id":"S","type":"number","label":"Narration length (s)","default":17.9}]'>
     <div class="sd-top"><b>@DSALGO_AI</b><span>LEETCODE 146 · MEDIUM</span></div>
-    <div class="sd-rail" id="s4-rail"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
     <canvas id="s4-canvas" class="lc-fill"></canvas>
     <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
     <div class="sd-chip amber" id="s4-chip">STEP 03 · GET 1</div>
@@ -22,7 +21,6 @@
       const tl = gsap.timeline({ paused: true });
       const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
       const lru = Lru(document.getElementById("s4-canvas"));
-      SD.rail(tl, "#s4-rail", 3, 0, T);
       fade("#s4-chip", 0.05); fade("#s4-meta", 0.2); fade("#s4-term", 0.02 * S);
       SD.type(tl, "#s4-c1", 0.03 * S, 30); fade("#s4-o1", 0.22 * S, { x: -20 }); fade("#s4-o2", 0.69 * S, { x: -20 });
       const mv = 0.42 * S;
