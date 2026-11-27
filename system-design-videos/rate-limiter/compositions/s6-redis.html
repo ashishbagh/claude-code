@@ -1,0 +1,45 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s6-redis" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":21},{"id":"S","type":"number","label":"Narration length (s)","default":20.4}]'>
+    <div class="sd-top"><b>@DSALGO_AI</b></div>
+    <div class="sd-part"><i class="on"></i><i class="on"></i><i class="on"></i><span>3/3 · AT SCALE</span></div>
+    <div class="sd-rail" id="s6-rail"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+    <div class="sd-tag" id="s6-tag"><span>TOKEN BUCKET · RATE LIMITING</span></div>
+    <canvas id="s6-canvas" class="lc-fill"></canvas>
+    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sd-chip pink" id="s6-chip">STEP 05 · DISTRIBUTED</div>
+    <div class="sd-meta" id="s6-meta">3 servers · 1 redis</div>
+    <div class="sd-term" id="s6-term" style="top:1050px"><h5>REDIS <em>lua</em></h5>
+      <div style="position:relative; height:100px">
+        <div id="s6-pa" style="position:absolute; inset:0">
+          <div class="sd-cmd" id="s6-c1">HMGET rl:user42 tokens ts</div>
+          <div class="sd-out" id="s6-o1">1) "3"   2) "1764151230"</div>
+        </div>
+        <div id="s6-pb" style="position:absolute; inset:0">
+          <div class="sd-cmd" id="s6-c2">EVALSHA token_bucket 1 rl:user42</div>
+          <div class="sd-out ok" id="s6-o2">(integer) 1 → allowed · atomic</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const rl = RL(document.getElementById("s6-canvas"));
+      SD.rail(tl, "#s6-rail", 5, 0, T);
+      tl.set("#s6-tag", { opacity: 1 }, 0);
+      fade("#s6-chip", 0.05); fade("#s6-meta", 0.2); fade("#s6-term", 0.35 * S);
+      SD.type(tl, "#s6-c1", 0.37 * S); fade("#s6-o1", 0.44 * S, { x: -20 });
+      tl.to("#s6-pa", { opacity: 0, duration: 0.3 }, 0.53 * S);
+      SD.type(tl, "#s6-c2", 0.54 * S); fade("#s6-o2", 0.73 * S, { x: -20 });
+      LC.drive(tl, T, (t) => rl.draw({ t, view: [745, 300], show: { cluster: LC.prog(t, 0.02 * S, 0.8) }, pulses: t > 0.46 * S,
+        strip: { status: [2, 2, 1, t > 0.37 * S ? 1 : 0, 0] } }));
+      window.__timelines["s6-redis"] = tl;
+    })();
+  </script>
+</template>

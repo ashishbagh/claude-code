@@ -1,0 +1,20 @@
+{
+  "en": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "hinglish": [
+    "चलो solve करते हैं LeetCode fifty three, Maximum Subarray. ये question Amazon, Microsoft, Apple और LinkedIn के interviews में पूछा गया है. Array है: minus two, one, minus three, four, minus one, two, और one. ऐसा continuous subarray ढूँढो, जिसका sum सबसे बड़ा हो.",
+    "इसका famous solution है Kadane's algorithm. हर number पर एक सवाल पूछो: पिछला sum साथ ले जाऊँ, या यहीं से नया start करूँ? Current sum है, x और current plus x में से बड़ा. और best में, अब तक का सबसे बड़ा current रखो.",
+    "Start minus two से. Current minus two, best minus two. अगला one: minus two plus one है minus one, पर अकेला one बड़ा है. तो पुराना छोड़ो, नया start, current one, best one. फिर minus three: one plus minus three है minus two, ये minus three से बड़ा है. Current minus two, best one ही रहा.",
+    "अब four. Minus two plus four है two, पर अकेला four बड़ा है, तो फिर से नया start. Current four, best four. फिर minus one: four plus minus one है three. Three, minus one से बड़ा है, तो साथ चलो. Current three, best four. Negative आया, पर हमने chain नहीं तोड़ी.",
+    "अब two: three plus two, current five, best five. और last one: five plus one, current six, best six. तो answer है six, subarray four, minus one, two, one. Minus one को रखना फायदेमंद था, क्योंकि उसके बाद वाले numbers ने ज़्यादा जोड़ा.",
+    "अब code देखते हैं. Current और best, दोनों पहले number से start. फिर हर अगले number x के लिए, current है max of x, और current plus x. फिर best को max of best और current करो. आखिर में best return करो.",
+    "Array पर एक ही बार चलते हैं, तो time है O of n. सिर्फ दो variables, तो space है O of one. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}

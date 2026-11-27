@@ -1,0 +1,20 @@
+{
+  "en": [
+    "Let's solve LeetCode one ninety eight: House Robber. Houses stand in a row, each holding some money: two, seven, nine, three, and one. If you rob two houses next to each other, the alarm goes off. So what is the most money you can take tonight?",
+    "At every house, there are only two choices. Rob it, and add its money to the best total from two houses back. Or skip it, and keep the best total up to the previous house. We take the bigger of the two, and move on.",
+    "Let's walk through it. At the first house, robbing gives two, and skipping gives zero, so the best is two. At the second house, robbing gives seven plus zero, which is seven, while skipping keeps two. Seven wins.",
+    "At the third house, robbing gives nine plus two, eleven, which beats seven. At the fourth house, robbing gives three plus seven, only ten, while skipping keeps eleven. So we skip this one, and carry eleven forward.",
+    "At the last house, robbing gives one plus eleven, twelve, which beats eleven. So the answer is twelve: rob the houses with two, nine, and one, and never two neighbours.",
+    "Here's the code. We only need two numbers: the best total two houses back, and the best total one house back. For each house, the new best is the larger of skipping, which keeps prev one, or robbing, which is prev two plus this house's money. Then we shift both forward, and return prev one.",
+    "We visit each house once, so the time is O of n. And we only keep two numbers, so the extra space is O of one. That's House Robber. Thanks for watching!"
+  ],
+  "hinglish": [
+    "चलो solve करते हैं LeetCode one ninety eight, House Robber. एक row में houses हैं, और हर house में कुछ money है: two, seven, nine, three, और one. अगर आप दो adjacent houses rob करोगे, तो alarm बज जाएगा. तो आज रात maximum कितना money ले सकते हो?",
+    "हर house पर सिर्फ दो choices हैं. Rob करो, तो उसका money, दो houses पीछे वाले best total में add करो. या skip करो, और previous house तक का best total रखो. दोनों में जो बड़ा है, वो लो, और आगे बढ़ो.",
+    "चलो walkthrough करते हैं. पहले house पर, rob करने से two मिलता है, और skip करने से zero, तो best है two. दूसरे house पर, rob करने से seven plus zero, यानी seven, जबकि skip करने से two. Seven जीतता है.",
+    "तीसरे house पर, rob करने से nine plus two, यानी eleven, जो seven से बड़ा है. चौथे house पर, rob करने से three plus seven, सिर्फ ten, जबकि skip करने से eleven रहता है. तो इसे skip करते हैं, और eleven आगे ले जाते हैं.",
+    "आखिरी house पर, rob करने से one plus eleven, यानी twelve, जो eleven से बड़ा है. तो answer है twelve: two, nine, और one वाले houses rob करो, और कभी दो neighbours नहीं.",
+    "अब code देखते हैं. हमें सिर्फ दो numbers चाहिए: दो houses पीछे का best total, और एक house पीछे का best total. हर house के लिए, नया best है skip और rob में से बड़ा: skip मतलब prev one, और rob मतलब prev two plus इस house का money. फिर दोनों को आगे shift करो, और prev one return करो.",
+    "हर house को हम एक बार visit करते हैं, इसलिए time है O of n. और हम सिर्फ दो numbers रखते हैं, तो extra space है O of one. तो ये था House Robber. देखने के लिए धन्यवाद!"
+  ]
+}

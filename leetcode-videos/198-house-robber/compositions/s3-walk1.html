@@ -1,0 +1,36 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s3-walk1-best { left: 1250px; top: 200px; width: 470px; height: 210px; }
+    #s3-walk1-dec { left: 1250px; top: 440px; width: 470px; height: 420px; }
+    #s3-walk1-dec .lc-item { font-size: 28px; }
+  </style>
+  <div id="root" data-composition-id="s3-walk1" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":14}]'>
+    <canvas id="s3-walk1-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">LeetCode 198</span><span class="lc-title">House Robber</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="lc-panel" id="s3-walk1-best"><div class="lc-label">Best so far</div><div class="lc-value"><span id="s3-walk1-v0">0</span><span id="s3-walk1-v1">2</span><span id="s3-walk1-v2">7</span></div></div>
+    <div class="lc-panel" id="s3-walk1-dec"><div class="lc-label">dp = max(skip, rob)</div><div class="lc-list"><div class="lc-item" id="s3-walk1-i0">$2: max(0, 0+2) = 2</div><div class="lc-item" id="s3-walk1-i1">$7: max(2, 0+7) = 7</div></div></div>
+    <div class="lc-caption" id="s3-walk1-cap1"><span>House 0:  rob 0 + 2 = 2   vs   skip 0   →  2</span></div>
+    <div class="lc-caption" id="s3-walk1-cap2"><span>House 1:  rob 0 + 7 = 7   vs   skip 2   →  7</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const street = Street(document.getElementById("s3-walk1-canvas"));
+      const EV = [[0, 0.08 * T, 0.38 * T], [1, 0.5 * T, 0.85 * T]];   // [house, ring at, dp tile at]
+      LC.values(tl, [["#s3-walk1-v0", 0 * T], ["#s3-walk1-v1", 0.38 * T], ["#s3-walk1-v2", 0.85 * T]]);
+      LC.listItems(tl, [["#s3-walk1-i0", 0.38 * T], ["#s3-walk1-i1", 0.85 * T]]);
+      LC.captions(tl, T, [["#s3-walk1-cap1", 0.05], ["#s3-walk1-cap2", 0.5]]);
+      LC.drive(tl, T, (t) => {
+        let current = null;
+        EV.forEach(([h, c]) => { if (t >= c) current = h; });
+        const dp = Street.dpAt(t, 0, EV.map(([h, c, d]) => [h, d]));
+        const fin = 0, ringAlpha = 1;
+        street.draw({ appear: 1, current, ringAlpha, dp, final: fin, orbit: 0.1 * Math.sin((t / T) * Math.PI) });
+      });
+      window.__timelines["s3-walk1"] = tl;
+    })();
+  </script>
+</template>

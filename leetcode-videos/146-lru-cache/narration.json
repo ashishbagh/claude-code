@@ -1,0 +1,20 @@
+{
+  "en": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "hinglish": [
+    "Interviewer पूछता है, LRU cache कैसे design करोगे? सिर्फ HashMap बोला, तो reject. चलो solve करते हैं LeetCode one forty six, LRU Cache. ये question Amazon, Microsoft, Meta और Bloomberg के interviews में पूछा गया है. Capacity fixed है, और get और put, दोनों O of one में चाहिए.",
+    "LRU मतलब least recently used. Cache full हो, तो वो key निकालो, जो सबसे पहले use हुई थी. HashMap से key तुरंत मिलती है, पर order नहीं पता. इसलिए साथ में doubly linked list रखो: front पर latest, back पर सबसे पुरानी. HashMap हर key को उसके node से जोड़ता है.",
+    "Capacity two. पहले put one, फिर put two. हर नया node, head के ठीक बाद जुड़ता है, और HashMap में key, उस node की तरफ point करती है. अब list है: two, फिर one. यानी one सबसे पुराना है.",
+    "अब get one. HashMap से node तुरंत मिला, value one return. और क्योंकि one अभी use हुआ, उसे list से निकाल के front पर लगा दो. अब order है: one, फिर two. Two अब least recently used है.",
+    "अब put three. Cache full है, तो tail के पास वाला node, यानी two, evict करो, list से भी, और HashMap से भी. Three front पर आया. अब get two करो, तो मिलेगा minus one.",
+    "अब code देखते हैं. Dummy head और tail nodes, और एक HashMap. get में key ना हो तो minus one, वरना node को front पर move करो. put में पुराना node हटाओ, नया front पर जोड़ो, और size, capacity से ज़्यादा हो, तो tail से पहले वाला node हटा दो.",
+    "HashMap lookup और pointers बदलना, दोनों constant time हैं, तो get और put, O of one. Space है O of capacity. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}

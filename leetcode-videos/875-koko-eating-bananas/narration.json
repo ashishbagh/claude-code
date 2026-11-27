@@ -1,0 +1,20 @@
+{
+  "en": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "hinglish": [
+    "चलो solve करते हैं LeetCode eight seventy five, Koko Eating Bananas. Koko के पास चार piles हैं: three, six, seven और eleven bananas. Guard आठ घंटे में वापस आएगा. हर घंटे Koko एक ही pile से k bananas खाती है. सबसे छोटा k कौन सा है, जिससे वो time पर सब खा ले?",
+    "Idea है, answer पर binary search. Speed कम से कम one, और ज़्यादा से ज़्यादा eleven हो सकती है, यानी सबसे बड़ी pile. बीच वाली speed try करो, और total hours गिनो. अगर hours आठ या कम हैं, तो और slow try करो. ज़्यादा हैं, तो fast खाना पड़ेगा.",
+    "पहला try. Low one, high eleven, तो speed है six. Piles लगेंगी one, one, two, और two hours, total six. ये आठ से कम है, तो six चलेगा. पर शायद इससे slow भी चले, तो high को six कर दो.",
+    "अगला try. Low one, high six, तो speed है three. अब hours हैं one, two, three, और four, total ten. ये आठ से ज़्यादा है, Koko time पर नहीं खा पाएगी. तो low को four कर दो.",
+    "Low four, high six, speed five: hours one, two, two, three, total eight. चलेगा, तो high five. फिर speed four: फिर से total eight, यानी चलेगा, high four. अब low और high दोनों four हैं. Answer है four bananas per hour.",
+    "अब code देखते हैं. Low one और high सबसे बड़ी pile. जब तक low, high से छोटा है, mid speed k निकालो. हर pile के लिए ceiling of pile by k जोड़ो. अगर hours h या कम हैं, तो high को k करो, वरना low को k plus one. आखिर में low return करो.",
+    "हर try में n piles गिनते हैं, और tries होती हैं log of max pile, इसलिए time है O of n log m. Space है O of one. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}

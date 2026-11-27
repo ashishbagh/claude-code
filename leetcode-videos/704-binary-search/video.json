@@ -1,0 +1,141 @@
+{
+  "number": 704,
+  "title": "Binary Search",
+  "difficulty": "Easy",
+  "slug": "binary_search",
+  "scenes": [
+    "s1-intro",
+    "s2-idea",
+    "s3-walk1",
+    "s4-walk2",
+    "s5-walk3",
+    "s6-code",
+    "s7-complexity"
+  ],
+  "pad": 0.6,
+  "tracks": {
+    "hinglish": {
+      "audio": "assets/audio/hinglish",
+      "out": "out/binary_search_hinglish.mp4"
+    }
+  },
+  "voice": {
+    "hinglish": {
+      "engine": "elevenlabs",
+      "voice": "j7yQHuKNC1hdt1LBPAks",
+      "name": "Prashant - Warm, Clear Hindi Explainer"
+    }
+  },
+  "sfx_queries": {
+    "whoosh": "whoosh transition",
+    "pop": "pop ui",
+    "click-soft": "soft click ui",
+    "ping": "bright ping notification",
+    "impact-bass-1": "cinematic impact",
+    "whoosh-short": "short swoosh",
+    "sparkle": "magic sparkle chime"
+  },
+  "sfx": [
+    {
+      "scene": "s1-intro",
+      "sec": 0.25,
+      "sound": "whoosh",
+      "volume": 0.3
+    },
+    {
+      "scene": "s1-intro",
+      "sec": 3.2,
+      "sound": "whoosh-short",
+      "volume": 0.3
+    },
+    {
+      "scene": "s1-intro",
+      "at": 0.5,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s2-idea",
+      "at": 0.07,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-idea",
+      "at": 0.36,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s2-idea",
+      "at": 0.67,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-idea",
+      "at": 0.82,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s3-walk1",
+      "at": 0.2,
+      "sound": "pop"
+    },
+    {
+      "scene": "s3-walk1",
+      "at": 0.65,
+      "sound": "whoosh-short",
+      "volume": 0.25
+    },
+    {
+      "scene": "s4-walk2",
+      "at": 0.12,
+      "sound": "pop"
+    },
+    {
+      "scene": "s4-walk2",
+      "at": 0.66,
+      "sound": "whoosh-short",
+      "volume": 0.25
+    },
+    {
+      "scene": "s5-walk3",
+      "at": 0.12,
+      "sound": "pop"
+    },
+    {
+      "scene": "s5-walk3",
+      "at": 0.46,
+      "sound": "impact-bass-1",
+      "volume": 0.4
+    },
+    {
+      "scene": "s6-code",
+      "sec": 0.1,
+      "sound": "whoosh",
+      "volume": 0.25
+    },
+    {
+      "scene": "s7-complexity",
+      "at": 0.1,
+      "sound": "pop"
+    },
+    {
+      "scene": "s7-complexity",
+      "at": 0.42,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s7-complexity",
+      "at": 0.54,
+      "sound": "sparkle",
+      "volume": 0.3
+    }
+  ],
+  "music": null,
+  "outro_hold": 3.0,
+  "scripts": [
+    "assets/bsearch3d.js"
+  ],
+  "styles": [
+    "assets/bsearch.css"
+  ]
+}

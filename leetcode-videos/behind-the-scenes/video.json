@@ -1,0 +1,196 @@
+{
+  "number": 0,
+  "title": "How I make these videos with Claude",
+  "difficulty": "Easy",
+  "slug": "behind_the_scenes",
+  "scenes": [
+    "s1-hook",
+    "s2-prompt",
+    "s3-plan",
+    "s4-voice",
+    "s5-visuals",
+    "s6-export",
+    "s7-cta"
+  ],
+  "pad": 0.6,
+  "tracks": {
+    "en": {
+      "audio": "assets/audio/en",
+      "out": "out/behind_the_scenes.mp4"
+    },
+    "hinglish": {
+      "audio": "assets/audio/hinglish",
+      "out": "out/behind_the_scenes_hinglish.mp4"
+    }
+  },
+  "voice": {
+    "en": {
+      "engine": "kokoro",
+      "voice": "af_heart"
+    },
+    "hinglish": {
+      "engine": "elevenlabs",
+      "voice": "j7yQHuKNC1hdt1LBPAks",
+      "name": "Prashant - Warm, Clear Hindi Explainer"
+    }
+  },
+  "sfx_queries": {
+    "whoosh": "whoosh transition",
+    "pop": "pop ui",
+    "click-soft": "soft click ui",
+    "ping": "bright ping notification",
+    "impact-bass-1": "cinematic impact",
+    "whoosh-short": "short swoosh",
+    "sparkle": "magic sparkle chime",
+    "typing": "keyboard typing short"
+  },
+  "sfx": [
+    {
+      "scene": "s1-hook",
+      "sec": 0.45,
+      "sound": "whoosh",
+      "volume": 0.3
+    },
+    {
+      "scene": "s1-hook",
+      "at": 0.44,
+      "sound": "pop"
+    },
+    {
+      "scene": "s1-hook",
+      "at": 0.5,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s2-prompt",
+      "sec": 0.1,
+      "sound": "whoosh-short",
+      "volume": 0.3
+    },
+    {
+      "scene": "s2-prompt",
+      "at": 0.22,
+      "sound": "typing",
+      "volume": 0.25
+    },
+    {
+      "scene": "s2-prompt",
+      "at": 0.7,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s3-plan",
+      "sec": 0.1,
+      "sound": "whoosh-short",
+      "volume": 0.3
+    },
+    {
+      "scene": "s3-plan",
+      "at": 0.2,
+      "sound": "pop"
+    },
+    {
+      "scene": "s3-plan",
+      "at": 0.36,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s3-plan",
+      "at": 0.62,
+      "sound": "pop"
+    },
+    {
+      "scene": "s4-voice",
+      "sec": 0.1,
+      "sound": "whoosh-short",
+      "volume": 0.3
+    },
+    {
+      "scene": "s4-voice",
+      "at": 0.27,
+      "sound": "pop"
+    },
+    {
+      "scene": "s4-voice",
+      "at": 0.45,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s5-visuals",
+      "sec": 0.1,
+      "sound": "whoosh-short",
+      "volume": 0.3
+    },
+    {
+      "scene": "s5-visuals",
+      "at": 0.11,
+      "sound": "pop"
+    },
+    {
+      "scene": "s5-visuals",
+      "at": 0.41,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s5-visuals",
+      "at": 0.75,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s6-export",
+      "sec": 0.1,
+      "sound": "whoosh-short",
+      "volume": 0.3
+    },
+    {
+      "scene": "s6-export",
+      "at": 0.15,
+      "sound": "pop"
+    },
+    {
+      "scene": "s6-export",
+      "at": 0.3,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s6-export",
+      "at": 0.48,
+      "sound": "pop"
+    },
+    {
+      "scene": "s6-export",
+      "at": 0.8,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s7-cta",
+      "sec": 0.05,
+      "sound": "whoosh",
+      "volume": 0.3
+    },
+    {
+      "scene": "s7-cta",
+      "at": 0.19,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s7-cta",
+      "at": 0.54,
+      "sound": "sparkle",
+      "volume": 0.3
+    }
+  ],
+  "music": null,
+  "outro_hold": 3.0,
+  "scripts": [
+    "assets/confetti3d.js"
+  ],
+  "styles": [
+    "assets/bright.css"
+  ],
+  "reel_badge": "Behind the scenes \u00b7 @dsalgo_ai",
+  "reel_theme": "light"
+}

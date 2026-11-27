@@ -1,0 +1,34 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s1-intro" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":23},{"id":"S","type":"number","label":"Narration length (s)","default":22.4}]'>
+    <canvas id="s1-canvas" class="lc-fill"></canvas>
+    <div class="lc-titlecard">
+      <h1 id="s1-t-title">Maximum Product<br/>Subarray</h1>
+      <p id="s1-t-sub">LeetCode 152 · Medium</p>
+      <div class="lc-asked" id="s1-t-asked">Asked at <b>Amazon</b> · <b>Google</b> · <b>Microsoft</b> · <b>LinkedIn</b></div>
+    </div>
+    <div id="s1-hdr" style="opacity:0"><div class="lc-header"><span class="lc-badge">LeetCode 152</span><span class="lc-title">Maximum Product Subarray</span><span class="lc-diff lc-medium">Medium</span></div></div>
+    <div class="mp-calc"><div class="lc-panel" id="s1-info">
+      <div class="mp-l" id="s1-l1">nums = <b>[2, 3, -2, 4, -1]</b></div>
+      <div class="mp-l" id="s1-l2">contiguous subarray</div>
+      <div class="mp-l" id="s1-l3">with the <b>largest product</b></div>
+    </div></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.45, ease: "power3.out" }, at);
+      const row = Row(document.getElementById("s1-canvas"));
+      LC.titleCard(tl, "s1", 0.25 * S, 0.5 * S);
+      tl.fromTo("#s1-hdr", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.53 * S);
+      fade("#s1-info", 0.62 * S); fade("#s1-l1", 0.63 * S);
+      fade("#s1-l2", 0.79 * S); fade("#s1-l3", 0.88 * S);
+      LC.drive(tl, T, (t) => row.draw({ appear: LC.prog(t, 0.55 * S, 0.22 * S), orbit: -0.12 + 0.12 * (t / T) }));
+      window.__timelines["s1-intro"] = tl;
+    })();
+  </script>
+</template>

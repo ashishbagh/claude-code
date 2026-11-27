@@ -1,0 +1,40 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s6-code" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":21},{"id":"S","type":"number","label":"Narration length (s)","default":20.4}]'>
+    <canvas id="s6-canvas" class="lc-fill"></canvas>
+    <div class="lc-header" id="s6-hdr"><span class="lc-badge">LeetCode 146</span><span class="lc-title">LRU Cache</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="lc-code" id="s6-panel" data-hold><pre><div class="lc-hl" id="s6-hl"></div><span class="k">class</span> <span class="f">LRUCache</span>:
+  <span class="k">def</span> <span class="f">__init__</span>(self, cap):
+    self.cap, self.map = cap, {}
+    self.head, self.tail = Node(), Node()
+    self.head.next = self.tail
+    self.tail.prev = self.head
+  <span class="k">def</span> <span class="f">get</span>(self, key):
+    <span class="k">if</span> key <span class="k">not in</span> self.map: <span class="k">return</span> -<span class="n">1</span>
+    node = self.map[key]
+    self._remove(node); self._add_front(node)
+    <span class="k">return</span> node.val
+  <span class="k">def</span> <span class="f">put</span>(self, key, val):
+    <span class="k">if</span> key <span class="k">in</span> self.map: self._remove(self.map[key])
+    node = Node(key, val); self.map[key] = node
+    self._add_front(node)
+    <span class="k">if</span> <span class="f">len</span>(self.map) &gt; self.cap:
+      lru = self.tail.prev
+      self._remove(lru); <span class="k">del</span> self.map[lru.key]</pre></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const lru = Lru(document.getElementById("s6-canvas"));
+      tl.fromTo("#s6-panel", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.1);
+      const f = S / T;
+      LC.codeHighlight(tl, T, "#s6-hl", [[1, 5, 0.08 * f, 0.25 * f], [6, 7, 0.25 * f, 0.39 * f], [8, 10, 0.39 * f, 0.53 * f], [11, 12, 0.53 * f, 0.64 * f], [13, 14, 0.64 * f, 0.72 * f], [15, 17, 0.72 * f, 1]], 46);
+      window.__timelines["s6-code"] = tl;
+    })();
+  </script>
+</template>

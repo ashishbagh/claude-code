@@ -1,0 +1,25 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s2-idea" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":26},{"id":"S","type":"number","label":"Narration length (s)","default":25.4}]'>
+    <div class="lc-header"><span class="lc-badge">LeetCode 152</span><span class="lc-title">Maximum Product Subarray</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="lc-steps" data-hold>
+      <div class="lc-step" id="s2-step1"><b>1</b><span>A negative flips signs: max ↔ min</span></div>
+      <div class="lc-step" id="s2-step2"><b>2</b><span>Keep both: cur max and cur min</span></div>
+      <div class="lc-step" id="s2-step3"><b>3</b><span>New max / min from x, x·max, x·min</span></div>
+      <div class="lc-step" id="s2-step4"><b>4</b><span>ans = biggest max seen so far</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.45, ease: "power3.out" }, at);
+      [[1, 0.11], [2, 0.4], [3, 0.6], [4, 0.89]].forEach(([n, f]) =>
+        tl.fromTo(`#s2-step${n}`, { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, f * S));
+      window.__timelines["s2-idea"] = tl;
+    })();
+  </script>
+</template>

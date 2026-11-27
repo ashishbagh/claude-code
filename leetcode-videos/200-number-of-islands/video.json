@@ -1,0 +1,137 @@
+{
+  "number": 200,
+  "title": "Number of Islands",
+  "difficulty": "Medium",
+  "slug": "number_of_islands",
+  "scenes": [
+    "s1-intro",
+    "s2-idea",
+    "s3-island1",
+    "s4-island2",
+    "s5-island3",
+    "s6-code",
+    "s7-complexity"
+  ],
+  "pad": 0.7,
+  "tracks": {
+    "en": {
+      "audio": "assets/audio/en",
+      "out": "out/number_of_islands.mp4"
+    },
+    "hinglish": {
+      "audio": "assets/audio/hinglish",
+      "out": "out/number_of_islands_hinglish.mp4"
+    }
+  },
+  "voice": {
+    "en": {
+      "engine": "elevenlabs",
+      "voice": "onwK4e9ZLuTAKqWW03F9",
+      "name": "Daniel - Steady Broadcaster"
+    },
+    "hinglish": {
+      "engine": "elevenlabs",
+      "voice": "j7yQHuKNC1hdt1LBPAks",
+      "name": "Prashant - Warm, Clear Hindi Explainer"
+    }
+  },
+  "sfx_queries": {
+    "whoosh": "whoosh transition fast",
+    "whoosh-short": "short swoosh",
+    "pop": "pop bubble ui",
+    "click-soft": "soft click ui",
+    "ping": "bright ping notification",
+    "impact-bass-1": "cinematic bass impact",
+    "sparkle": "magic sparkle chime"
+  },
+  "sfx": [
+    {
+      "scene": "s1-intro",
+      "sec": 0.3,
+      "sound": "whoosh",
+      "volume": 0.3
+    },
+    {
+      "scene": "s1-intro",
+      "sec": 4.4,
+      "sound": "whoosh-short",
+      "volume": 0.3
+    },
+    {
+      "scene": "s2-idea",
+      "at": 0.1,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-idea",
+      "at": 0.33,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s2-idea",
+      "at": 0.58,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-idea",
+      "at": 0.82,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s3-island1",
+      "at": 0.27,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s3-island1",
+      "at": 0.47,
+      "sound": "whoosh-short",
+      "volume": 0.25
+    },
+    {
+      "scene": "s4-island2",
+      "at": 0.5,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s5-island3",
+      "at": 0.22,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s5-island3",
+      "at": 0.84,
+      "sound": "impact-bass-1",
+      "volume": 0.4
+    },
+    {
+      "scene": "s6-code",
+      "sec": 0.1,
+      "sound": "whoosh",
+      "volume": 0.25
+    },
+    {
+      "scene": "s7-complexity",
+      "at": 0.05,
+      "sound": "pop"
+    },
+    {
+      "scene": "s7-complexity",
+      "at": 0.42,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s7-complexity",
+      "at": 0.8,
+      "sound": "sparkle",
+      "volume": 0.3
+    }
+  ],
+  "music": null,
+  "scripts": [
+    "assets/islands3d.js"
+  ]
+}

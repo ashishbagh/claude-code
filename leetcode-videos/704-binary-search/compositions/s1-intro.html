@@ -1,0 +1,35 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+
+  </style>
+  <div id="root" data-composition-id="s1-intro" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":16.9},{"id":"S","type":"number","label":"Narration length (s)","default":16.3}]'>
+    <canvas id="s1-canvas" class="lc-fill"></canvas>
+    <div class="lc-titlecard"><h1 id="s1-t-title">Binary<br/>Search</h1><p id="s1-t-sub">LeetCode 704 · Easy</p></div>
+    <div id="s1-hdr" style="opacity:0"><div class="lc-header"><span class="lc-badge">LeetCode 704</span><span class="lc-title">Binary Search</span><span class="lc-diff lc-easy">Easy</span></div></div>
+    <div class="bs-target" id="s1-target"><span>target = <code>23</code></span></div>
+    <div class="lc-panel bs-cmp" id="s1-info" style="opacity:0">
+      <div class="lc-label" style="text-align:left;margin:0 0 10px">Input</div>
+      <div class="bs-line" id="s1-l1">10 numbers, <span class="mid">sorted ↑</span></div>
+      <div class="bs-line" id="s1-l2">find the <span class="lo">index</span> of 23</div>
+      <div class="bs-line" id="s1-l3">without checking <span class="hi">every</span> element</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, duration: 0.45, ease: "power3.out" }, at);
+      const arr = Arr(document.getElementById("s1-canvas"));
+      fade("#s1-t-title", 0.2, { y: 40 }); fade("#s1-t-sub", 0.6);
+      tl.to(["#s1-t-title", "#s1-t-sub"], { opacity: 0, y: -30, duration: 0.4, ease: "power2.in" }, 2.8);
+      tl.fromTo("#s1-hdr", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.1);
+      fade("#s1-info", 0.28 * S); fade("#s1-l1", 0.3 * S);
+      fade("#s1-target", 0.5 * S, { y: -20, scale: 0.8 });
+      fade("#s1-l2", 0.61 * S); fade("#s1-l3", 0.86 * S);
+      LC.drive(tl, T, (t) => arr.draw({ appear: LC.prog(t, 3.2, 2.0), orbit: -0.15 + 0.15 * (t / T) }));
+      window.__timelines["s1-intro"] = tl;
+    })();
+  </script>
+</template>

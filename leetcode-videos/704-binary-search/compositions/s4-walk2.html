@@ -1,0 +1,35 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+
+  </style>
+  <div id="root" data-composition-id="s4-walk2" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":11},{"id":"S","type":"number","label":"Narration length (s)","default":10.4}]'>
+    <canvas id="s4-walk2-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">LeetCode 704</span><span class="lc-title">Binary Search</span><span class="lc-diff lc-easy">Easy</span></div>
+    <div class="bs-target" id="s4-walk2-target" style="opacity:1"><span>target = <code>23</code></span></div>
+    <div class="lc-panel bs-cmp" id="s4-walk2-cmp">
+      <div class="bs-line" id="s4-walk2-l1"><span class="lo">lo=5</span>  <span class="hi">hi=9</span>  <span class="mid">mid=7</span></div>
+      <div class="bs-line" id="s4-walk2-l2">nums[7] = 56 &gt; 23</div>
+      <div class="bs-go bs-left" id="s4-walk2-go">← go left · hi = 6</div>
+    </div>
+    <div class="lc-panel bs-count" id="s4-walk2-count"><div class="lc-label">Comparisons</div><div class="lc-value"><span id="s4-walk2-v0">1</span><span id="s4-walk2-v1">2</span></div></div>
+
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, duration: 0.45, ease: "power3.out" }, at);
+      const arr = Arr(document.getElementById("s4-walk2-canvas"));
+      LC.values(tl, [["#s4-walk2-v0", 0 * S], ["#s4-walk2-v1", 0.31 * S]]);
+      fade("#s4-walk2-l1", 0.07 * S); fade("#s4-walk2-l2", 0.31 * S); fade("#s4-walk2-go", 0.66 * S, { x: 30 });
+      LC.drive(tl, T, (t) => {
+        const lo = 5, hi = Arr.track(t, [[0, 9], [0.87 * S, 6]]), mid = t > 0.12 * S ? 7 : null;
+        const midK = LC.prog(t, 0.12 * S, 0.4), found = 0;
+        arr.draw({ lo, hi, mid, midK, alive: (i) => (i < 5 ? 0 : i > 6 ? 1 - LC.prog(t, 0.66 * S, 0.6) : 1), found, orbit: 0.08 * Math.sin((t / T) * Math.PI) });
+      });
+      window.__timelines["s4-walk2"] = tl;
+    })();
+  </script>
+</template>

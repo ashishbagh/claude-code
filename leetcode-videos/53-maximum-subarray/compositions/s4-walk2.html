@@ -1,0 +1,40 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s4-walk2" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":24},{"id":"S","type":"number","label":"Narration length (s)","default":23.4}]'>
+    <canvas id="s4-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">LeetCode 53</span><span class="lc-title">Maximum Subarray</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="mp-vals">
+      <div class="mp-box ms-cur" id="s4-bcur"><h4>CUR</h4><div class="lc-value" id="s4-vcur"></div></div>
+      <div class="mp-box mp-ans" id="s4-bbest"><h4>BEST</h4><div class="lc-value" id="s4-vbest"></div></div>
+    </div>
+    <div class="mp-calc"><div class="lc-panel" id="s4-p">
+      <div class="mp-l" id="s4-l1">x = <b>4</b> → max(4, -2+4) = <span class="c">4 ⟲</span></div>
+      <div class="mp-l" id="s4-l2">x = <b>-1</b> → max(-1, 4-1) = <span class="c">3</span></div>
+      <div class="mp-chip ms-re" id="s4-l3">negative, but keep the chain</div>
+    </div></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.45, ease: "power3.out" }, at);
+      ["#s4-bcur","#s4-bbest"].forEach((s) => tl.set(s, { opacity: 1 }, 0));
+      const pick = (t, steps) => { let v = null; steps.forEach(([at, r]) => { if (t >= at) v = r; }); return v; };
+      const row = Row(document.getElementById("s4-canvas"));
+      Row.vals(tl, "#s4-vcur", "-2", [["4", 0.32 * S], ["3", 0.75 * S]]);
+      Row.vals(tl, "#s4-vbest", "1", [["4", 0.32 * S]]);
+      fade("#s4-p", 0.02 * S); fade("#s4-l1", 0.05 * S); fade("#s4-l2", 0.41 * S); fade("#s4-l3", 0.85 * S, { scale: 0.85 });
+      LC.drive(tl, T, (t) => row.draw({
+        cur: Row.track(t, [[0, 2], [0.01, 3], [0.41 * S, 4]]),
+        seen: (i) => (i < 3 ? 1 : i === 3 ? LC.prog(t, 0.03 * S, 0.4) : i === 4 ? LC.prog(t, 0.42 * S, 0.4) : 0),
+        flip: (i) => (i === 3 ? LC.prog(t, 0.14 * S, 0.15 * S) : 0),
+        run: pick(t, [[0, [1, 2]], [0.22 * S, [3, 3]], [0.59 * S, [3, 4]]]), runK: 1,
+        best: pick(t, [[0, [1, 1]], [0.32 * S, [3, 3]]]), bestK: 1,
+        orbit: 0.08 * Math.sin((t / T) * Math.PI) }));
+      window.__timelines["s4-walk2"] = tl;
+    })();
+  </script>
+</template>

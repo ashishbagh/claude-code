@@ -1,0 +1,49 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s4-walk2" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":26},{"id":"S","type":"number","label":"Narration length (s)","default":25.4}]'>
+    <canvas id="s4-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">LeetCode 152</span><span class="lc-title">Maximum Product Subarray</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="mp-vals" id="s4-vals">
+      <div class="mp-box mp-max" id="s4-bmax"><h4>MAX</h4><div class="lc-value" id="s4-vmax"></div></div>
+      <div class="mp-box mp-min" id="s4-bmin"><h4>MIN</h4><div class="lc-value" id="s4-vmin"></div></div>
+      <div class="mp-box mp-ans" id="s4-bans"><h4>ANS</h4><div class="lc-value" id="s4-vans"></div></div>
+    </div>
+    <div class="mp-calc">
+      <div class="lc-panel" id="s4-pa">
+        <div class="mp-l" id="s4-a1">x = <b>-2</b> → -2, -2×6, -2×3</div>
+        <div class="mp-l" id="s4-a2">= -2, -12, -6</div>
+        <div class="mp-chip mp-flip" id="s4-a3">negative: max ↔ min flip!</div>
+      </div>
+      <div class="lc-panel" id="s4-pb">
+        <div class="mp-l" id="s4-b1">x = <b>4</b> → 4, 4×-2, 4×-12</div>
+        <div class="mp-l" id="s4-b2">= 4, -8, <span class="r">-48</span></div>
+        <div class="mp-chip mp-flip" id="s4-b3">ans still 6 · keep min -48</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.45, ease: "power3.out" }, at);
+      ["#s4-bmax","#s4-bmin","#s4-bans"].forEach((s) => tl.set(s, { opacity: 1 }, 0));
+      const row = Row(document.getElementById("s4-canvas"));
+      Row.vals(tl, "#s4-vmax", "6", [["-2", 0.27 * S], ["4", 0.66 * S]]);
+      Row.vals(tl, "#s4-vmin", "3", [["-12", 0.36 * S], ["-48", 0.69 * S]]);
+      Row.vals(tl, "#s4-vans", "6", []);
+      fade("#s4-pa", 0.02 * S); fade("#s4-a1", 0.04 * S); fade("#s4-a2", 0.12 * S); fade("#s4-a3", 0.27 * S, { scale: 0.85 });
+      tl.to("#s4-pa", { opacity: 0, duration: 0.3 }, 0.43 * S);
+      fade("#s4-pb", 0.44 * S); fade("#s4-b1", 0.45 * S); fade("#s4-b2", 0.5 * S); fade("#s4-b3", 0.82 * S, { scale: 0.85 });
+      tl.fromTo("#s4-bans", { scale: 1 }, { scale: 1.08, duration: 0.25, yoyo: true, repeat: 1 }, 0.78 * S);
+      LC.drive(tl, T, (t) => row.draw({
+        cur: Row.track(t, [[0, 1], [0.01, 2], [0.43 * S, 3]]),
+        seen: (i) => (i < 2 ? 1 : i === 2 ? LC.prog(t, 0.07 * S, 0.4) : i === 3 ? LC.prog(t, 0.45 * S, 0.4) : 0),
+        flip: (i) => (i === 2 ? LC.prog(t, 0.08 * S, 0.17 * S) : 0),
+        best: [0, 1], orbit: 0.08 * Math.sin((t / T) * Math.PI) }));
+      window.__timelines["s4-walk2"] = tl;
+    })();
+  </script>
+</template>

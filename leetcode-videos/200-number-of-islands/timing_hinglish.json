@@ -1,0 +1,47 @@
+{
+ "scenes": [
+  {
+   "id": "s1-intro",
+   "start": 0,
+   "length": 21.938,
+   "speech": 21.238
+  },
+  {
+   "id": "s2-idea",
+   "start": 21.938,
+   "length": 20.579,
+   "speech": 19.879
+  },
+  {
+   "id": "s3-island1",
+   "start": 42.517,
+   "length": 19.378,
+   "speech": 18.678
+  },
+  {
+   "id": "s4-island2",
+   "start": 61.895,
+   "length": 15.067,
+   "speech": 14.367
+  },
+  {
+   "id": "s5-island3",
+   "start": 76.962,
+   "length": 17.053,
+   "speech": 16.353
+  },
+  {
+   "id": "s6-code",
+   "start": 94.015,
+   "length": 19.534,
+   "speech": 18.834
+  },
+  {
+   "id": "s7-complexity",
+   "start": 113.549,
+   "length": 21.128,
+   "speech": 20.428
+  }
+ ],
+ "total": 134.677
+}

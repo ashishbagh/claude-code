@@ -1,0 +1,41 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s4-burst" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":17.2},{"id":"S","type":"number","label":"Narration length (s)","default":16.6}]'>
+    <div class="sd-top"><b>@DSALGO_AI</b></div>
+    <div class="sd-part"><i class="on"></i><i class="on"></i><i></i><span>2/3 · THE IDEA</span></div>
+    <div class="sd-rail" id="s4-rail"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    <div class="sd-tag" id="s4-tag"><span>TOKEN BUCKET · RATE LIMITING</span></div>
+    <canvas id="s4-canvas" class="lc-fill"></canvas>
+    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sd-chip amber" id="s4-chip">STEP 03 · BURST OF 6</div>
+    <div class="sd-meta" id="s4-meta">tokens <span id="s4-tk"></span>/4</div>
+    <div class="sd-term" id="s4-term" style="top:1020px"><h5>TERMINAL <em>zsh</em></h5>
+      <div class="sd-cmd" id="s4-c1">for i in {1..6}; do curl /api; done</div>
+      <div class="sd-out ok" id="s4-o1">200 OK  × <span id="s4-n"></span></div>
+      <div class="sd-out err" id="s4-o2">429 Too Many Requests × 2</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const rl = RL(document.getElementById("s4-canvas"));
+      SD.rail(tl, "#s4-rail", 3, 0, T);
+      tl.set("#s4-tag", { opacity: 1 }, 0);
+      fade("#s4-chip", 0.05); fade("#s4-meta", 0.2); fade("#s4-term", 0.02 * S); SD.type(tl, "#s4-c1", 0.03 * S, 30);
+      const t0 = [0.14 * S, 0.41 * S, 0.445 * S, 0.48 * S, 0.65 * S, 0.7 * S];
+      fade("#s4-o1", t0[0] + 0.9, { x: -20 }); fade("#s4-o2", 0.81 * S, { x: -20 });
+      SD.vals(tl, "#s4-n", "0", [1, 2, 3, 4].map((n) => [String(n), t0[n - 1] + 0.9]));
+      SD.vals(tl, "#s4-tk", "4", [3, 2, 1, 0].map((n, i) => [String(n), t0[i] + 0.6]));
+      LC.drive(tl, T, (t) => rl.draw({ t, view: [710, 300], show: { client: 1, bucket: 1, server: 1 },
+        tokens: [3, 2, 1, 0].map((s, i) => ({ slot: s, in: -1, out: t0[i] + 0.6 })),
+        reqs: t0.map((a, i) => ({ t0: a, ok: i < 4 })),
+        strip: { status: [2, 1, 1, 0, 0] } }));
+      window.__timelines["s4-burst"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,47 @@
+{
+ "scenes": [
+  {
+   "id": "s1-hook",
+   "start": 0,
+   "length": 13.248,
+   "speech": 12.648
+  },
+  {
+   "id": "s2-prompt",
+   "start": 13.248,
+   "length": 10.848,
+   "speech": 10.248
+  },
+  {
+   "id": "s3-plan",
+   "start": 24.096,
+   "length": 11.04,
+   "speech": 10.44
+  },
+  {
+   "id": "s4-voice",
+   "start": 35.136,
+   "length": 13.128,
+   "speech": 12.528
+  },
+  {
+   "id": "s5-visuals",
+   "start": 48.264,
+   "length": 16.224,
+   "speech": 15.624
+  },
+  {
+   "id": "s6-export",
+   "start": 64.488,
+   "length": 14.112,
+   "speech": 13.512
+  },
+  {
+   "id": "s7-cta",
+   "start": 78.6,
+   "length": 16.32,
+   "speech": 12.72
+  }
+ ],
+ "total": 94.92
+}

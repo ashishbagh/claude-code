@@ -1,0 +1,40 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s3-walk1" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":24},{"id":"S","type":"number","label":"Narration length (s)","default":23.4}]'>
+    <canvas id="s3-canvas" class="lc-fill"></canvas>
+    <div class="lc-header"><span class="lc-badge">LeetCode 53</span><span class="lc-title">Maximum Subarray</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="mp-vals">
+      <div class="mp-box ms-cur" id="s3-bcur"><h4>CUR</h4><div class="lc-value" id="s3-vcur"></div></div>
+      <div class="mp-box mp-ans" id="s3-bbest"><h4>BEST</h4><div class="lc-value" id="s3-vbest"></div></div>
+    </div>
+    <div class="mp-calc"><div class="lc-panel" id="s3-p" style="opacity:1">
+      <div class="mp-l" id="s3-l1">x = <b>-2</b> → cur = best = -2</div>
+      <div class="mp-l" id="s3-l2">x = <b>1</b> → max(1, -2+1) = <span class="c">1 ⟲</span></div>
+      <div class="mp-l" id="s3-l3">x = <b>-3</b> → max(-3, 1-3) = <span class="c">-2</span></div>
+    </div></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 24 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.45, ease: "power3.out" }, at);
+      const pick = (t, steps) => { let v = null; steps.forEach(([at, r]) => { if (t >= at) v = r; }); return v; };
+      const row = Row(document.getElementById("s3-canvas"));
+      ["#s3-bcur", "#s3-bbest"].forEach((s, i) => fade(s, 0.02 * S + i * 0.12, { y: 30 }));
+      Row.vals(tl, "#s3-vcur", null, [["-2", 0.07 * S], ["1", 0.52 * S], ["-2", 0.88 * S]]);
+      Row.vals(tl, "#s3-vbest", null, [["-2", 0.07 * S], ["1", 0.52 * S]]);
+      fade("#s3-l1", 0.07 * S); fade("#s3-l2", 0.19 * S); fade("#s3-l3", 0.6 * S);
+      LC.drive(tl, T, (t) => row.draw({
+        cur: Row.track(t, [[0, 0], [0.19 * S, 1], [0.6 * S, 2]]),
+        seen: (i) => (i === 0 ? LC.prog(t, 0.03 * S, 0.4) : i === 1 ? LC.prog(t, 0.2 * S, 0.4) : i === 2 ? LC.prog(t, 0.61 * S, 0.4) : 0),
+        flip: (i) => (i === 1 ? LC.prog(t, 0.34 * S, 0.15 * S) : 0),
+        run: pick(t, [[0.07 * S, [0, 0]], [0.42 * S, [1, 1]], [0.78 * S, [1, 2]]]), runK: 1,
+        best: pick(t, [[0.07 * S, [0, 0]], [0.52 * S, [1, 1]]]), bestK: 1,
+        orbit: 0.08 * Math.sin((t / T) * Math.PI) }));
+      window.__timelines["s3-walk1"] = tl;
+    })();
+  </script>
+</template>

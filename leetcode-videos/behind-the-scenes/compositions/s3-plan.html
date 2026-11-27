@@ -1,0 +1,36 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .s3-card { top: 330px; width: 520px; height: 500px; padding: 36px 40px; }
+    .s3-row { display: flex; justify-content: space-between; font: 700 30px var(--mono); padding: 8px 0; border-bottom: 2px dashed #f5d0fe; opacity: 0; }
+    .s3-line { font: 600 29px/1.45 var(--font); margin-top: 12px; opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="s3-plan" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":11.0},{"id":"S","type":"number","label":"Narration length (s)","default":10.4}]'>
+    <div class="bt-header"><span class="bt-badge">Behind the scenes</span><span class="bt-htitle">How I make these videos with Claude</span><span class="bt-handle">@dsalgo_ai</span></div>
+    <div class="bt-step" id="s3-step"><b>STEP 2</b><h2 class="bt-grad2">Claude plans the video</h2></div>
+    <div class="bt-card s3-card b-pink" id="s3-a" style="left:120px"><h3 class="c-pink">Pick an example</h3>
+      <p class="bt-mono" style="font-size:34px;color:#1e1b4b">nums = [2, 7, 9, 3, 1]</p><p style="margin-top:22px">one small input that hits every interesting case</p></div>
+    <div class="bt-card s3-card b-sky" id="s3-b" style="left:700px"><h3 class="c-sky">Trace it by hand</h3>
+      <div class="s3-row" id="s3-r1"><span>house 0</span><b class="c-green">2</b></div><div class="s3-row" id="s3-r2"><span>house 1</span><b class="c-green">7</b></div>
+      <div class="s3-row" id="s3-r3"><span>house 2</span><b class="c-green">11</b></div><div class="s3-row" id="s3-r4"><span>house 3</span><b class="c-sky">11</b></div>
+      <div class="s3-row" id="s3-r5"><span>house 4</span><b class="c-orange">12 ✓</b></div></div>
+    <div class="bt-card s3-card b-violet" id="s3-c" style="left:1280px"><h3 class="c-violet">Write the script</h3>
+      <div class="s3-line" id="s3-l1"><b class="c-orange">EN</b> “At every house, rob it or skip it…”</div>
+      <div class="s3-line" id="s3-l2"><b class="c-pink">हिं</b> “हर house पर सिर्फ दो choices हैं…”</div>
+      <div class="s3-line" id="s3-l3"><b class="c-green">7</b> scenes · ~45 words each</div></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, at, from = { y: 40 }) => tl.fromTo(sel, { opacity: 0, scale: 0.92, ...from }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.55, ease: "back.out(1.6)" }, at);
+      pop("#s3-step", 0.05, { x: -60 });
+      pop("#s3-a", 0.2 * S); pop("#s3-b", 0.36 * S);
+      ["#s3-r1","#s3-r2","#s3-r3","#s3-r4","#s3-r5"].forEach((s, i) => tl.fromTo(s, { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.3 }, 0.4 * S + i * 0.3));
+      pop("#s3-c", 0.62 * S);
+      ["#s3-l1","#s3-l2","#s3-l3"].forEach((s, i) => tl.fromTo(s, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.35 }, 0.66 * S + i * 0.45));
+      window.__timelines["s3-plan"] = tl;
+    })();
+  </script>
+</template>

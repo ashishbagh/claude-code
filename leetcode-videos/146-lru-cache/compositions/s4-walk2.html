@@ -1,0 +1,30 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s4-walk2" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":18.5},{"id":"S","type":"number","label":"Narration length (s)","default":17.9}]'>
+    <canvas id="s4-canvas" class="lc-fill"></canvas>
+    <div class="lc-header" id="s4-hdr"><span class="lc-badge">LeetCode 146</span><span class="lc-title">LRU Cache</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="lc-panel lru-panel" id="s4-p"><h5><span>get(1)</span><em>size 2/2</em></h5>
+      <div class="lru-cmd" id="s4-c1">cache.get(1)</div>
+      <div class="lru-out ok" id="s4-o1">→ 1  (hit · move to front)</div>
+      <div class="lru-out ok" id="s4-o2">HEAD ⇄ 1 ⇄ 2 ⇄ TAIL</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const lru = Lru(document.getElementById("s4-canvas"));
+      fade("#s4-p", 0.02 * S);
+      SD.type(tl, "#s4-c1", 0.03 * S, 30); fade("#s4-o1", 0.22 * S, { x: -20 }); fade("#s4-o2", 0.69 * S, { x: -20 });
+      const mv = 0.42 * S;
+      LC.drive(tl, T, (t) => lru.draw({ t, view: [290, 490], show: 1, links: 1, hit: { key: 1, at: 0.07 * S },
+        keys: [{ key: 1, born: -10, slots: [[0, 1], [mv, 0]], lift: [mv, 0.8] }, { key: 2, born: -10, slots: [[0, 0], [mv, 1]] }],
+        tags: { mru: 0, lruKey: t < 0.3 * S ? 1 : t > 0.83 * S ? 2 : null } }));
+      window.__timelines["s4-walk2"] = tl;
+    })();
+  </script>
+</template>

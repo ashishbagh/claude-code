@@ -1,0 +1,122 @@
+/* Shared look for LeetCode explainer videos (linked from index.html; applies inside every scene).
+   Scene files style their own root as #root inline; everything here is a class. */
+:root {
+  --bg: #0d1121;
+  --panel: #181e34;
+  --panel-edge: #2c3658;
+  --ink: #ebf0ff;
+  --muted: #8c98be;
+  --yellow: #facc15;
+  --green: #22c55e;
+  --blue: #1e3a78;
+  --accent: #38bdf8;
+  --red: #ef4444;
+  --orange: #fb923c;
+  --pink: #ec4899;
+  --violet: #a78bfa;
+  --font: Inter, sans-serif;
+  --mono: "JetBrains Mono", monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.lc-fill { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* header ---------------------------------------------------------------- */
+.lc-header { position: absolute; left: 96px; right: 96px; top: 54px; height: 56px;
+  display: flex; align-items: center; gap: 28px; font-family: var(--font); z-index: 5; }
+.lc-badge { padding: 10px 22px; border: 2px solid var(--yellow); border-radius: 30px;
+  color: var(--yellow); font-weight: 700; font-size: 28px; background: #281e0a; }
+.lc-title { color: var(--ink); font-weight: 700; font-size: 40px; flex: 1; }
+.lc-diff { padding: 10px 26px; border-radius: 26px; font-weight: 700; font-size: 28px; }
+.lc-easy { background: #0a321e; color: #4ade80; }
+.lc-medium { background: #3c2d0a; color: #fbbf24; }
+.lc-hard { background: #3c0f0f; color: #f87171; }
+
+/* caption pill (bottom, inside title-safe) -------------------------------- */
+.lc-caption { position: absolute; left: 0; right: 0; bottom: 96px; display: flex; justify-content: center;
+  z-index: 6; opacity: 0; }
+.lc-caption span { display: inline-block; padding: 16px 36px; border-radius: 40px; background: var(--panel);
+  border: 2px solid var(--panel-edge); color: var(--ink); font: 500 36px var(--font); }
+
+/* panels -------------------------------------------------------------------- */
+.lc-panel { position: absolute; background: var(--panel); border: 2px solid var(--panel-edge);
+  border-radius: 24px; font-family: var(--font); }
+.lc-label { color: var(--muted); font: 500 30px var(--font); text-align: center; margin-top: 26px; }
+.lc-value { position: relative; height: 120px; color: var(--yellow); font: 900 96px var(--font); text-align: center; line-height: 120px; }
+.lc-value span { display: inline-block; position: absolute; left: 0; right: 0; opacity: 0; }
+.lc-list { position: absolute; left: 28px; right: 28px; bottom: 26px; display: flex;
+  flex-direction: column-reverse; gap: 12px; }
+.lc-item { height: 52px; border-radius: 14px; border: 2px solid var(--accent); background: #28345a;
+  color: var(--ink); font: 400 28px var(--mono); display: flex; align-items: center; justify-content: center; opacity: 0; }
+
+/* numbered idea cards -------------------------------------------------------- */
+.lc-steps { position: absolute; left: 160px; right: 160px; top: 190px; display: flex; flex-direction: column; gap: 36px; }
+.lc-step { height: 128px; display: flex; align-items: center; gap: 40px; padding: 0 32px;
+  background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 24px; opacity: 0; }
+.lc-step b { width: 80px; height: 80px; border-radius: 40px; background: var(--yellow); color: var(--bg);
+  font: 900 44px var(--font); display: flex; align-items: center; justify-content: center; flex: none; }
+.lc-step span { color: var(--ink); font: 700 46px var(--font); }
+
+/* code ---------------------------------------------------------------------- */
+.lc-code { position: absolute; left: 140px; right: 140px; top: 140px; bottom: 60px; padding: 36px 70px;
+  background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 24px; }
+.lc-code pre { position: relative; font: 400 31px/42px var(--mono); font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; color: var(--ink); white-space: pre; }
+.lc-hl { position: absolute; left: -40px; right: -40px; border: 2px solid var(--yellow); border-radius: 12px;
+  background: rgba(250, 204, 21, 0.13); opacity: 0; }
+.k { color: #f472b6; font-weight: 700; } .f { color: var(--accent); } .s { color: #86efac; }
+.n { color: #fbbf24; } .c { color: #8a94b8; }
+
+/* complexity cards ------------------------------------------------------------ */
+.lc-cards { position: absolute; left: 160px; right: 160px; top: 170px; display: flex; gap: 40px; }
+.lc-card { flex: 1; height: 370px; background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 24px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; opacity: 0; }
+.lc-card h3 { color: var(--muted); font: 700 44px var(--font); }
+.lc-card strong { color: var(--yellow); font: 900 104px var(--font); }
+.lc-card p { color: var(--ink); font: 500 30px var(--font); }
+.lc-outro { position: absolute; left: 0; right: 0; top: 600px; display: flex; flex-direction: column;
+  align-items: center; gap: 22px; font-family: var(--font); }
+.lc-thanks { color: var(--ink); font: 900 68px var(--font); opacity: 0; }
+.lc-sub { color: var(--ink); font: 600 40px var(--font); opacity: 0; }
+.lc-sub b { color: var(--yellow); font-weight: 800; }
+.lc-social { display: flex; gap: 32px; opacity: 0; }
+.lc-social span { display: flex; align-items: center; gap: 16px; padding: 14px 30px 14px 20px; border-radius: 40px;
+  background: var(--panel); border: 2px solid var(--panel-edge); color: var(--ink); font: 700 34px var(--font); }
+.lc-yt i { position: relative; width: 58px; height: 40px; border-radius: 11px; background: #ff0033; }
+.lc-yt i::after { content: ""; position: absolute; left: 23px; top: 11px; border-left: 16px solid #fff;
+  border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.lc-ig i { position: relative; width: 44px; height: 44px; border-radius: 13px;
+  background: linear-gradient(45deg, #feda75, #fa7e1e 30%, #d62976 55%, #962fbf 80%, #4f5bd5); }
+.lc-ig i::before { content: ""; position: absolute; left: 11px; top: 11px; width: 16px; height: 16px;
+  border: 3px solid #fff; border-radius: 50%; }
+.lc-ig i::after { content: ""; position: absolute; right: 8px; top: 7px; width: 5px; height: 5px; border-radius: 50%; background: #fff; }
+
+/* big title card ---------------------------------------------------------------- */
+.lc-titlecard { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 28px; font-family: var(--font); }
+.lc-titlecard h1 { color: var(--ink); font-size: 120px; font-weight: 900; letter-spacing: -0.02em; opacity: 0; }
+.lc-titlecard p { color: var(--muted); font-size: 44px; font-weight: 500; opacity: 0; }
+
+/* ---------------------------------------------------------------------------------------------
+   Native vertical reel (1080x1920, build.py --vertical). Shared components restack here; each
+   project adds its own @media (orientation: portrait) rules for scene-specific ids.
+   Keep key content between y≈180 and y≈1600 (Instagram UI covers the bottom ~300 px). */
+@media (orientation: portrait) {
+  /* scene files declare 1920x1080; in a vertical build every composition fills the 1080x1920 frame */
+  [data-composition-id] { width: 1080px !important; height: 1920px !important; }
+  .lc-header { left: 60px !important; right: 60px !important; top: 70px !important; height: auto !important; flex-wrap: wrap !important; gap: 14px 18px !important; }
+  .lc-title { flex-basis: 100% !important; order: 3 !important; font-size: 34px !important; }
+  .lc-caption { bottom: 360px !important; padding: 0 40px !important; }
+  .lc-caption span { font-size: 34px !important; text-align: center !important; }
+  .lc-steps { left: 60px !important; right: 60px !important; top: 330px !important; gap: 28px !important; }
+  .lc-step { height: auto !important; min-height: 120px !important; padding: 22px 26px !important; gap: 26px !important; }
+  .lc-step span { font-size: 38px !important; line-height: 1.25 !important; }
+  .lc-code { left: 30px !important; right: 30px !important; top: 300px !important; bottom: auto !important; padding: 30px 34px !important; }
+  .lc-code pre { font-size: 22px !important; line-height: 32px !important; }
+  .lc-hl { left: -20px !important; right: -20px !important; }
+  .lc-cards { left: 60px !important; right: 60px !important; top: 300px !important; flex-direction: column !important; gap: 30px !important; }
+  .lc-card { height: 300px !important; flex: none !important; }
+  .lc-outro { top: 1040px !important; padding: 0 40px !important; text-align: center !important; }
+  .lc-sub { font-size: 36px !important; }
+  .lc-titlecard h1 { font-size: 92px !important; text-align: center !important; line-height: 1.05 !important; padding: 0 40px !important; }
+}

@@ -1,0 +1,38 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="s1-intro" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":23},{"id":"S","type":"number","label":"Narration length (s)","default":22.4}]'>
+    <canvas id="s1-canvas" class="lc-fill"></canvas>
+    <div class="lc-header" id="s1-hdr"><span class="lc-badge">LeetCode 146</span><span class="lc-title">LRU Cache</span><span class="lc-diff lc-medium">Medium</span></div>
+    <div class="lru-quote" id="s1-q"><label>INTERVIEWER:</label><div>“LRU cache kaise design karoge?”</div></div>
+    <div class="lru-rej" id="s1-rej">Sirf HashMap? ❌ reject</div>
+    <div class="lc-titlecard">
+      <h1 id="s1-t-title">LRU Cache</h1>
+      <p id="s1-t-sub">LeetCode 146 · Medium</p>
+      <div class="lc-asked" id="s1-t-asked">Asked at <b>Amazon</b> · <b>Microsoft</b> · <b>Meta</b> · <b>Bloomberg</b></div>
+    </div>
+    <div class="lc-panel lru-panel" id="s1-goal"><h5><span>Goal</span><em>capacity fixed</em></h5>
+      <div class="lru-line" id="s1-g1">get(key) → <b>O(1)</b></div>
+      <div class="lru-line" id="s1-g2">put(key, value) → <b>O(1)</b></div>
+      <div class="lru-line" id="s1-g3">full → evict <b>least recently used</b></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const lru = Lru(document.getElementById("s1-canvas"));
+      tl.set("#s1-hdr", { opacity: 0 }, 0);
+      fade("#s1-q", 0.1, { y: 16 }); fade("#s1-rej", 0.19 * S, { x: -20 });
+      tl.to(["#s1-q", "#s1-rej"], { opacity: 0, y: -12, duration: 0.4 }, 0.29 * S);
+      LC.titleCard(tl, "s1", 0.49 * S, 0.78 * S);
+      tl.fromTo("#s1-hdr", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.79 * S);
+      fade("#s1-goal", 0.8 * S); fade("#s1-g1", 0.81 * S); fade("#s1-g2", 0.86 * S); fade("#s1-g3", 0.91 * S);
+      LC.drive(tl, T, (t) => lru.draw({ t, view: [290, 490], title: 0, show: LC.prog(t, 0.8 * S, 0.8) }));
+      window.__timelines["s1-intro"] = tl;
+    })();
+  </script>
+</template>

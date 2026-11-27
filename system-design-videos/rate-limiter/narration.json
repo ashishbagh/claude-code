@@ -1,0 +1,20 @@
+{
+  "en": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "hinglish": [
+    "अगर interviewer पूछे, rate limiter कैसे design करोगे? तो सिर्फ definition याद मत करो. Rate limiter decide करता है, कि एक user, एक time window में, कितनी requests भेज सकता है. चलो एक real example से समझते हैं.",
+    "सोचो, एक client, हर second हज़ार requests भेज रहा है. Bot हो, या कोई bug. बिना limit के, API server पर load बढ़ता जाता है, CPU full, और बाकी users के लिए भी service down. इसलिए server के आगे, एक rate limiter लगाते हैं.",
+    "सबसे popular algorithm है token bucket. एक bucket सोचो, जिसमें ज़्यादा से ज़्यादा चार tokens आ सकते हैं. हर second, एक नया token भरता है. हर request को आगे जाने के लिए, एक token देना पड़ता है.",
+    "अब एक साथ छह requests आईं. पहली request, एक token लेकर आगे गई, two hundred OK. दूसरी, तीसरी, चौथी भी pass. अब bucket खाली है. पाँचवीं और छठी request को मिला, four twenty nine, too many requests.",
+    "एक second रुको. Bucket में एक नया token आ गया. अब सातवीं request फिर से pass. यानी छोटा burst allow है, bucket के size तक, पर लंबे time में average, refill rate से ज़्यादा नहीं जा सकता.",
+    "Real system में, कई API servers होते हैं. इसलिए हर user के tokens, और last refill time, Redis में रखते हैं. हर request पर, एक Lua script, atomically tokens refill करती है, और एक token घटाती है, ताकि दो servers एक साथ गलत count ना करें.",
+    "Interview में बाकी algorithms भी बोलो: fixed window, sliding window log, sliding window counter, और leaky bucket. पर token bucket सबसे common है. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}

@@ -1,0 +1,44 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s1-rules { left: 1250px; top: 200px; width: 560px; height: 300px; padding: 30px 36px; }
+    .s1-line { color: var(--ink); font: 700 36px/1.5 var(--font); opacity: 0; }
+    .s1-line code { font: 400 34px var(--mono); color: var(--yellow); }
+  </style>
+  <div id="root" data-composition-id="s1-intro" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":16.6}]'>
+    <canvas id="s1-canvas" class="lc-fill"></canvas>
+    <div class="lc-titlecard"><h1 id="s1-t-title">House Robber</h1><p id="s1-t-sub">LeetCode 198 · Dynamic Programming</p></div>
+    <div id="s1-header" style="opacity:0"><div class="lc-header" id="s1-hdr"><span class="lc-badge">LeetCode 198</span><span class="lc-title">House Robber</span><span class="lc-diff lc-medium">Medium</span></div></div>
+    <div class="lc-panel" id="s1-rules" style="opacity:0">
+      <div class="lc-label" style="margin:0 0 14px;text-align:left">Input</div>
+      <div class="s1-line" id="s1-l1"><code>nums = [2, 7, 9, 3, 1]</code></div>
+      <div class="s1-line" id="s1-l2">✗ no two adjacent houses</div>
+      <div class="s1-line" id="s1-l3">→ maximise the total</div>
+    </div>
+    <div class="lc-caption" id="s1-intro-cap1"><span>Rob two neighbours → the alarm goes off</span></div>
+    <div class="lc-caption" id="s1-intro-cap2"><span>Goal: the most money, never two neighbours</span></div>
+  </div>
+  <script>
+    (function () {
+      const { T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const street = Street(document.getElementById("s1-canvas"));
+      tl.fromTo("#s1-t-title", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 0.2);
+      tl.fromTo("#s1-t-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.6);
+      tl.to(["#s1-t-title", "#s1-t-sub"], { opacity: 0, y: -30, duration: 0.4, ease: "power2.in" }, 2.9);
+      tl.fromTo("#s1-header", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 3.3);
+      tl.fromTo("#s1-rules", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.38 * T);
+      tl.fromTo("#s1-l1", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.40 * T);
+      tl.fromTo("#s1-l2", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.55 * T);
+      tl.fromTo("#s1-l3", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.80 * T);
+      LC.captions(tl, T, [["#s1-intro-cap1", 0.55], ["#s1-intro-cap2", 0.81]]);
+      LC.drive(tl, T, (t) => street.draw({
+        appear: LC.prog(t, 3.4, 2.4),
+        alarm: LC.prog(t, 0.55 * T, 0.4) * (1 - LC.prog(t, 0.79 * T, 0.4)),
+        orbit: -0.22 + 0.22 * (t / T),
+      }));
+      window.__timelines["s1-intro"] = tl;
+    })();
+  </script>
+</template>

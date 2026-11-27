@@ -1,0 +1,39 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s7-ask { position: absolute; left: 0; right: 0; top: 150px; text-align: center; font: 900 92px var(--font); opacity: 0; letter-spacing: -0.02em; }
+    #s7-dm { left: 330px; right: 330px; top: 300px; height: 230px; display: flex; align-items: center; gap: 36px; padding: 0 50px; }
+    #s7-dm .s7-ic { width: 120px; height: 120px; border-radius: 34px; flex: none;
+      background: linear-gradient(45deg, #feda75, #fa7e1e 30%, #d62976 55%, #962fbf 80%, #4f5bd5); position: relative; }
+    #s7-dm .s7-ic::before { content: ""; position: absolute; left: 26px; top: 30px; width: 68px; height: 50px; border-radius: 24px; background: #fff; }
+    #s7-dm .s7-ic::after { content: ""; position: absolute; left: 34px; top: 72px; border-left: 14px solid transparent; border-right: 6px solid transparent; border-top: 22px solid #fff; }
+    #s7-dm h3 { font-size: 50px; margin: 0 0 8px; }
+    #s7-dm p { font-size: 38px; color: var(--ink); font-weight: 700; }
+    .lc-outro { top: 590px; }
+  </style>
+  <div id="root" data-composition-id="s7-cta" data-width="1920" data-height="1080"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":17.0},{"id":"S","type":"number","label":"Narration length (s)","default":16.4}]'>
+    <canvas id="s7-canvas" class="lc-fill" data-layout-ignore></canvas>
+    <div id="s7-ask" class="bt-grad">Want the complete skill?</div>
+    <div class="bt-card b-pink" id="s7-dm"><div class="s7-ic"></div><div><h3>Comment on this reel</h3><p>I'll send you the <span class="c-violet">skill</span> in <span class="c-pink">DM</span></p></div></div>
+    <div class="lc-outro">
+      <div class="lc-thanks" id="s7-thanks">Thanks for watching!</div>
+      <div class="lc-sub" id="s7-sub">Subscribe to <b>@dsalgo_ai</b> for more such videos</div>
+      <div class="lc-social" id="s7-social"><span class="lc-yt"><i></i>YouTube</span><span class="lc-ig"><i></i>Instagram</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, at, from = { y: 40 }) => tl.fromTo(sel, { opacity: 0, scale: 0.92, ...from }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.55, ease: "back.out(1.6)" }, at);
+      const fl = Floaty(document.getElementById("s7-canvas"), { count: 18 });
+      pop("#s7-ask", 0.02, { y: 50, scale: 0.85 });
+      pop("#s7-dm", 0.2 * S, { y: 60 });
+      tl.fromTo("#s7-dm", { scale: 1 }, { scale: 1.04, duration: 0.25, yoyo: true, repeat: 1, ease: "power1.inOut" }, 0.34 * S);
+      LC.outro(tl, "s7", 0.54 * S);
+      LC.drive(tl, T, (t) => fl.draw(t, LC.prog(t, 0, 1.5)));
+      window.__timelines["s7-cta"] = tl;
+    })();
+  </script>
+</template>
