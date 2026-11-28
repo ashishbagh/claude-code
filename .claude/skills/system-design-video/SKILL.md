@@ -55,6 +55,31 @@ Reel for the English track unless `no-reel`. Level default Intermediate.
   - **Length:** 8 scenes, ≤ 2:50. Hinglish runs about 20% longer than English, so ~45 words per scene.
   - **Delivery:** `insta.py` only normalises it to −14 LUFS and grabs the cover (frame at `cover_at`, the title card).
 
+## Theme 2: "blueprint glow" (the Rate Limiter series)
+
+The Rate Limiter series (part 1: `system-design-videos/rate-limiter` on branch
+`claude/leetcode-solution-animation-6u6lfg`; part 2: `system-design-videos/rate-limiter-2`) uses this look. Use it
+for any later part of that series, or when the user asks for "the rate limiter style" / "blueprint".
+- **Files:** `theme-blueprint/blueprint.css` (copy as the project's `assets/sd.css`, with no `"styles"`) and
+  `theme-blueprint/blueprint.js` (copy to `assets/lib/blueprint.js`, list it first in `"scripts"`). The JS defines
+  `window.SD` with `renderer / strip / wireBox / glowCube / grid / label / textTex / rail / type / vals / count /
+  dotField / rays`, and it replaces the flowchart `SD`, so don't mix the two themes in one project.
+- **Layout (1080×1920, scenes declare 1080×1920 directly):**
+  - `@DSALGO_AI` and the part tracker `1/3 · THE PROBLEM` → `2/3 · THE IDEA` → `3/3 · …` at y 150.
+  - `.sd-rail` (one segment per scene) at y 206 and the `.sd-tag` bracket label at y 262.
+  - The 3D pipeline strip `CLIENT · LIMITER · API · REDIS · DB` drawn at y 290–630 (stage status: 0 idle, 1 active,
+    2 done, 3 error).
+  - The `.sd-frame` work area (y 650–1250) with `.sd-chip` `STEP 0N · …` and `.sd-meta`, then a main 3D band
+    (`view: [700, ~360]`), then a `.sd-term` terminal, `.sd-count` counter, `.sd-rows` or `.sd-quote` below it.
+  - No captions and no headlines; the narration carries the words.
+- **Stage module:** `assets/<topic>3d.js` with one `draw(state)` that draws the strip (`R.view(strip.scene,
+  strip.camera, 290, 340)`) and the topic's props from time-derived state. Reference: `rate-limiter-2/assets/swc3d.js`
+  (two minute-windows, request cubes, NOW marker, sliding 60 s frame with the overlap shaded, token bucket).
+- **3D band legibility:** keep the camera close (≈ (0, 2.4, 6.1), fov 30). Put numbers *inside* the props, not
+  above them, because labels above the band's top edge get clipped. Check one full frame per scene before rendering.
+- **Topics in a series:** reuse part 1's running example and limits (e.g. 4 requests / user), and open with
+  `TUMNE BOLA / INTERVIEWER` asking the follow-up question.
+
 ## Stack
 
 | Job | Tool | Where |

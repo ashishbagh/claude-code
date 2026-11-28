@@ -1,0 +1,11 @@
+{
+  "hinglish": [
+    "Part one में हमने token bucket देखा. अब interviewer पूछता है: sliding window counter कैसे काम करता है, और दोनों में कौन better है? चलो same example लेते हैं: हर user, एक minute में, सिर्फ चार requests.",
+    "पहले simple fixed window. हर minute का एक counter. पर problem देखो: user ने बारह बजकर उनसठ seconds पर चार requests भेजीं, और एक minute बाद, पहले second में फिर चार. दो seconds में आठ requests pass, यानी limit का double. इसे boundary burst कहते हैं.",
+    "Sliding window counter, दो counters रखता है: current minute का, और previous minute का. फिर देखता है, previous minute का कितना हिस्सा, अभी भी पिछले साठ seconds में आता है. Formula है: current count, plus previous count, गुणा overlap.",
+    "Example लो. Previous minute में चार requests थीं. Current minute के पंद्रह seconds बीत चुके हैं, और दो requests आ चुकी हैं. Previous minute का पचहत्तर percent हिस्सा, अभी भी window में है. तो estimate: दो plus चार गुणा zero point seven five, यानी पाँच. पाँच, चार से ज़्यादा है, तो four twenty nine.",
+    "अब पैंतालीस seconds पर, नई request आई. Overlap अब सिर्फ पच्चीस percent. Estimate: दो plus एक, यानी तीन. तीन, चार से कम है, तो two hundred OK. और memory? हर user के लिए सिर्फ दो counters. Sliding window log की तरह, हर timestamp store नहीं करना पड़ता.",
+    "अब token bucket से compare करो. Token bucket, capacity तक burst allow करता है, जो normal APIs के लिए अच्छा है. Sliding window counter, traffic को smooth रखता है, boundary burst नहीं होता. Memory दोनों में O of one. पर sliding window एक approximation है, क्योंकि यह मानता है, कि previous minute की requests बराबर फैली हुई थीं.",
+    "तो interview में बोलो: burst allow करना है, तो token bucket. Strict limit चाहिए, जैसे login या OTP, तो sliding window counter. Redis में दोनों, Lua script से atomic. देखने के लिए धन्यवाद! ऐसी और videos के लिए, YouTube और Instagram पर D S Algo A I को subscribe करो."
+  ]
+}

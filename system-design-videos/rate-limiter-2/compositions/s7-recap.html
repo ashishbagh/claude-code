@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    .sd-outro { top: 760px; }
+  </style>
+  <div id="root" data-composition-id="s7-recap" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":24.2},{"id":"S","type":"number","label":"Narration length (s)","default":20.6}]'>
+    <div class="sd-top"><b>@DSALGO_AI</b></div>
+    <div class="sd-part"><i class="on"></i><i class="on"></i><i class="on"></i><span>3/3 · COMPARE</span></div>
+    <div class="sd-rail" id="s7-rail"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+    <div class="sd-tag" id="s7-tag"><span>SLIDING WINDOW · RATE LIMITING</span></div>
+    <canvas id="s7-canvas" class="lc-fill"></canvas>
+    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sd-chip" id="s7-chip">RECAP · WHICH ONE?</div>
+    <div class="sd-meta" id="s7-meta">say this in interview</div>
+    <div class="sd-rows" id="s7-rows">
+      <div class="sd-row hot" id="s7-r1">Token bucket <small>bursts OK · APIs</small></div>
+      <div class="sd-row hot" id="s7-r2">Sliding window counter <small>strict · login / OTP</small></div>
+      <div class="sd-row" id="s7-r3">Redis + Lua <small>atomic, both</small></div>
+    </div>
+    <div class="lc-outro sd-outro" data-hold>
+      <div class="lc-thanks" id="s7-thanks">Thanks for watching!</div>
+      <div class="lc-sub" id="s7-sub">Subscribe to <b>@dsalgo_ai</b> for more such videos</div>
+      <div class="lc-social" id="s7-social"><span class="lc-yt"><i></i>YouTube</span><span class="lc-ig"><i></i>Instagram</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const sw = SWC(document.getElementById("s7-canvas"));
+      SD.rail(tl, "#s7-rail", 6, 0, T);
+      tl.set("#s7-tag", { opacity: 1 }, 0);
+      fade("#s7-chip", 0.05); fade("#s7-meta", 0.2);
+      [["#s7-r1", 0.07], ["#s7-r2", 0.21], ["#s7-r3", 0.47]].forEach(([sel, f]) => fade(sel, f * S, { x: 60 }));
+      tl.to(["#s7-rows", "#s7-chip", "#s7-meta"], { opacity: 0, duration: 0.4 }, 0.61 * S);
+      LC.outro(tl, "s7", 0.63 * S);
+      LC.drive(tl, T, (t) => sw.draw({ t, strip: { status: [2, 2, 2, t > 0.47 * S ? 2 : 1, 0] } }));
+      window.__timelines["s7-recap"] = tl;
+    })();
+  </script>
+</template>

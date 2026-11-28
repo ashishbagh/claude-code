@@ -1,0 +1,154 @@
+{
+  "badge": "System Design",
+  "title": "Rate Limiter · Part 2",
+  "level": "Intermediate",
+  "slug": "rate_limiter_2",
+  "width": 1080,
+  "height": 1920,
+  "styles": [],
+  "captions": false,
+  "cover_at": 2.5,
+  "scenes": [
+    "s1-hook",
+    "s2-fixed",
+    "s3-idea",
+    "s4-reject",
+    "s5-allow",
+    "s6-compare",
+    "s7-recap"
+  ],
+  "pad": 0.6,
+  "outro_hold": 3.0,
+  "tracks": {
+    "hinglish": {
+      "audio": "assets/audio/hinglish",
+      "out": "out/rate_limiter_2_hinglish.mp4"
+    }
+  },
+  "voice": {
+    "hinglish": {
+      "engine": "elevenlabs",
+      "voice": "j7yQHuKNC1hdt1LBPAks",
+      "name": "Prashant - Warm, Clear Hindi Explainer",
+      "model": "eleven_v4"
+    }
+  },
+  "theme": "blueprint",
+  "series": "Rate Limiter (part 1: system-design-videos/rate-limiter on claude/leetcode-solution-animation-6u6lfg)",
+  "sfx_queries": {
+    "whoosh": "whoosh transition",
+    "pop": "pop ui",
+    "click-soft": "soft click ui",
+    "ping": "bright ping notification",
+    "impact-bass-1": "cinematic impact",
+    "riser": "cinematic riser",
+    "typing": "keyboard typing",
+    "chime": "success chime",
+    "sparkle": "magic sparkle chime"
+  },
+  "sfx": [
+    {
+      "scene": "s1-hook",
+      "sec": 0.1,
+      "sound": "riser",
+      "volume": 0.25
+    },
+    {
+      "scene": "s1-hook",
+      "at": 0.2,
+      "sound": "pop"
+    },
+    {
+      "scene": "s1-hook",
+      "at": 0.68,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s2-fixed",
+      "at": 0.3,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-fixed",
+      "at": 0.5,
+      "sound": "pop"
+    },
+    {
+      "scene": "s2-fixed",
+      "at": 0.66,
+      "sound": "impact-bass-1",
+      "volume": 0.35
+    },
+    {
+      "scene": "s3-idea",
+      "at": 0.36,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s3-idea",
+      "at": 0.68,
+      "sound": "ping",
+      "volume": 0.3
+    },
+    {
+      "scene": "s4-reject",
+      "at": 0.6,
+      "sound": "typing",
+      "volume": 0.25
+    },
+    {
+      "scene": "s4-reject",
+      "at": 0.84,
+      "sound": "impact-bass-1",
+      "volume": 0.35
+    },
+    {
+      "scene": "s5-allow",
+      "at": 0.28,
+      "sound": "typing",
+      "volume": 0.25
+    },
+    {
+      "scene": "s5-allow",
+      "at": 0.46,
+      "sound": "chime",
+      "volume": 0.3
+    },
+    {
+      "scene": "s6-compare",
+      "at": 0.12,
+      "sound": "pop"
+    },
+    {
+      "scene": "s6-compare",
+      "at": 0.62,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s6-compare",
+      "at": 0.72,
+      "sound": "click-soft"
+    },
+    {
+      "scene": "s7-recap",
+      "at": 0.07,
+      "sound": "pop"
+    },
+    {
+      "scene": "s7-recap",
+      "at": 0.21,
+      "sound": "pop"
+    },
+    {
+      "scene": "s7-recap",
+      "at": 0.63,
+      "sound": "sparkle",
+      "volume": 0.3
+    }
+  ],
+  "music": null,
+  "scripts": [
+    "assets/lib/blueprint.js",
+    "assets/swc3d.js"
+  ]
+}

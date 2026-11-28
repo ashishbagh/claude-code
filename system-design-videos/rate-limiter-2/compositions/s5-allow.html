@@ -1,0 +1,55 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s5-term { top: 1070px; padding: 16px 28px 20px; }
+    #s5-term h5 { margin-bottom: 6px; }
+    #s5-head { top: 1075px; }
+    #s5-head p { font-size: 32px; }
+  </style>
+  <div id="root" data-composition-id="s5-allow" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":20.8},{"id":"S","type":"number","label":"Narration length (s)","default":20.2}]'>
+    <div class="sd-top"><b>@DSALGO_AI</b></div>
+    <div class="sd-part"><i class="on"></i><i class="on"></i><i></i><span>2/3 · THE IDEA</span></div>
+    <div class="sd-rail" id="s5-rail"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+    <div class="sd-tag" id="s5-tag"><span>SLIDING WINDOW · RATE LIMITING</span></div>
+    <canvas id="s5-canvas" class="lc-fill"></canvas>
+    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sd-chip" id="s5-chip">STEP 04 · NOW = 0:45</div>
+    <div class="sd-meta" id="s5-meta">overlap 25%</div>
+    <div class="sd-term" id="s5-term"><h5>LIMITER <em>user:42</em></h5>
+      <div class="sd-cmd" id="s5-c1">est = 2 + 4 × 0.25</div>
+      <div class="sd-out ok" id="s5-o1">= 3.0 &lt; 4  →  200 OK</div>
+    </div>
+    <div class="sd-head" id="s5-head">
+      <h4 id="s5-h">MEMORY / USER</h4>
+      <p id="s5-p1"><b>2 counters</b> · prev + curr  →  O(1)</p>
+      <p id="s5-p2">sliding window log: every timestamp ✗</p>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const sw = SWC(document.getElementById("s5-canvas"));
+      SD.rail(tl, "#s5-rail", 4, 0, T);
+      tl.set("#s5-tag", { opacity: 1 }, 0);
+      fade("#s5-chip", 0.05); fade("#s5-meta", 0.15 * S);
+      fade("#s5-term", 0.26 * S); SD.type(tl, "#s5-c1", 0.28 * S, 18);
+      fade("#s5-o1", 0.46 * S, { x: -20 });
+      tl.to("#s5-term", { opacity: 0, y: -16, duration: 0.35 }, 0.6 * S);
+      fade("#s5-h", 0.62 * S); fade("#s5-p1", 0.64 * S); fade("#s5-p2", 0.78 * S);
+      const prev = [0.2, 0.45, 0.65, 0.85].map((f) => ({ w: 0, f, at: -1, ok: true }));
+      const curr = [0.06, 0.16].map((f) => ({ w: 1, f, at: -1, ok: true }));
+      const good = { w: 1, f: 0.75, at: 0.42 * S, ok: true };
+      LC.drive(tl, T, (t) => {
+        const nf = 0.25 + 0.5 * LC.prog(t, 0.03 * S, 0.12 * S);   // NOW slides from 0:15 to 0:45
+        sw.draw({ t, view: [700, 368], win: 1, reqs: [...prev, ...curr, good],
+          counts: { prev: 4, curr: t >= good.at + 0.4 ? 3 : 2, k: 1 },
+          now: { f: nf, k: 1 }, slide: 1,
+          strip: { status: [2, t > 0.46 * S ? 2 : 1, t > 0.46 * S ? 1 : 0, 0, 0] } });
+      });
+      window.__timelines["s5-allow"] = tl;
+    })();
+  </script>
+</template>

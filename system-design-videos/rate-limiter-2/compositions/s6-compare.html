@@ -1,0 +1,48 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s6-rows { top: 1042px; gap: 10px; }
+    #s6-rows .sd-row { padding: 10px 22px; font-size: 30px; }
+    #s6-rows .sd-row small { font-size: 28px; }
+  </style>
+  <div id="root" data-composition-id="s6-compare" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":22.8},{"id":"S","type":"number","label":"Narration length (s)","default":22.2}]'>
+    <div class="sd-top"><b>@DSALGO_AI</b></div>
+    <div class="sd-part"><i class="on"></i><i class="on"></i><i class="on"></i><span>3/3 · COMPARE</span></div>
+    <div class="sd-rail" id="s6-rail"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+    <div class="sd-tag" id="s6-tag"><span>SLIDING WINDOW · RATE LIMITING</span></div>
+    <canvas id="s6-canvas" class="lc-fill"></canvas>
+    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sd-chip pink" id="s6-chip">STEP 05 · BUCKET vs WINDOW</div>
+    <div class="sd-meta" id="s6-meta">same limit: 4/min</div>
+    <div class="sd-rows" id="s6-rows">
+      <div class="sd-row" id="s6-r1">BURST <small>bucket: 4 at once · window: smooth</small></div>
+      <div class="sd-row" id="s6-r2">MEMORY <small>both O(1)</small></div>
+      <div class="sd-row" id="s6-r3">ACCURACY <small>bucket exact · window ≈</small></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const sw = SWC(document.getElementById("s6-canvas"));
+      SD.rail(tl, "#s6-rail", 5, 0, T);
+      tl.set("#s6-tag", { opacity: 1 }, 0);
+      fade("#s6-chip", 0.05); fade("#s6-meta", 0.08 * S);
+      [["#s6-r1", 0.12], ["#s6-r2", 0.62], ["#s6-r3", 0.72]].forEach(([s, a]) => fade(s, a * S, { x: 60 }));
+      const prev = [0.2, 0.45, 0.65, 0.85].map((f) => ({ w: 0, f, at: -1, ok: true }));
+      const curr = [0.06, 0.16, 0.75].map((f) => ({ w: 1, f, at: -1, ok: true }));
+      LC.drive(tl, T, (t) => {
+        // token bucket: a burst of 4 drains it while "capacity तक burst" is said, then one token refills
+        const used = Math.min(4, Math.floor(LC.clamp((t - 0.18 * S) / (0.16 * S)) * 4.999));
+        const refill = t > 0.5 * S ? 1 : 0;
+        sw.draw({ t, view: [700, 340], win: 1, bucket: LC.prog(t, 0.04 * S, 0.8), tokens: 4 - used + refill,
+          reqs: [...prev, ...curr], counts: { prev: 4, curr: 3, k: 1 }, now: { f: 0.75, k: 1 },
+          slide: LC.prog(t, 0.4 * S, 0.6),
+          strip: { status: [2, 2, 1, 0, 0] } });
+      });
+      window.__timelines["s6-compare"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; }
+    #s3-f { position: absolute; left: 90px; right: 90px; top: 1120px; padding: 16px 26px; border: 3px solid var(--sd-amber);
+      border-radius: 14px; background: rgba(14, 14, 16, 0.92); text-align: center; opacity: 0; }
+    #s3-f b { color: var(--sd-ink); font: 800 40px var(--mono); }
+    #s3-f b em { font-style: normal; color: var(--sd-amber); }
+  </style>
+  <div id="root" data-composition-id="s3-idea" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"T","type":"number","label":"Scene length (s)","default":17.8},{"id":"S","type":"number","label":"Narration length (s)","default":17.2}]'>
+    <div class="sd-top"><b>@DSALGO_AI</b></div>
+    <div class="sd-part"><i class="on"></i><i class="on"></i><i></i><span>2/3 · THE IDEA</span></div>
+    <div class="sd-rail" id="s3-rail"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="sd-tag" id="s3-tag"><span>SLIDING WINDOW · RATE LIMITING</span></div>
+    <canvas id="s3-canvas" class="lc-fill"></canvas>
+    <div class="sd-frame"><i></i><i></i><i></i><i></i></div>
+    <div class="sd-chip amber" id="s3-chip">STEP 02 · SLIDING WINDOW COUNTER</div>
+    <div class="sd-meta" id="s3-meta">2 counters</div>
+    <div id="s3-f"><b>estimate = curr + prev × <em>overlap</em></b></div>
+  </div>
+  <script>
+    (function () {
+      const { T, S = T } = window.__hyperframes.getVariables();
+      const tl = gsap.timeline({ paused: true });
+      const fade = (sel, at, from = { y: 20 }) => tl.fromTo(sel, { opacity: 0, ...from }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, at);
+      const sw = SWC(document.getElementById("s3-canvas"));
+      SD.rail(tl, "#s3-rail", 2, 0, T);
+      tl.set("#s3-tag", { opacity: 1 }, 0);
+      fade("#s3-chip", 0.05); fade("#s3-meta", 0.08 * S);
+      fade("#s3-f", 0.68 * S, { y: 24 });
+      tl.fromTo("#s3-f", { scale: 1 }, { scale: 1.05, duration: 0.25, yoyo: true, repeat: 1 }, 0.68 * S + 0.5);
+      const prev = [0.2, 0.45, 0.65, 0.85].map((f, i) => ({ w: 0, f, at: 0.12 * S + i * 0.15, ok: true }));
+      const curr = [0.06, 0.16].map((f, i) => ({ w: 1, f, at: 0.24 * S + i * 0.15, ok: true }));
+      LC.drive(tl, T, (t) => sw.draw({ t, view: [712, 400],
+        win: LC.prog(t, 0.02 * S, 0.6), reqs: [...prev, ...curr],
+        counts: { prev: 4, curr: 2, k: LC.prog(t, 0.28 * S, 0.4) },
+        now: { f: 0.25, k: LC.prog(t, 0.36 * S, 0.4) },
+        slide: LC.prog(t, 0.42 * S, 0.7),
+        strip: { status: [2, 1, 0, 0, 0] } }));
+      window.__timelines["s3-idea"] = tl;
+    })();
+  </script>
+</template>

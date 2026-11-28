@@ -1,0 +1,47 @@
+{
+ "scenes": [
+  {
+   "id": "s1-hook",
+   "start": 0,
+   "length": 15.986,
+   "speech": 15.386
+  },
+  {
+   "id": "s2-fixed",
+   "start": 15.986,
+   "length": 20.401,
+   "speech": 19.801
+  },
+  {
+   "id": "s3-idea",
+   "start": 36.387,
+   "length": 17.841,
+   "speech": 17.241
+  },
+  {
+   "id": "s4-reject",
+   "start": 54.228,
+   "length": 24.241,
+   "speech": 23.641
+  },
+  {
+   "id": "s5-allow",
+   "start": 78.469,
+   "length": 20.793,
+   "speech": 20.193
+  },
+  {
+   "id": "s6-compare",
+   "start": 99.262,
+   "length": 22.804,
+   "speech": 22.204
+  },
+  {
+   "id": "s7-recap",
+   "start": 122.066,
+   "length": 24.211,
+   "speech": 20.611
+  }
+ ],
+ "total": 146.277
+}
